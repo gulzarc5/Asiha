@@ -10,11 +10,11 @@
             <div class="x_panel">
 
                 <div class="x_title">
-                    @if(isset($brands) && !empty($brands))
+                    {{-- @if(isset($brands) && !empty($brands))
                         <h2>Update Brand</h2>
                     @else
                         <h2>Add New Brand</h2>
-                    @endif
+                    @endif --}}
                     <div class="clearfix"></div>
                 </div>
 
@@ -35,8 +35,8 @@
                         @endif --}}
 
                         <div class="form-group">
-                            {{-- {{ Form::label('name', 'Brand Name')}} 
-                            {{ Form::text('name',null,array('class' => 'form-control','placeholder'=>'Enter Brand name')) }} --}}
+                             {{ Form::label('name', 'Color Name')}} 
+                            {{ Form::text('name',null,array('class' => 'form-control','placeholder'=>'Enter Color name')) }} 
                             @if($errors->has('name'))
                                 <span class="invalid-feedback" role="alert" style="color:red">
                                     <strong>{{ $errors->first('name') }}</strong>
@@ -47,7 +47,7 @@
                         <div class="form-group">
                             {{ Form::label('category', 'Select Category')}} 
                             {{-- @if (isset($brands)) --}}
-                                {!! Form::select('category', $category, $brands->category_id,['class' => 'form-control','placeholder'=>'Please Select Category','id'=>'category']); !!}
+                                {{-- {!! Form::select('category', $category, $brands->category_id,['class' => 'form-control','placeholder'=>'Please Select Category','id'=>'category']); !!} --}}
                             {{-- @else --}}
                                 {!! Form::select('category', $category, null, ['class' => 'form-control','placeholder'=>'Please Select Category','id'=>'category']) !!}
                             {{-- @endif --}}
@@ -60,14 +60,14 @@
                         </div>
 
                         <div class="form-group">
-                            {{-- {{ Form::label('sub_category', 'Select Sub Category')}} 
-                            @if (isset($brands))
-                                {!! Form::select('sub_category', $sub_category, $brands->sub_category_id,['class' => 'form-control','placeholder'=>'Please Select Category','id'=>'sub_category']); !!}
-                            @else --}}
+                             {{ Form::label('sub_category', 'Select Sub Category')}} 
+                            {{-- @if (isset($brands)) --}}
+                                {{-- {!! Form::select('sub_category', $sub_category, $brands->sub_category_id,['class' => 'form-control','placeholder'=>'Please Select Category','id'=>'sub_category']); !!}
+                            {{-- @else  --}}
                                 <select class="form-control" name="sub_category" id="sub_category">
                                     <option value="">Please Select Sub Category</option>
-                                {{-- </select>
-                            @endif --}}
+                                 </select>
+                            {{-- @endif --}}
 
                             @if($errors->has('category'))
                                 <span class="invalid-feedback" role="alert" style="color:red">
@@ -84,7 +84,7 @@
                             @else
                                 {{ Form::submit('Submit', array('class'=>'btn btn-success')) }}
                             @endif
-                            <a href="{{route('admin.brand_list')}}" class="btn btn-warning">Back</a>
+                            <a href="{{route('admin.color_list')}}" class="btn btn-warning">Back</a>
                             
                         </div>
                         {{ Form::close() }}

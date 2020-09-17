@@ -51,7 +51,14 @@ Route::group(['namespace' => 'Admin'],function(){
             // // Route::get('list/with/category/{category_id}', 'CategoryController@brandListWithCategory')->name('admin.brand_list_with_category');
             Route::get('status/{id}/{status}', 'BrandController@brandStatus')->name('admin.brand_status');
         });
-
+        Route::group(['prefix'=>'product'],function(){
+            Route::get('add/form','ProductController@AddProductForm')->name('admin.product_add_form');
+            Route::get('list','ProductController@ListProducts')->name('admin.list_product');
+        });
+        Route::group(['prefix'=>'color'],function(){
+           Route::get('list','ColorController@colorList')->name('admin.color_list');
+           Route::get('add/form','ColorController@addColor')->name('admin.color_add_form');
+        });
         // Route::group(['prefix'=>'product'],function(){       
         //     Route::get('add/form','ProductController@AddForm')->name('admin.product_add_form');
         //     Route::post('insert','ProductController@insertProduct')->name('admin.product_insert');

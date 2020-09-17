@@ -111,6 +111,7 @@
                       {{-- <li class="sub_menu"><a href="{{route('admin.brand_add_form')}}">Add New Brand</a></li> --}}
                       <li class="sub_menu"><a href="{{route('admin.brand_list')}}">Brands List</a></li>
                       <li class="sub_menu"><a href="{{route('admin.color_list')}}">Color List</a></li>
+                      <li class="sub_menu"><a href="{{route('admin.size_list')}}">Size List</a></li>
                     </ul>
                   </li>
 

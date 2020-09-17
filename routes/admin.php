@@ -59,6 +59,17 @@ Route::group(['namespace' => 'Admin'],function(){
            Route::get('list','ColorController@colorList')->name('admin.color_list');
            Route::get('add/form','ColorController@addColor')->name('admin.color_add_form');
         });
+
+        Route::group(['prefix'=>'size'],function(){        
+            Route::get('list','ConfigurationController@sizeList')->name('admin.size_list');
+            Route::get('add/form', 'ConfigurationController@sizeAddForm')->name('admin.size_add_form');        
+            Route::post('insert/form', 'ConfigurationController@sizeInsert')->name('admin.size_insert');    
+            Route::get('edit/{id}', 'ConfigurationController@sizeEdit')->name('admin.size_edit');
+            Route::put('update/{id}', 'ConfigurationController@sizeUpdate')->name('admin.size_update');
+            // // Route::get('list/with/category/{category_id}', 'CategoryController@brandListWithCategory')->name('admin.brand_list_with_category');
+            Route::get('status/{id}/{status}', 'ConfigurationController@sizeStatus')->name('admin.size_status');
+        });
+
         // Route::group(['prefix'=>'product'],function(){       
         //     Route::get('add/form','ProductController@AddForm')->name('admin.product_add_form');
         //     Route::post('insert','ProductController@insertProduct')->name('admin.product_insert');

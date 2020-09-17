@@ -63,7 +63,7 @@ class Handler extends ExceptionHandler
         $guard = Arr::get($exception->guards(), 0);
         switch ($guard) {
             case 'admin':
-                $login = 'admin.login';
+                $login = 'admin.login_form';
                 break;
             case 'api':
                 $response = [
@@ -73,7 +73,7 @@ class Handler extends ExceptionHandler
                 ];
                 return response()->json($response, 200);              
             default:
-                $login = 'admin.login';
+                $login = 'admin.login_form';
                 break;
         }
         return redirect()->guest(route($login));

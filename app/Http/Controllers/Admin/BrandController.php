@@ -17,7 +17,7 @@ class BrandController extends Controller
     public function brandList()
     {
         $brands = Brands::orderBy('id','desc')->get();
-        return view('admin.brand.brand_list',compact('brands'));
+        return view('admin.brand.brand_list',compact('brands')); 
     }
 
     public function brandAddForm()

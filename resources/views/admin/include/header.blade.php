@@ -103,12 +103,13 @@
                     <ul class="nav child_menu">
                       <li class="sub_menu"><a href="{{route('admin.category_list')}}">Category List</a></li>
                       <li class="sub_menu"><a href="{{route('admin.sub_category_list')}}">Sub Category List</a></li>
+                      <li class="sub_menu"><a href="{{route('admin.third_category_list')}}">Third Level Category List</a></li>
                     </ul>
                   </li>
-                  <li><a><i class="fa fa-cogs" aria-hidden="true"></i> Brands <span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-cogs" aria-hidden="true"></i> Configuration <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      {{-- <li class="sub_menu"><a href="{{route('admin.brand_add_form')}}">Add New Brand</a></li>
-                      <li class="sub_menu"><a href="{{route('admin.brand_list')}}">Brands List</a></li> --}}
+                      {{-- <li class="sub_menu"><a href="{{route('admin.brand_add_form')}}">Add New Brand</a></li> --}}
+                      <li class="sub_menu"><a href="{{route('admin.brand_list')}}">Brands List</a></li>
                     </ul>
                   </li>
 

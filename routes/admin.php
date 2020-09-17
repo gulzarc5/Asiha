@@ -32,6 +32,26 @@ Route::group(['namespace' => 'Admin'],function(){
             Route::get('status/{id}/{status}', 'CategoryController@subCategoryStatus')->name('admin.sub_category_status');
         });
 
+        Route::group(['prefix'=>'third/category'],function(){        
+            Route::get('list','CategoryController@thirdCategoryList')->name('admin.third_category_list');
+            Route::get('add/form', 'CategoryController@thirdCategoryAddForm')->name('admin.third_category_add_form');        
+            Route::post('insert/form', 'CategoryController@thirdCategoryInsertForm')->name('admin.third_category_insert_form');    
+            Route::get('edit/{id}', 'CategoryController@thirdCategoryEdit')->name('admin.third_category_edit');
+            Route::put('update/{id}', 'CategoryController@thirdCategoryUpdate')->name('admin.third_category_update');
+            // Route::get('list/with/category/{category_id}', 'CategoryController@thirdCategoryListWithCategory')->name('admin.third_category_list_with_category');
+            Route::get('status/{id}/{status}', 'CategoryController@thirdCategoryStatus')->name('admin.third_category_status');
+        });
+
+        Route::group(['prefix'=>'brands'],function(){        
+            Route::get('list','BrandController@brandList')->name('admin.brand_list');
+            Route::get('add/form', 'BrandController@brandAddForm')->name('admin.brand_add_form');        
+            Route::post('insert/form', 'BrandController@brandInsertForm')->name('admin.brand_insert_form');    
+            Route::get('edit/{id}', 'BrandController@brandEdit')->name('admin.brand_edit');
+            Route::put('update/{id}', 'BrandController@brandUpdate')->name('admin.brand_update');
+            // // Route::get('list/with/category/{category_id}', 'CategoryController@brandListWithCategory')->name('admin.brand_list_with_category');
+            Route::get('status/{id}/{status}', 'BrandController@brandStatus')->name('admin.brand_status');
+        });
+
         // Route::group(['prefix'=>'product'],function(){       
         //     Route::get('add/form','ProductController@AddForm')->name('admin.product_add_form');
         //     Route::post('insert','ProductController@insertProduct')->name('admin.product_insert');

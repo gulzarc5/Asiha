@@ -2,7 +2,7 @@
 @extends('admin.template.admin_master')
 
 @section('content')
-<link href="{{asset('admin/vendors/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css')}}" rel="stylesheet">
+
 <div class="right_col" role="main">
     <div class="row">
         <div class="col-md-2"></div>
@@ -34,57 +34,42 @@
                             {{ Form::open(['method' => 'post','route'=>'admin.brand_insert_form','enctype'=>'multipart/form-data']) }}
                         @endif --}}
 
-                        <div class="form-group row">
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                {{ Form::label('name', 'Color Name')}} 
-                               {{ Form::text('name',null,array('class' => 'form-control','placeholder'=>'Enter Color name')) }} 
-                               @if($errors->has('name'))
-                                   <span class="invalid-feedback" role="alert" style="color:red">
-                                       <strong>{{ $errors->first('name') }}</strong>
-                                   </span> 
-                               @enderror
-                            </div>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <label>Styled</label>
-                                <div class="input-group demo2">
-                                    <input type="text" value="#e01ab5" class="form-control" />
-                                    <span class="input-group-addon"><i></i></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            {{ Form::label('category', 'Select Category')}} 
-                            {{-- @if (isset($brands)) --}}
-                                {{-- {!! Form::select('category', $category, $brands->category_id,['class' => 'form-control','placeholder'=>'Please Select Category','id'=>'category']); !!} --}}
-                            {{-- @else --}}
-                                {!! Form::select('category', $category, null, ['class' => 'form-control','placeholder'=>'Please Select Category','id'=>'category']) !!}
-                            {{-- @endif --}}
-
-                            @if($errors->has('category'))
+                        {{-- <div class="form-group">
+                            {{ Form::label('name', 'Brand Name')}} 
+                            {{ Form::text('name',null,array('class' => 'form-control','placeholder'=>'Enter Brand name')) }}
+                            @if($errors->has('name'))
                                 <span class="invalid-feedback" role="alert" style="color:red">
-                                    <strong>{{ $errors->first('category') }}</strong>
+                                    <strong>{{ $errors->first('name') }}</strong>
+                                </span> 
+                            @enderror
+                        </div> --}}
+
+                        <div class="form-group">
+                            {{ Form::label('User Type', 'Select User Type')}} 
+                            @if (isset($brands))
+                                {!! Form::select('category', $category, $brands->category_id,['class' => 'form-control','placeholder'=>'Please Select Category','id'=>'category']); !!}
+                            @else
+                                {!! Form::select('user_type', array('1' => 'New User', '2' => 'Old User'), null, ['class' => 'form-control','placeholder'=>'Please Select User Type','id'=>'user_type','value']) !!}
+                            @endif
+                           
+
+                            @if($errors->has('user_type'))
+                                <span class="invalid-feedback" role="alert" style="color:red">
+                                    <strong>{{ $errors->first('user_type') }}</strong>
                                 </span> 
                             @enderror
                         </div>
 
+                        
                         <div class="form-group">
-                             {{ Form::label('sub_category', 'Select Sub Category')}} 
-                            {{-- @if (isset($brands)) --}}
-                                {{-- {!! Form::select('sub_category', $sub_category, $brands->sub_category_id,['class' => 'form-control','placeholder'=>'Please Select Category','id'=>'sub_category']); !!}
-                            {{-- @else  --}}
-                                <select class="form-control" name="sub_category" id="sub_category">
-                                    <option value="">Please Select Sub Category</option>
-                                 </select>
-                            {{-- @endif --}}
-
-                            @if($errors->has('category'))
-                                <span class="invalid-feedback" role="alert" style="color:red">
-                                    <strong>{{ $errors->first('category') }}</strong>
-                                </span> 
-                            @enderror
-                        </div>
-
-                       
+                            {{ Form::label('coupon', 'Coupon Code')}} 
+                           {{ Form::text('coupon',null,array('class' => 'form-control','placeholder'=>'Enter Coupon Code')) }} 
+                           @if($errors->has('coupon'))
+                               <span class="invalid-feedback" role="alert" style="color:red">
+                                   <strong>{{ $errors->first('coupon') }}</strong>
+                               </span> 
+                           @enderror
+                       </div>
 
                         <div class="form-group">
                             @if(isset($sub_category) && !empty($sub_category))
@@ -92,7 +77,7 @@
                             @else
                                 {{ Form::submit('Submit', array('class'=>'btn btn-success')) }}
                             @endif
-                            <a href="{{route('admin.color_list')}}" class="btn btn-warning">Back</a>
+                            <a href="{{route('admin.coupon_list')}}" class="btn btn-warning">Back</a>
                             
                         </div>
                         {{ Form::close() }}
@@ -109,8 +94,6 @@
  @endsection
 
  @section('script')
- <script src="{{asset('admin/vendors/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js')}}"></script>
-     
      <script>
           $(document).ready(function(){
             $("#category").change(function(){

@@ -87,5 +87,11 @@ class ConfigurationController extends Controller
         return redirect()->back();
     }
 
+    public function sizeListWithSubCategory($sub_category_id)
+    {
+        $size = Size::where('sub_category_id',$sub_category_id)->where('status',1)->get();
+        return $size;
+    }
+
 
 }

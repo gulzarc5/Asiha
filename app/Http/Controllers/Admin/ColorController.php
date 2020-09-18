@@ -90,4 +90,9 @@ class ColorController extends Controller
         ]);
         return redirect()->back();
     }
+
+    public function colorListWithSubCategory($subcategory_id)
+    {
+        // $color = Color::where('')
+    }
 }

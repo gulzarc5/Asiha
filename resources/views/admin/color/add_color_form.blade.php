@@ -2,7 +2,7 @@
 @extends('admin.template.admin_master')
 
 @section('content')
-
+<link href="{{asset('admin/vendors/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css')}}" rel="stylesheet">
 <div class="right_col" role="main">
     <div class="row">
         <div class="col-md-2"></div>
@@ -10,10 +10,10 @@
             <div class="x_panel">
 
                 <div class="x_title">
-                    @if(isset($brands) && !empty($brands))
-                        <h2>Update Brand</h2>
+                    @if(isset($colors) && !empty($colors))
+                        <h2>Update Color</h2>
                     @else
-                        <h2>Add New Brand</h2>
+                        <h2>Add New Color</h2>
                     @endif
                     <div class="clearfix"></div>
                 </div>
@@ -28,29 +28,49 @@
 
                 <div>
                     <div class="x_content">
-                        {{-- @if(isset($brands) && !empty($brands))
-                            {{Form::model($brands, ['method' => 'put','route'=>['admin.brand_update',$brands->id],'enctype'=>'multipart/form-data'])}}
+                        @if(isset($colors) && !empty($colors))
+                            {{Form::model($colors, ['method' => 'put','route'=>['admin.color_update',$colors->id],'enctype'=>'multipart/form-data'])}}
                         @else
-                            {{ Form::open(['method' => 'post','route'=>'admin.brand_insert_form','enctype'=>'multipart/form-data']) }}
-                        @endif --}}
+                            {{ Form::open(['method' => 'post','route'=>'admin.color_insert_form','enctype'=>'multipart/form-data']) }}
+                        @endif
 
-                        <div class="form-group">
-                            {{-- {{ Form::label('name', 'Brand Name')}} 
-                            {{ Form::text('name',null,array('class' => 'form-control','placeholder'=>'Enter Brand name')) }} --}}
-                            @if($errors->has('name'))
+                        <div class="form-group row">
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                {{ Form::label('name', 'Name')}} 
+                               {{ Form::text('name',null,array('class' => 'form-control','placeholder'=>'Enter Color name')) }} 
+                               @if($errors->has('name'))
+                                   <span class="invalid-feedback" role="alert" style="color:red">
+                                       <strong>{{ $errors->first('name') }}</strong>
+                                   </span> 
+                               @enderror
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <label>Color</label>
+                                @if (isset($colors))
+                                <div class="input-group demo2">
+                                    <input type="text"  class="form-control"  value="{{$colors->color}}" name="color" />
+                                    <span class="input-group-addon"><i></i></span>
+                                </div>
+                                @else
+                                <div class="input-group demo2">
+                                    <input type="text"  class="form-control" name="color" />
+                                    <span class="input-group-addon"><i></i></span>
+                                </div>
+                                @endif
+                                @if($errors->has('color'))
                                 <span class="invalid-feedback" role="alert" style="color:red">
-                                    <strong>{{ $errors->first('name') }}</strong>
+                                    <strong>{{ $errors->first('color') }}</strong>
                                 </span> 
-                            @enderror
+                                @enderror
+                            </div>
                         </div>
-
                         <div class="form-group">
                             {{ Form::label('category', 'Select Category')}} 
-                            {{-- @if (isset($brands)) --}}
-                                {!! Form::select('category', $category, $brands->category_id,['class' => 'form-control','placeholder'=>'Please Select Category','id'=>'category']); !!}
-                            {{-- @else --}}
+                            @if (isset($colors))
+                                {!! Form::select('category', $category, $colors->category_id,['class' => 'form-control','placeholder'=>'Please Select Category','id'=>'category']); !!}
+                           @else 
                                 {!! Form::select('category', $category, null, ['class' => 'form-control','placeholder'=>'Please Select Category','id'=>'category']) !!}
-                            {{-- @endif --}}
+                            @endif
 
                             @if($errors->has('category'))
                                 <span class="invalid-feedback" role="alert" style="color:red">
@@ -60,14 +80,14 @@
                         </div>
 
                         <div class="form-group">
-                            {{-- {{ Form::label('sub_category', 'Select Sub Category')}} 
-                            @if (isset($brands))
-                                {!! Form::select('sub_category', $sub_category, $brands->sub_category_id,['class' => 'form-control','placeholder'=>'Please Select Category','id'=>'sub_category']); !!}
-                            @else --}}
+                             {{ Form::label('sub_category', 'Select Sub Category')}} 
+                            @if (isset($colors))
+                                {!! Form::select('sub_category', $sub_category, $colors->sub_category_id,['class' => 'form-control','placeholder'=>'Please Select Category','id'=>'sub_category']); !!}
+                            @else 
                                 <select class="form-control" name="sub_category" id="sub_category">
                                     <option value="">Please Select Sub Category</option>
-                                {{-- </select>
-                            @endif --}}
+                                 </select>
+                            @endif
 
                             @if($errors->has('category'))
                                 <span class="invalid-feedback" role="alert" style="color:red">
@@ -84,7 +104,7 @@
                             @else
                                 {{ Form::submit('Submit', array('class'=>'btn btn-success')) }}
                             @endif
-                            <a href="{{route('admin.brand_list')}}" class="btn btn-warning">Back</a>
+                            <a href="{{route('admin.color_list')}}" class="btn btn-warning">Back</a>
                             
                         </div>
                         {{ Form::close() }}
@@ -101,6 +121,8 @@
  @endsection
 
  @section('script')
+ <script src="{{asset('admin/vendors/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js')}}"></script>
+     
      <script>
           $(document).ready(function(){
             $("#category").change(function(){

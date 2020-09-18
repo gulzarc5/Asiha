@@ -8,8 +8,8 @@
     	    <div class="x_panel">
 
     	        <div class="x_title">
-                    <h2>Color List</h2>
-                    <a class="btn btn-sm btn-info" style="float: right" href="{{route('admin.color_add_form')}}">Add New Color</a>
+                    <h2>Coupon List</h2>
+                    <a class="btn btn-sm btn-info" style="float: right" href="{{route('admin.coupon_add_form')}}">Add New Coupon</a>
     	            <div class="clearfix"></div>
     	        </div>
     	        <div>
@@ -18,41 +18,33 @@
                           <thead>
                             <tr>
                               <th>Sl</th>
-                              <th>Name</th>  
-                              <th>Color</th>                            
-                              <th>Category</th>
-                              <th>Sub Category</th>
+                              <th>Code</th>  
+                              <th>User Type</th>                            
                               <th>Status</th>
                               <th>Action</th>
                             </tr>
                           </thead>
-                          <tbody>  
-                            @if (isset($colors) && !empty($colors))
+                          {{-- <tbody>  
+                            @if (isset($brands) && !empty($brands))
                             @php
                               $count=1;
                             @endphp
-                                @foreach ($colors as $item)
+                                @foreach ($brands as $item)
                                     <tr>
                                       <td>{{$count++}}</td>
                                       <td>{{$item->name}}</td>
                                       <td>
-                                        @if (isset($item->color))
-                                        {{$item->color}}
-                                         @endif
-                                       
-                                      </td>
-                                      <td>
-                                         @if (isset($item->category->name))
+                                        @if (isset($item->category->name))
                                             {{$item->category->name}}
                                         @endif
-                                       
                                       </td>
                                       <td>
                                         @if (isset($item->subCategory->name))
-                                           {{$item->subCategory->name}}
+                                            {{$item->subCategory->name}}
                                         @endif
-                                     </td>
-                                     <td>
+                                      </td>
+                                      <td><img src="{{asset('images/brands/thumb/'.$item->image.'')}}" height="100" /></td>
+                                      <td>
                                         @if ($item->status == '1')
                                           <a  class="btn btn-sm btn-primary" aria-disabled="true">Enabled</a>
                                         @else
@@ -60,11 +52,11 @@
                                         @endif
                                       </td>
                                       <td>
-                                        <a href="{{route('admin.color_edit',['id'=>encrypt($item->id)])}}" class="btn btn-sm btn-warning">Edit</a>
+                                        <a href="{{route('admin.brand_edit',['id'=>encrypt($item->id)])}}" class="btn btn-sm btn-warning">Edit</a>
                                         @if ($item->status == '1')
-                                          <a href="{{route('admin.color_status',['id'=>encrypt($item->id),'status'=>2])}}" class="btn btn-sm btn-danger">Disable</a>
+                                          <a href="{{route('admin.brand_status',['id'=>encrypt($item->id),'status'=>2])}}" class="btn btn-sm btn-danger">Disable</a>
                                         @else
-                                          <a href="{{route('admin.color_status',['id'=>encrypt($item->id),'status'=>1])}}" class="btn btn-sm btn-primary">Enable</a>
+                                          <a href="{{route('admin.brand_status',['id'=>encrypt($item->id),'status'=>1])}}" class="btn btn-sm btn-primary">Enable</a>
                                         @endif
                                         
                                       </td>
@@ -75,7 +67,7 @@
                                 <td colspan="6" style="text-align: center">No Sub Category Found</td>
                               </tr>  
                             @endif                   
-                          </tbody>
+                          </tbody> --}}
                         </table>
     	            </div>
     	        </div>

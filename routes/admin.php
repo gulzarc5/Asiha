@@ -58,7 +58,16 @@ Route::group(['namespace' => 'Admin'],function(){
         Route::group(['prefix'=>'color'],function(){
            Route::get('list','ColorController@colorList')->name('admin.color_list');
            Route::get('add/form','ColorController@addColor')->name('admin.color_add_form');
+           Route::post('insert/form', 'ColorController@colorInsertForm')->name('admin.color_insert_form');
+           Route::get('edit/{id}', 'ColorController@colorEdit')->name('admin.color_edit');
+           Route::put('update/{id}', 'ColorController@colorUpdate')->name('admin.color_update');
+           Route::get('status/{id}/{status}', 'ColorController@colorStatus')->name('admin.color_status');
+
         });
+        Route::group(['prefix'=>'coupon'],function(){
+            Route::get('list','CouponController@couponList')->name('admin.coupon_list');
+            Route::get('add/form','CouponController@addCoupon')->name('admin.coupon_add_form');
+         });
 
         Route::group(['prefix'=>'size'],function(){        
             Route::get('list','ConfigurationController@sizeList')->name('admin.size_list');

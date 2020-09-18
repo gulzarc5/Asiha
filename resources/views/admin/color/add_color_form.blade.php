@@ -10,11 +10,11 @@
             <div class="x_panel">
 
                 <div class="x_title">
-                    {{-- @if(isset($brands) && !empty($brands))
-                        <h2>Update Brand</h2>
+                    @if(isset($colors) && !empty($colors))
+                        <h2>Update Color</h2>
                     @else
-                        <h2>Add New Brand</h2>
-                    @endif --}}
+                        <h2>Add New Color</h2>
+                    @endif
                     <div class="clearfix"></div>
                 </div>
 
@@ -28,15 +28,15 @@
 
                 <div>
                     <div class="x_content">
-                        {{-- @if(isset($brands) && !empty($brands))
-                            {{Form::model($brands, ['method' => 'put','route'=>['admin.brand_update',$brands->id],'enctype'=>'multipart/form-data'])}}
+                        @if(isset($colors) && !empty($colors))
+                            {{Form::model($colors, ['method' => 'put','route'=>['admin.color_update',$colors->id],'enctype'=>'multipart/form-data'])}}
                         @else
-                            {{ Form::open(['method' => 'post','route'=>'admin.brand_insert_form','enctype'=>'multipart/form-data']) }}
-                        @endif --}}
+                            {{ Form::open(['method' => 'post','route'=>'admin.color_insert_form','enctype'=>'multipart/form-data']) }}
+                        @endif
 
                         <div class="form-group row">
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                {{ Form::label('name', 'Color Name')}} 
+                                {{ Form::label('name', 'Name')}} 
                                {{ Form::text('name',null,array('class' => 'form-control','placeholder'=>'Enter Color name')) }} 
                                @if($errors->has('name'))
                                    <span class="invalid-feedback" role="alert" style="color:red">
@@ -45,20 +45,32 @@
                                @enderror
                             </div>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <label>Styled</label>
+                                <label>Color</label>
+                                @if (isset($colors))
                                 <div class="input-group demo2">
-                                    <input type="text" value="#e01ab5" class="form-control" />
+                                    <input type="text"  class="form-control"  value="{{$colors->color}}" name="color" />
                                     <span class="input-group-addon"><i></i></span>
                                 </div>
+                                @else
+                                <div class="input-group demo2">
+                                    <input type="text"  class="form-control" name="color" />
+                                    <span class="input-group-addon"><i></i></span>
+                                </div>
+                                @endif
+                                @if($errors->has('color'))
+                                <span class="invalid-feedback" role="alert" style="color:red">
+                                    <strong>{{ $errors->first('color') }}</strong>
+                                </span> 
+                                @enderror
                             </div>
                         </div>
                         <div class="form-group">
                             {{ Form::label('category', 'Select Category')}} 
-                            {{-- @if (isset($brands)) --}}
-                                {{-- {!! Form::select('category', $category, $brands->category_id,['class' => 'form-control','placeholder'=>'Please Select Category','id'=>'category']); !!} --}}
-                            {{-- @else --}}
+                            @if (isset($colors))
+                                {!! Form::select('category', $category, $colors->category_id,['class' => 'form-control','placeholder'=>'Please Select Category','id'=>'category']); !!}
+                           @else 
                                 {!! Form::select('category', $category, null, ['class' => 'form-control','placeholder'=>'Please Select Category','id'=>'category']) !!}
-                            {{-- @endif --}}
+                            @endif
 
                             @if($errors->has('category'))
                                 <span class="invalid-feedback" role="alert" style="color:red">
@@ -69,13 +81,13 @@
 
                         <div class="form-group">
                              {{ Form::label('sub_category', 'Select Sub Category')}} 
-                            {{-- @if (isset($brands)) --}}
-                                {{-- {!! Form::select('sub_category', $sub_category, $brands->sub_category_id,['class' => 'form-control','placeholder'=>'Please Select Category','id'=>'sub_category']); !!}
-                            {{-- @else  --}}
+                            @if (isset($colors))
+                                {!! Form::select('sub_category', $sub_category, $colors->sub_category_id,['class' => 'form-control','placeholder'=>'Please Select Category','id'=>'sub_category']); !!}
+                            @else 
                                 <select class="form-control" name="sub_category" id="sub_category">
                                     <option value="">Please Select Sub Category</option>
                                  </select>
-                            {{-- @endif --}}
+                            @endif
 
                             @if($errors->has('category'))
                                 <span class="invalid-feedback" role="alert" style="color:red">

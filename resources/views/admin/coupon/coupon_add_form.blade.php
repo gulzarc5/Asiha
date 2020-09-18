@@ -10,11 +10,11 @@
             <div class="x_panel">
 
                 <div class="x_title">
-                    {{-- @if(isset($brands) && !empty($brands))
+                    @if(isset($coupons) && !empty($coupons))
                         <h2>Update Brand</h2>
                     @else
                         <h2>Add New Brand</h2>
-                    @endif --}}
+                    @endif
                     <div class="clearfix"></div>
                 </div>
 
@@ -28,29 +28,37 @@
 
                 <div>
                     <div class="x_content">
-                        {{-- @if(isset($brands) && !empty($brands))
-                            {{Form::model($brands, ['method' => 'put','route'=>['admin.brand_update',$brands->id],'enctype'=>'multipart/form-data'])}}
+                        @if(isset($coupons) && !empty($coupons))
+                            {{Form::model($coupons, ['method' => 'put','route'=>['admin.coupon_update',$coupons->id],'enctype'=>'multipart/form-data'])}}
                         @else
-                            {{ Form::open(['method' => 'post','route'=>'admin.brand_insert_form','enctype'=>'multipart/form-data']) }}
-                        @endif --}}
+                            {{ Form::open(['method' => 'post','route'=>'admin.coupon_insert_form','enctype'=>'multipart/form-data']) }}
+                         @endif 
 
-                        {{-- <div class="form-group">
-                            {{ Form::label('name', 'Brand Name')}} 
-                            {{ Form::text('name',null,array('class' => 'form-control','placeholder'=>'Enter Brand name')) }}
-                            @if($errors->has('name'))
-                                <span class="invalid-feedback" role="alert" style="color:red">
-                                    <strong>{{ $errors->first('name') }}</strong>
-                                </span> 
-                            @enderror
-                        </div> --}}
+                        <div class="form-group">
+                            {{ Form::label('code', 'Coupon Code')}} 
+                            @if(isset($coupons) && !empty($coupons))
+                            {{ Form::text('code',null,array('class' => 'form-control','value'=>$coupons->code)) }}
+                            @else
+                           {{ Form::text('code',null,array('class' => 'form-control','placeholder'=>'Enter Coupon Code')) }} 
+                           @endif
+                           @if($errors->has('code'))
+                               <span class="invalid-feedback" role="alert" style="color:red">
+                                   <strong>{{ $errors->first('code') }}</strong>
+                               </span> 
+                           @enderror
+                       </div>
+
+                       
 
                         <div class="form-group">
                             {{ Form::label('User Type', 'Select User Type')}} 
-                            @if (isset($brands))
-                                {!! Form::select('category', $category, $brands->category_id,['class' => 'form-control','placeholder'=>'Please Select Category','id'=>'category']); !!}
+                           
+                            @if (isset($coupons))
+                               {!! Form::select('user_type', array('1' => 'New User', '2' => 'Old User'), $coupons->usertype, ['class' => 'form-control','placeholder'=>'Please Select User Type','id'=>'user_type','value']) !!}
                             @else
                                 {!! Form::select('user_type', array('1' => 'New User', '2' => 'Old User'), null, ['class' => 'form-control','placeholder'=>'Please Select User Type','id'=>'user_type','value']) !!}
                             @endif
+                                
                            
 
                             @if($errors->has('user_type'))
@@ -61,18 +69,10 @@
                         </div>
 
                         
-                        <div class="form-group">
-                            {{ Form::label('coupon', 'Coupon Code')}} 
-                           {{ Form::text('coupon',null,array('class' => 'form-control','placeholder'=>'Enter Coupon Code')) }} 
-                           @if($errors->has('coupon'))
-                               <span class="invalid-feedback" role="alert" style="color:red">
-                                   <strong>{{ $errors->first('coupon') }}</strong>
-                               </span> 
-                           @enderror
-                       </div>
+                        
 
                         <div class="form-group">
-                            @if(isset($sub_category) && !empty($sub_category))
+                            @if(isset($coupons) && !empty($coupons))
                                 {{ Form::submit('Save', array('class'=>'btn btn-success')) }}
                             @else
                                 {{ Form::submit('Submit', array('class'=>'btn btn-success')) }}

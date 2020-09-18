@@ -67,6 +67,12 @@ Route::group(['namespace' => 'Admin'],function(){
         Route::group(['prefix'=>'coupon'],function(){
             Route::get('list','CouponController@couponList')->name('admin.coupon_list');
             Route::get('add/form','CouponController@addCoupon')->name('admin.coupon_add_form');
+            Route::post('insert/form', 'CouponController@couponInsertForm')->name('admin.coupon_insert_form');
+            Route::get('edit/{id}', 'CouponController@couponEdit')->name('admin.coupon_edit');
+            Route::put('update/{id}', 'CouponController@couponUpdate')->name('admin.coupon_update');
+            Route::get('status/{id}/{status}', 'CouponController@couponStatus')->name('admin.coupon_status');
+
+
          });
 
         Route::group(['prefix'=>'size'],function(){        

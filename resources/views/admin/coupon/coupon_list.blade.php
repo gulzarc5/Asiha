@@ -24,26 +24,24 @@
                               <th>Action</th>
                             </tr>
                           </thead>
-                          {{-- <tbody>  
-                            @if (isset($brands) && !empty($brands))
+                          <tbody>  
+                            @if (isset($coupons) && !empty($coupons))
                             @php
                               $count=1;
                             @endphp
-                                @foreach ($brands as $item)
+                                @foreach ($coupons as $item)
                                     <tr>
                                       <td>{{$count++}}</td>
-                                      <td>{{$item->name}}</td>
+                                      <td>{{$item->code}}</td>
                                       <td>
-                                        @if (isset($item->category->name))
-                                            {{$item->category->name}}
+
+                                        @if ($item->usertype== '1')
+                                            New 
+                                        @else
+                                            Old 
                                         @endif
                                       </td>
-                                      <td>
-                                        @if (isset($item->subCategory->name))
-                                            {{$item->subCategory->name}}
-                                        @endif
-                                      </td>
-                                      <td><img src="{{asset('images/brands/thumb/'.$item->image.'')}}" height="100" /></td>
+                                      
                                       <td>
                                         @if ($item->status == '1')
                                           <a  class="btn btn-sm btn-primary" aria-disabled="true">Enabled</a>
@@ -52,11 +50,11 @@
                                         @endif
                                       </td>
                                       <td>
-                                        <a href="{{route('admin.brand_edit',['id'=>encrypt($item->id)])}}" class="btn btn-sm btn-warning">Edit</a>
+                                        <a href="{{route('admin.coupon_edit',['id'=>encrypt($item->id)])}}" class="btn btn-sm btn-warning">Edit</a>
                                         @if ($item->status == '1')
-                                          <a href="{{route('admin.brand_status',['id'=>encrypt($item->id),'status'=>2])}}" class="btn btn-sm btn-danger">Disable</a>
+                                          <a href="{{route('admin.coupon_status',['id'=>encrypt($item->id),'status'=>2])}}" class="btn btn-sm btn-danger">Disable</a>
                                         @else
-                                          <a href="{{route('admin.brand_status',['id'=>encrypt($item->id),'status'=>1])}}" class="btn btn-sm btn-primary">Enable</a>
+                                          <a href="{{route('admin.coupon_status',['id'=>encrypt($item->id),'status'=>1])}}" class="btn btn-sm btn-primary">Enable</a>
                                         @endif
                                         
                                       </td>
@@ -67,7 +65,7 @@
                                 <td colspan="6" style="text-align: center">No Sub Category Found</td>
                               </tr>  
                             @endif                   
-                          </tbody> --}}
+                          </tbody>
                         </table>
     	            </div>
     	        </div>

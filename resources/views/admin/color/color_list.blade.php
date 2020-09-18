@@ -22,30 +22,37 @@
                               <th>Color</th>                            
                               <th>Category</th>
                               <th>Sub Category</th>
+                              <th>Status</th>
                               <th>Action</th>
                             </tr>
                           </thead>
                           <tbody>  
-                            @if (isset($brands) && !empty($brands))
+                            @if (isset($colors) && !empty($colors))
                             @php
                               $count=1;
                             @endphp
-                                @foreach ($brands as $item)
+                                @foreach ($colors as $item)
                                     <tr>
                                       <td>{{$count++}}</td>
                                       <td>{{$item->name}}</td>
                                       <td>
-                                        @if (isset($item->category->name))
+                                        @if (isset($item->color))
+                                        {{$item->color}}
+                                         @endif
+                                       
+                                      </td>
+                                      <td>
+                                         @if (isset($item->category->name))
                                             {{$item->category->name}}
                                         @endif
+                                       
                                       </td>
                                       <td>
                                         @if (isset($item->subCategory->name))
-                                            {{$item->subCategory->name}}
+                                           {{$item->subCategory->name}}
                                         @endif
-                                      </td>
-                                      <td><img src="{{asset('images/brands/thumb/'.$item->image.'')}}" height="100" /></td>
-                                      <td>
+                                     </td>
+                                     <td>
                                         @if ($item->status == '1')
                                           <a  class="btn btn-sm btn-primary" aria-disabled="true">Enabled</a>
                                         @else
@@ -53,11 +60,11 @@
                                         @endif
                                       </td>
                                       <td>
-                                        <a href="{{route('admin.brand_edit',['id'=>encrypt($item->id)])}}" class="btn btn-sm btn-warning">Edit</a>
+                                        <a href="{{route('admin.color_edit',['id'=>encrypt($item->id)])}}" class="btn btn-sm btn-warning">Edit</a>
                                         @if ($item->status == '1')
-                                          <a href="{{route('admin.brand_status',['id'=>encrypt($item->id),'status'=>2])}}" class="btn btn-sm btn-danger">Disable</a>
+                                          <a href="{{route('admin.color_status',['id'=>encrypt($item->id),'status'=>2])}}" class="btn btn-sm btn-danger">Disable</a>
                                         @else
-                                          <a href="{{route('admin.brand_status',['id'=>encrypt($item->id),'status'=>1])}}" class="btn btn-sm btn-primary">Enable</a>
+                                          <a href="{{route('admin.color_status',['id'=>encrypt($item->id),'status'=>1])}}" class="btn btn-sm btn-primary">Enable</a>
                                         @endif
                                         
                                       </td>

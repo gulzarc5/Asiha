@@ -38,7 +38,7 @@ Route::group(['namespace' => 'Admin'],function(){
             Route::post('insert/form', 'CategoryController@thirdCategoryInsertForm')->name('admin.third_category_insert_form');    
             Route::get('edit/{id}', 'CategoryController@thirdCategoryEdit')->name('admin.third_category_edit');
             Route::put('update/{id}', 'CategoryController@thirdCategoryUpdate')->name('admin.third_category_update');
-            // Route::get('list/with/category/{category_id}', 'CategoryController@thirdCategoryListWithCategory')->name('admin.third_category_list_with_category');
+            Route::get('list/with/category/{sub_category_id}', 'CategoryController@thirdCategoryListWithSubCategory')->name('admin.third_category_list_with_sub_category');
             Route::get('status/{id}/{status}', 'CategoryController@thirdCategoryStatus')->name('admin.third_category_status');
         });
 
@@ -51,10 +51,7 @@ Route::group(['namespace' => 'Admin'],function(){
             // // Route::get('list/with/category/{category_id}', 'CategoryController@brandListWithCategory')->name('admin.brand_list_with_category');
             Route::get('status/{id}/{status}', 'BrandController@brandStatus')->name('admin.brand_status');
         });
-        Route::group(['prefix'=>'product'],function(){
-            Route::get('add/form','ProductController@AddProductForm')->name('admin.product_add_form');
-            Route::get('list','ProductController@ListProducts')->name('admin.list_product');
-        });
+
         Route::group(['prefix'=>'color'],function(){
            Route::get('list','ColorController@colorList')->name('admin.color_list');
            Route::get('add/form','ColorController@addColor')->name('admin.color_add_form');
@@ -62,6 +59,7 @@ Route::group(['namespace' => 'Admin'],function(){
            Route::get('edit/{id}', 'ColorController@colorEdit')->name('admin.color_edit');
            Route::put('update/{id}', 'ColorController@colorUpdate')->name('admin.color_update');
            Route::get('status/{id}/{status}', 'ColorController@colorStatus')->name('admin.color_status');
+           Route::get('list/with/category/{sub_category_id}', 'ColorController@colorListWithSubCategory')->name('admin.color_list_with_sub_category');
 
         });
         Route::group(['prefix'=>'coupon'],function(){
@@ -81,34 +79,35 @@ Route::group(['namespace' => 'Admin'],function(){
             Route::post('insert/form', 'ConfigurationController@sizeInsert')->name('admin.size_insert');    
             Route::get('edit/{id}', 'ConfigurationController@sizeEdit')->name('admin.size_edit');
             Route::put('update/{id}', 'ConfigurationController@sizeUpdate')->name('admin.size_update');
-            // // Route::get('list/with/category/{category_id}', 'CategoryController@brandListWithCategory')->name('admin.brand_list_with_category');
+            Route::get('list/with/category/{sub_category_id}', 'ConfigurationController@sizeListWithSubCategory')->name('admin.size_list_with_sub_category');
             Route::get('status/{id}/{status}', 'ConfigurationController@sizeStatus')->name('admin.size_status');
         });
 
-        // Route::group(['prefix'=>'product'],function(){       
-        //     Route::get('add/form','ProductController@AddForm')->name('admin.product_add_form');
-        //     Route::post('insert','ProductController@insertProduct')->name('admin.product_insert');
-        //     Route::get('list','ProductController@productList')->name('admin.product_list');
-        //     Route::get('list/ajax','ProductController@productListAjax')->name('admin.product_list_ajax');
-        //     Route::get('view/{id}','ProductController@productView')->name('admin.product_view');
-        //     Route::get('edit/{id}','ProductController@productEdit')->name('admin.product_edit');
-        //     Route::post('update','ProductController@productUpdate')->name('admin.product_update');
-        //     Route::get('status/update/{id}/{status}','ProductController@productStatusUpdate')->name('admin.product_status_update');
+        Route::group(['prefix'=>'product'],function(){       
+            Route::get('add/form','ProductController@AddProductForm')->name('admin.product_add_form');
+            Route::get('list','ProductController@ListProducts')->name('admin.list_product');
 
-        //     Route::get('edit/sizes/{product_id}','ProductController@editSizes')->name('admin.product_edit_sizes');
-        //     Route::post('add/new/sizes/','ProductController@addNewSize')->name('admin.product_add_new_sizes');
-        //     Route::post('update/sizes/','ProductController@updateSize')->name('admin.product_update_sizes');
+            Route::post('insert','ProductController@insertProduct')->name('admin.product_insert');
+            // Route::get('list/ajax','ProductController@productListAjax')->name('admin.product_list_ajax');
+            // Route::get('view/{id}','ProductController@productView')->name('admin.product_view');
+            // Route::get('edit/{id}','ProductController@productEdit')->name('admin.product_edit');
+            // Route::post('update','ProductController@productUpdate')->name('admin.product_update');
+            // Route::get('status/update/{id}/{status}','ProductController@productStatusUpdate')->name('admin.product_status_update');
+
+            // Route::get('edit/sizes/{product_id}','ProductController@editSizes')->name('admin.product_edit_sizes');
+            // Route::post('add/new/sizes/','ProductController@addNewSize')->name('admin.product_add_new_sizes');
+            // Route::post('update/sizes/','ProductController@updateSize')->name('admin.product_update_sizes');
             
-        //     Route::get('edit/specifications/{product_id}','ProductController@editSpecifications')->name('admin.product_edit_specifications');
-        //     Route::post('add/new/specofication/','ProductController@addNewSpecification')->name('admin.product_add_new_specofication');
-        //     Route::post('update/specofication/','ProductController@updateSpecification')->name('admin.product_update_specofication');
-        //     Route::get('delete/specofication/{sp_id}','ProductController@deleteSpecification')->name('admin.product_delete_specofication');
+            // Route::get('edit/specifications/{product_id}','ProductController@editSpecifications')->name('admin.product_edit_specifications');
+            // Route::post('add/new/specofication/','ProductController@addNewSpecification')->name('admin.product_add_new_specofication');
+            // Route::post('update/specofication/','ProductController@updateSpecification')->name('admin.product_update_specofication');
+            // Route::get('delete/specofication/{sp_id}','ProductController@deleteSpecification')->name('admin.product_delete_specofication');
 
-        //     Route::get('edit/images/{product_id}','ProductController@editImages')->name('admin.product_edit_images');
-        //     Route::post('add/new/images/','ProductController@addNewImages')->name('admin.product_add_new_images');            
-        //     Route::get('make/cover/image/{image_id}','ProductController@makeCoverImage')->name('admin.product_make_cover_image');            
-        //     Route::get('delete/image/{image_id}','ProductController@deleteImage')->name('admin.product_delete_image');
-        // });
+            // Route::get('edit/images/{product_id}','ProductController@editImages')->name('admin.product_edit_images');
+            // Route::post('add/new/images/','ProductController@addNewImages')->name('admin.product_add_new_images');            
+            // Route::get('make/cover/image/{image_id}','ProductController@makeCoverImage')->name('admin.product_make_cover_image');            
+            // Route::get('delete/image/{image_id}','ProductController@deleteImage')->name('admin.product_delete_image');
+        });
 
         // Route::group(['prefix'=>'user'],function(){
         //     Route::get('customer/list','UsersController@customerList')->name('admin.customer_list');            

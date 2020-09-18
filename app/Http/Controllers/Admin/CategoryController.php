@@ -461,4 +461,10 @@ class CategoryController extends Controller
         return redirect()->back();
     }
 
+    public function thirdCategoryListWithSubCategory($sub_category_id)
+    {
+        $third_category = ThirdCategory::where('sub_category_id',$sub_category_id)->where('status',1)->get();
+        return $third_category;
+    }
+
 }

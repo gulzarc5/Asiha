@@ -9,6 +9,7 @@ use Intervention\Image\Facades\Image;
 use Illuminate\Support\Str;
 
 use\App\Models\Category;
+use\App\Models\Product;
 
 class ProductController extends Controller
 {
@@ -26,24 +27,31 @@ class ProductController extends Controller
         $this->validate($request, [
             'name'   => 'required',
             'category'   => 'required',
+            'sub_category'   => 'required',
             'image.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'weight_type.*' => 'required',
-            'weight.*' => 'required',
+            'size_chart' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'size.*' => 'required',
+            'stock.*' => 'required',
             'mrp.*' => 'required',
             'price.*' => 'required',
-            'stock.*' => 'required',
-            'min_ord_qtty.*' => 'required',
         ]);
+        $name = $request->input('name');
+        $category = $request->input('category');
+        $sub_category = $request->input('sub_category');
+        $third_category = $request->input('third_category');
+        $brand = $request->input('brand');
 
-        $weight = $request->input('weight'); // array of weight
-        $weight_type = $request->input('weight_type'); // array of weight_type
+        $size = $request->input('size');// array
+        $stock = $request->input('stock'); // array of stock
         $mrp = $request->input('mrp'); // array of mrp
         $price = $request->input('price'); // array of price
-        $stock = $request->input('stock'); // array of stock
-        $min_ord_qtty = $request->input('min_ord_qtty'); // array of min_ord_qtty
 
-        
-        $category = Category::find($request->input('category'));
+        $is_color = $request->input('is_color'); // y = yes, n = no
+        $color = $request->input('color'); // array of color
+        $images = $request->input('images'); // array of images
+        $size_chart = $request->input('size_chart'); 
+        $short_description = $request->input('short_description');
+        $description = $request->input('description');
 
         $product = new Product();
         $product->name = $request->input('name');

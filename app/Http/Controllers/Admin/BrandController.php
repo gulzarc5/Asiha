@@ -159,4 +159,10 @@ class BrandController extends Controller
         ]);
         return redirect()->back();
     }
+
+    public function brandListWithSubCategory($sub_category)
+    {
+       $brand = Brands::where('sub_category_id',$sub_category)->where('status',1)->get();
+       return $brand;
+    }
 }

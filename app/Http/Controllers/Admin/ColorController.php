@@ -93,6 +93,7 @@ class ColorController extends Controller
 
     public function colorListWithSubCategory($subcategory_id)
     {
-        // $color = Color::where('')
+        $color = Color::where('sub_category_id',$subcategory_id)->where('status',1)->get();
+        return $color;
     }
 }

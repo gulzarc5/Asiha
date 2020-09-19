@@ -23,7 +23,7 @@
     	        <div>
     	            <div class="x_content">
     	           
-    	            	{{-- {{ Form::open(['method' => 'post','route'=>'admin.product_insert' , 'enctype'=>'multipart/form-data']) }} --}}
+    	            	{{ Form::open(['method' => 'post','route'=>'admin.product_insert' , 'enctype'=>'multipart/form-data']) }}
     	            	
                         <div class="well" style="overflow: auto">
                             <div class="form-row mb-10">
@@ -120,8 +120,21 @@
                             </div>
                         </div>
 
-                        <div class="well" style="overflow: auto" id="color_div">
-                            <div class="form-row mb-3">                               
+                        <div class="well" style="overflow: auto" >
+                            <div class="form-row mb-3">     
+                                <div class="col-md-6 col-sm-12 col-xs-12 mb-3" style="margin-top: 20px;">
+                                    <div class="col-md-6 col-sm-12 col-xs-12 mb-3">
+                                        <label for="color">Product Color ?</label>
+                                    </div>
+                                    <div class="col-md-6 col-sm-12 col-xs-12 mb-3">
+                                        <p > Yes : <input type="radio"  name="is_color" id="genderM" value="y" onclick="chkColor();" /> No : <input type="radio" name="is_color" id="genderF" value="n"  checked="" onclick="chkColor();" required/>
+                                        </p>
+                                    </div>
+                                    
+                                </div>              
+                            </div>
+                            <span id="color_div" style="display: none">
+                            <div class="form-row mb-3">                                
                                 <div class="col-md-4 col-sm-12 col-xs-12 mb-3">
                                     <label for="color">Select Color</label>
                                     <select class="form-control color_option" name="color[]" >
@@ -137,6 +150,7 @@
                                     <button type="button" class="btn btn-sm btn-info" onclick="colorDivAdd()">Add More</button>
                                 </div>                      
                             </div>
+                            </span>
                         </div>
                         <div class="well" style="overflow:auto">
                             <div class="well" style="overflow: auto" id="image_div">
@@ -153,7 +167,7 @@
     
                                     <div class="col-md-4 col-sm-12 col-xs-12 mb-3">
                                         <label for="size_chart">Size Chart</label>
-                                        <input type="file" name="size_chart" class="form-control" multiple>
+                                        <input type="file" name="size_chart" class="form-control">
                                         @if($errors->has('size_chart'))
                                             <span class="invalid-feedback" role="alert" style="color:red">
                                                 <strong>{{ $errors->first('size_chart') }}</strong>
@@ -245,7 +259,7 @@
             var color_html = `<div id="color_more${color_count}"><div class="form-row mb-3">                               
                     <div class="col-md-4 col-sm-12 col-xs-12 mb-3">
                         <label for="color">Select Color</label>
-                        <select class="form-control" name="color[]" id="color">
+                        <select class="form-control color_option" name="color[]" >
                         ${color_option}
                         </select>
                         @if($errors->has('color'))
@@ -300,20 +314,55 @@
             });
             $.ajax({
                 type:"GET",
-                url:"{{ url('/admin/size/list/with/category/')}}"+"/"+sub_category_id+"",
+                url:"{{ url('/admin/color/list/with/category/')}}"+"/"+sub_category_id+"",
                 success:function(data){
                     if ($.isEmptyObject(data)) {
-                        $(".size_option").html("<option value=''>No Size Found</option>");
+                        $(".color_option").html("<option value=''>No Color Found</option>");
                     } else {
-                        $(".size_option").html("<option value=''>Please Select Size</option>");
+                        $(".color_option").html("<option value=''>Please Select Color</option>");
                         $.each( data, function( key, value ) {
-                            $(".size_option").append("<option value='"+value.id+"'>"+value.name+"</option>");
+                            $(".color_option").append("<option value='"+value.id+"'>"+value.name+"</option>");
                         });                          
                     }
                     
 
                 }
             });
+        }
+
+        function fetchBrand(sub_category_id) {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type:"GET",
+                url:"{{ url('/admin/brands/list/with/category/')}}"+"/"+sub_category_id+"",
+                success:function(data){
+                    if ($.isEmptyObject(data)) {
+                        $("#brand").html("<option value=''>No Brand Found</option>");
+                    } else {
+                        $("#brand").html("<option value=''>Please Select Brand</option>");
+                        $.each( data, function( key, value ) {
+                            $("#brand").append("<option value='"+value.id+"'>"+value.name+"</option>");
+                        });                          
+                    }
+                    
+
+                }
+            });
+        }
+
+        function chkColor() {
+            var is_color = $('input[name="is_color"]:checked').val();
+            if (is_color == 'y') {
+                $("#color_div").show();
+            } else {
+                $("#color_div").hide();
+                
+            }
+
         }
 
         $(document).ready(function(){
@@ -347,6 +396,7 @@
                 var sub_category = $(this).val();
                 fetchSize(sub_category);
                 fetchColor(sub_category);
+                fetchBrand(sub_category);
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -373,8 +423,6 @@
                 
                 
             });
-
-
         });
 
 

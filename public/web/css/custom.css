@@ -1,0 +1,68 @@
+@import url('responsive.css');
+
+/* all start */
+  .lds-dual-ring {display: block;width: 80px;height: 80px;position: absolute;top: 40%;left: 31%;z-index: -1;}
+  .lds-dual-ring:after {content: " ";display: block;width: 64px;height: 64px;margin: 8px;border-radius: 50%;border: 6px solid transparent;border-color: #ff6c62 transparent #ff6c62 transparent;animation: lds-dual-ring 1.2s linear infinite;}
+  @keyframes lds-dual-ring {0% {transform: rotate(0deg);}100% {transform: rotate(360deg);}}
+  .site-main-menu>ul>li>a>.menu-text b {color: #ff6c62;letter-spacing: 0;text-transform: none;}
+  .order-nav {margin-top: -20px;}
+  .order-nav ul {display: flex;justify-content: center;cursor: default;}
+  .order-nav ul li.navi {list-style: none;border-right: 1px solid #ddd;min-width: 134px;text-align: center;border: 1px solid #fff;font-weight: 500;color: #7d7d7d;}
+  .order-nav ul li {list-style: none;padding: 0px 5px;text-align: center;border: 1px solid #fff;cursor: default;}
+  .order-nav ul li.navi.current {border-color: #ff6c62;color:#ff6c62;background: #eee;}
+  .order-nav ul li.navi.d {color: #0e8a0e;}
+/* all end */
+
+/* Index start */
+  .catagory .products.row {margin-bottom: 30px;}
+  .catagory .product-thumb a, .popular-item .product-thumb a, .brand-item .product-thumb a {border-radius: 10px;box-shadow: 0 0 9px 0px #ff6c62bd;}
+  .catagory .product:hover .product-info .title, .catagory .product:hover .product-info .number {visibility: visible;-webkit-transform: none;-ms-transform: none;transform: none;opacity: 1;}
+  .catagory .product .product-info .title {margin-bottom: 0;}
+  .catagory .product .product-info .number {font-size: 16px;font-weight: 400;display: block;-webkit-transition: all .5s ease 0s;-o-transition: all .5s ease 0s;transition: all .5s ease 0s;color: #999;}
+  .col .brand-item a {opacity: 1;}
+  .popular-item .product-thumb {padding-top: 5px;}
+  .catagory .product-thumb a img {z-index: 9;}
+  .home1-slider .home1-slider-next.swiper-button-next {right: 0;left: auto;}
+  .home1-slider .home1-slider-prev.swiper-button-prev {left: 0;right: auto;}
+/* Index end */
+
+/* product-list start */
+  .shop-list .section-fluid {padding-left: 0;padding-right: 0;}
+  .product-list-nav p {display: inline;}
+  .widget-list input[type="checkbox"] {margin-right: 10px;}
+/* product-list end */
+
+/* product-detail start */
+  .size-chart {color: #ff6c62;cursor: pointer;}
+  .size-chart:hover {text-decoration: underline;}
+  .szi-cht.table-responsive{display:none;transition: 1s ease-in-out;}
+  .szi-cht.table-responsive.show{display:block;}
+  .product-price span {color: rgb(185, 185, 185);text-decoration: line-through;padding-right: 10px;}
+/* product-detail end */
+
+/* cart start */
+/* cart end */
+
+/* checkout start */
+  .accordion .card.active button.btn.btn-link {background-color: #ff6c62!important;color:#fff}
+  .myaccount-content address input[type="radio"] {position: absolute;top: 21px;left: 25px;}
+  .myaccount-content address a {color: #ff6c62;}
+  .form-control:focus, textarea:focus {box-shadow: none!important;border-color: #ff6c62!important;background:#fff!important;}
+/* checkout end */
+
+/* dashboard start */
+  .pattern-bg{background: url(../images/bg/pattern1.png) repeat center center scroll #fff;}
+  .dashboard>div {margin-bottom: 30px;}
+  .dashboard>div>a {width: 100%;height: 20vh;display: grid;text-align: center;align-items: center;background: #f4ede7;border: 1px dashed #ff6c6282;font-size: 20px;font-weight: 500;text-transform: uppercase;border-radius: 10px;}
+  .dashboard>div:hover a {background: #ff6c624d;box-shadow: 0px 0px 9px 3px #d0d0d0;border-color: #ff1000;color: #565656;}
+  .dashboard>div>a i {font-size: 3rem;margin-top: 20px;font-weight: 200;}
+/* dashboard end */
+
+/*  */
+.myaccount-tab-list.myacc a:hover {background-color: #ff6c623f;}
+.order-cal span{display: grid;text-align: center;font-weight: 500;}
+.order-grand span.grand{color: #ff6c62;font-size: 24px;font-weight: 700;}
+.gnd td {border-top: none!important;}
+.gnd td.order-grand {border-top: 1px dashed #ff6c62!important}
+.order-cal{padding-bottom: 0!important;}
+.order-grand{padding-bottom: 0!important;padding-top: 0!important;text-align: center;}

@@ -10,7 +10,5 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+require __DIR__.'/frontend.php';
 require __DIR__.'/admin.php';
-// Route::get('/', function () {
-//     return view('welcome');
-// });

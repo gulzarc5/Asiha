@@ -1,0 +1,17 @@
+@media only screen and (max-width: 425px) {
+    .row-cols-1>* {
+        -ms-flex: 0 0 50%!important;
+        flex: 0 0 50%!important;
+        max-width: 50%!important;
+    }
+    .col-xs-6 {
+        width: 50%!important;
+    }
+    .dashboard>div>a {
+        height: 15vh!important;
+        font-size: 15px!important;
+    }
+    .dashboard>div>a i {
+        font-size: 2rem!important;
+    }
+}

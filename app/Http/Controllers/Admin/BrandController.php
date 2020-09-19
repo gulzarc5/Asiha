@@ -93,8 +93,6 @@ class BrandController extends Controller
             'sub_category'   => 'required',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-        
-        
         $image_name = null;
         if($request->hasfile('image'))
         {
@@ -128,7 +126,6 @@ class BrandController extends Controller
             if ( File::exists($prev_img_delete_path_thumb)) {
                 File::delete($prev_img_delete_path_thumb);
             }
-
             Brands::where('id',$id)
             ->update([
                 'name'=>$request->input('name'),

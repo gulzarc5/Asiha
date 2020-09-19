@@ -15,11 +15,10 @@ class CreateProductSizesTable extends Migration
     {
         Schema::create('product_sizes', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name',500);
-            $table->unsignedBigInteger('product_id');  
+            $table->unsignedBigInteger('size_id')-nullable();  
+            $table->unsignedBigInteger('product_id')-nullable();  
             $table->double('mrp', 10, 2)->default(0);
             $table->double('price', 10, 2)->default(0);
-            $table->bigInteger('min_ord_quantity')->default(0)->comment('Minimum order Quantity is used for retailer for giving more discount');  
             $table->bigInteger('stock')->default(0);  
             $table->timestamps();
         });

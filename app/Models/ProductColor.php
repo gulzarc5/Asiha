@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ProductSize extends Model
+class ProductColor extends Model
 {    
-    protected $table = 'product_sizes';
+    protected $table = 'product_colors';
     protected $primaryKey = 'id';
     protected $fillable = [
-        'size_id', 'product_id','mrp', 'price','stock',
+        'color_id', 'product_id','status',
     ];
 
 }

@@ -10,6 +10,9 @@ use Illuminate\Support\Str;
 
 use\App\Models\Category;
 use\App\Models\Product;
+use\App\Models\ProductImage;
+use\App\Models\ProductSize;
+use\App\Models\ProductColor;
 
 class ProductController extends Controller
 {
@@ -48,19 +51,41 @@ class ProductController extends Controller
 
         $is_color = $request->input('is_color'); // y = yes, n = no
         $color = $request->input('color'); // array of color
-        $images = $request->input('images'); // array of images
-        $size_chart = $request->input('size_chart'); 
+        $images = $request->file('images'); // array of images
         $short_description = $request->input('short_description');
         $description = $request->input('description');
 
         $product = new Product();
-        $product->name = $request->input('name');
-        $product->category_id = $request->input('category');
-        $product->sub_category_id = $request->input('sub_category');
-        $product->product_type = $category->category_type;
-        $product->description = $request->input('description');
+        $product->name = $name;
+        $product->category_id = $category;
+        $product->sub_category_id = $sub_category;
+        $product->last_category_id = $third_category;
+        $product->short_description = $short_description;
+        $product->description = $description;
+        if (isset($brand)) {
+            $product->brand_id = $brand;
+        }
+        if ($request->hasFile('size_chart')) {  
+            $path = base_path().'/public/images/products/';
+            File::exists($path) or File::makeDirectory($path, 0777, true, true);
+            $path_thumb = base_path().'/public/images/products/thumb/';
+            File::exists($path_thumb) or File::makeDirectory($path_thumb, 0777, true, true);
+            $image = $request->file('size_chart');  
+            $image_name = time().date('Y-M-d').'.'.$image->getClientOriginalExtension();
 
+            $destinationPath =base_path().'/public/images/products';
+            $img = Image::make($image->getRealPath());
+            $img->save($destinationPath.'/'.$image_name);
+            //Product Thumbnail
+            $destination = base_path().'/public/images/products/thumb';
+            $img = Image::make($image->getRealPath());
+            $img->resize(600, 600, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($destination.'/'.$image_name);
+            $product->size_chart = $brand;
+        }
         if ($product->save()) {
+
              /** Images Upload **/
             $path = base_path().'/public/images/products/';
             File::exists($path) or File::makeDirectory($path, 0777, true, true);
@@ -99,28 +124,24 @@ class ProductController extends Controller
             $min_mrp = 0;
         
 
-            if (isset($weight) && !empty($weight)) {
-                $length = count($weight);
+            if (isset($sizes) && !empty($sizes)) {
+                $length = count($sizes);
                 for ($i=0; $i < $length; $i++) { 
-                    $weight_type_data = isset($weight_type[$i]) ? $weight_type[$i] : 1;
-                    $weight_data = isset($weight[$i]) ? $weight[$i] : 0;
+                    $size_data = isset($size[$i]) ? $size[$i] : 1;
+                    $stock_data = isset($stock[$i]) ? $stock[$i] : 0;
                     $mrp_data = isset($mrp[$i]) ? $mrp[$i] : 0;
                     $price_data = isset($price[$i]) ? $price[$i] : 0;
-                    $stock_data = isset($stock[$i]) ? $stock[$i] : 0;
-                    $min_ord_qtty_data = isset($min_ord_qtty[$i]) ? $min_ord_qtty[$i] : 0;
 
                    
-                    if (($min_price > $price) || ($min_price == 0)) {
+                    if (($min_price > $price_data) || ($min_price == 0)) {
                         $min_price = $price_data;
                         $min_mrp = $mrp_data;
                     }                    
                     $product_size = new ProductSize();
-                    $product_size->size_type_id = $weight_type_data;
+                    $product_size->size_id = $size_data;
                     $product_size->product_id = $product->id;
-                    $product_size->size = $weight_data;
                     $product_size->mrp = $mrp_data;
                     $product_size->price = $price_data;
-                    $product_size->min_ord_quantity = $min_ord_qtty_data;
                     $product_size->stock = $stock_data;
                     $product_size->save();
                 }
@@ -128,7 +149,17 @@ class ProductController extends Controller
             $product->min_price = $min_price;
             $product->mrp = $min_mrp;
             $product->save();
-            
+
+            if (isset($color) && !empty($color)) {
+                for ($i=0; $i < count($color); $i++) { 
+                    if (!empty($color[$i])) {                        
+                        $colors = new ProductColor();
+                        $colors->color_id = $color[$i];
+                        $colors->product_id = $product->id;
+                        $colors->save();
+                    }
+                }
+            }            
             return redirect()->back()->with('message','Product Added Successfully');
         } else {
             return redirect()->back()->with('error','Something Went Wrong Please Try Again');

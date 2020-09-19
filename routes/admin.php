@@ -81,6 +81,13 @@ Route::group(['namespace' => 'Admin'],function(){
             Route::get('status/{id}/{status}', 'ConfigurationController@sizeStatus')->name('admin.size_status');
         });
 
+        Route::group(['prefix'=>'charges'],function(){ 
+            Route::get('list','ChargesController@chargesList')->name('admin.charges_list');
+            Route::get('edit/{id}', 'ChargesController@chargesEdit')->name('admin.charges_edit');
+            Route::put('update/{id}', 'ChargesController@chargesUpdate')->name('admin.charges_update');
+            Route::get('status/{id}/{status}', 'ChargesController@chargesStatus')->name('admin.charges_status');
+        });
+
         Route::group(['prefix'=>'product'],function(){       
             Route::get('add/form','ProductController@AddProductForm')->name('admin.product_add_form');
             Route::get('list','ProductController@ListProducts')->name('admin.list_product');

@@ -3,16 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Laratrust\Traits\LaratrustUserTrait;
 
 class Product extends Model
 {
-    use LaratrustUserTrait;
     protected $table = 'products';
     protected $primaryKey = 'id';
     protected $fillable = [
-        'name','category_id','sub_category_id','sub_category_id','main_image','description','min_price','mrp','stock','status ',
+        'name','category_id','sub_category_id','last_category_id','brand_id','main_image','min_price','mrp','short_description','description','size_chart','status'
     ];
+
 
     public function category()
     {

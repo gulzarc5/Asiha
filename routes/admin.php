@@ -106,11 +106,11 @@ Route::group(['namespace' => 'Admin'],function(){
             Route::get('add/form','ProductController@AddProductForm')->name('admin.product_add_form');
             Route::get('list','ProductController@ListProducts')->name('admin.list_product');
             Route::post('insert','ProductController@insertProduct')->name('admin.product_insert');
-            // Route::get('list/ajax','ProductController@productListAjax')->name('admin.product_list_ajax');
-            // Route::get('view/{id}','ProductController@productView')->name('admin.product_view');
-            // Route::get('edit/{id}','ProductController@productEdit')->name('admin.product_edit');
-            // Route::post('update','ProductController@productUpdate')->name('admin.product_update');
-            // Route::get('status/update/{id}/{status}','ProductController@productStatusUpdate')->name('admin.product_status_update');
+            Route::get('list/ajax','ProductController@productListAjax')->name('admin.product_list_ajax');
+            Route::get('view/{id}','ProductController@productView')->name('admin.product_view');
+            Route::get('edit/{id}','ProductController@productEdit')->name('admin.product_edit');
+            Route::post('update','ProductController@productUpdate')->name('admin.product_update');
+            Route::get('status/update/{id}/{status}','ProductController@productStatusUpdate')->name('admin.product_status_update');
 
             // Route::get('edit/sizes/{product_id}','ProductController@editSizes')->name('admin.product_edit_sizes');
             // Route::post('add/new/sizes/','ProductController@addNewSize')->name('admin.product_add_new_sizes');
@@ -121,16 +121,16 @@ Route::group(['namespace' => 'Admin'],function(){
             // Route::post('update/specofication/','ProductController@updateSpecification')->name('admin.product_update_specofication');
             // Route::get('delete/specofication/{sp_id}','ProductController@deleteSpecification')->name('admin.product_delete_specofication');
 
-            // Route::get('edit/images/{product_id}','ProductController@editImages')->name('admin.product_edit_images');
-            // Route::post('add/new/images/','ProductController@addNewImages')->name('admin.product_add_new_images');            
-            // Route::get('make/cover/image/{image_id}','ProductController@makeCoverImage')->name('admin.product_make_cover_image');            
-            // Route::get('delete/image/{image_id}','ProductController@deleteImage')->name('admin.product_delete_image');
+            Route::get('edit/images/{product_id}','ProductController@editImages')->name('admin.product_edit_images');
+            Route::post('add/new/images/','ProductController@addNewImages')->name('admin.product_add_new_images');            
+            Route::get('make/cover/image/{image_id}','ProductController@makeCoverImage')->name('admin.product_make_cover_image');            
+            Route::get('delete/image/{image_id}','ProductController@deleteImage')->name('admin.product_delete_image');
         });
 
-        // Route::group(['prefix'=>'user'],function(){
-        //     Route::get('customer/list','UsersController@customerList')->name('admin.customer_list');            
-        //     Route::get('retailer/list','UsersController@retailerList')->name('admin.retailer_list');
-        // });
+        Route::group(['prefix'=>'user'],function(){
+            Route::get('list','UserController@userList')->name('admin.user_list');            
+            Route::get('list/ajax','UserController@userListAjax')->name('admin.user_list_ajax');
+        });
 
         // Route::group(['prefix'=>'order'],function(){
         //     Route::get('/list','OrderController@orderList')->name('admin.order_list');            

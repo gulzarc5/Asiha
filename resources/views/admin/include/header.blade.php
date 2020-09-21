@@ -87,7 +87,7 @@
 
                   <li><a><i class="fa fa-users" aria-hidden="true"></i> Users <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li class="sub_menu"><a href="#">Customer List</a></li>
+                      <li class="sub_menu"><a href="{{route('admin.user_list')}}">User List</a></li>
                       {{-- <li class="sub_menu"><a href="{{route('admin.retailer_list')}}">Retailer List</a></li> --}}
                     </ul>
                   </li>

@@ -15,12 +15,22 @@ class Product extends Model
 
     public function category()
     {
-        return $this->belongsTo('App\Models\Categories','category_id',$this->primaryKey);
+        return $this->belongsTo('App\Models\Category','category_id',$this->primaryKey);
     }
 
     public function subCategory()
     {
-        return $this->belongsTo('App\Models\Categories','sub_category_id',$this->primaryKey);
+        return $this->belongsTo('App\Models\SubCategory','sub_category_id',$this->primaryKey);
+    }
+
+    public function thirdCategory()
+    {
+        return $this->belongsTo('App\Models\ThirdCategory','last_category_id',$this->primaryKey);
+    }
+
+    public function brand()
+    {
+        return $this->belongsTo('App\Models\Brands','brand_id',$this->primaryKey);
     }
 
     public function sizes()
@@ -35,9 +45,9 @@ class Product extends Model
     }
 
 
-    public function specifications()
+    public function productColors()
     {
-        return $this->hasMany('App\Models\ProductSpecification','product_id',$this->primaryKey);
+        return $this->hasMany('App\Models\ProductColor','product_id',$this->primaryKey);
     }
 
     public function images()

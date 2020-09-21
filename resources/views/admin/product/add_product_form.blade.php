@@ -97,7 +97,7 @@
                             <div class="form-row mb-3">                                
                                 <div class="col-md-4 col-sm-12 col-xs-12 mb-3">
                                     <label for="size">Select Size <span><b style="color: red"> * </b></span></label>
-                                    <select class="form-control size_option" name="size"  required>
+                                    <select class="form-control size_option" name="size[]"  required>
                                       <option value="">Select Size</option>
                                     </select>
                                 </div>
@@ -223,7 +223,7 @@
             var htmlSize = `<div id="size_more_div${size_count}"><div class="form-row mb-3">                                
                                 <div class="col-md-4 col-sm-12 col-xs-12 mb-3">
                                     <label for="size">Select Size <span><b style="color: red"> * </b></span></label>
-                                    <select class="form-control size_option" name="size"  required>
+                                    <select class="form-control size_option" name="size[]"  required>
                                       ${size_option}
                                     </select>
                                 </div>

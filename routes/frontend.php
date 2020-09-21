@@ -12,7 +12,7 @@
 */
 Route::group(['namespace'=>'Web'],function(){
     Route::get('/','HomePageController@index')->name('web.index');
-
+    
 
 
 });

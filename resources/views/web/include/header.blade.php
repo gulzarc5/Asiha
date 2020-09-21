@@ -82,114 +82,44 @@
                     <nav class="site-main-menu site-main-menu-left menu-height-100 justify-content-center">
                         <ul>
                             <li><a href="{{route('web.index')}}"><span class="menu-text">Home</span></a></li>
-                            <li class="has-children"><a href="#"><span class="menu-text">Men</span></a>
-                                <ul class="sub-menu mega-menu">
-                                    <li>
-                                        <a href="#" class="mega-menu-title"><span class="menu-text">Topwear</span></a>
-                                        <ul>
-                                            <li><a href="elements-products.html"><span class="menu-text">Product Styles</span></a></li>
-                                            <li><a href="elements-products-tabs.html"><span class="menu-text">Product Tabs</span></a></li>
-                                            <li><a href="elements-product-sale-banner.html"><span class="menu-text">Product & Sale Banner</span></a></li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="mega-menu-title"><span class="menu-text">Bottomwear</span></a>
-                                        <ul>
-                                            <li><a href="elements-category-banner.html"><span class="menu-text">Category Banner</span></a></li>
-                                            <li><a href="elements-team.html"><span class="menu-text">Team Member</span></a></li>
-                                            <li><a href="elements-testimonials.html"><span class="menu-text">Testimonials</span></a></li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="mega-menu-title"><span class="menu-text">Accessories</span></a>
-                                        <ul>
-                                            <li><a href="elements-instagram.html"><span class="menu-text">Instagram</span></a></li>
-                                            <li><a href="elements-map.html"><span class="menu-text">Google Map</span></a></li>
-                                            <li><a href="elements-icon-box.html"><span class="menu-text">Icon Box</span></a></li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="mega-menu-title"><span class="menu-text">Others</span></a>
-                                        <ul>
-                                            <li><a href="elements-buttons.html"><span class="menu-text">Buttons</span></a></li>
-                                            <li><a href="elements-faq.html"><span class="menu-text">FAQs / Toggles</span></a></li>
-                                            <li><a href="elements-brands.html"><span class="menu-text">Brands</span></a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="has-children"><a href="#"><span class="menu-text">Women</span></a>
-                                <ul class="sub-menu mega-menu">
-                                    <li>
-                                        <a href="#" class="mega-menu-title"><span class="menu-text">Topwear</span></a>
-                                        <ul>
-                                            <li><a href="elements-products.html"><span class="menu-text">Product Styles</span></a></li>
-                                            <li><a href="elements-products-tabs.html"><span class="menu-text">Product Tabs</span></a></li>
-                                            <li><a href="elements-product-sale-banner.html"><span class="menu-text">Product & Sale Banner</span></a></li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="mega-menu-title"><span class="menu-text">Bottomwear</span></a>
-                                        <ul>
-                                            <li><a href="elements-category-banner.html"><span class="menu-text">Category Banner</span></a></li>
-                                            <li><a href="elements-team.html"><span class="menu-text">Team Member</span></a></li>
-                                            <li><a href="elements-testimonials.html"><span class="menu-text">Testimonials</span></a></li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="mega-menu-title"><span class="menu-text">Accessories</span></a>
-                                        <ul>
-                                            <li><a href="elements-instagram.html"><span class="menu-text">Instagram</span></a></li>
-                                            <li><a href="elements-map.html"><span class="menu-text">Google Map</span></a></li>
-                                            <li><a href="elements-icon-box.html"><span class="menu-text">Icon Box</span></a></li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="mega-menu-title"><span class="menu-text">Others</span></a>
-                                        <ul>
-                                            <li><a href="elements-buttons.html"><span class="menu-text">Buttons</span></a></li>
-                                            <li><a href="elements-faq.html"><span class="menu-text">FAQs / Toggles</span></a></li>
-                                            <li><a href="elements-brands.html"><span class="menu-text">Brands</span></a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="has-children"><a href="#"><span class="menu-text">Kids</span></a>
-                                <ul class="sub-menu mega-menu">
-                                    <li>
-                                        <a href="#" class="mega-menu-title"><span class="menu-text">Topwear</span></a>
-                                        <ul>
-                                            <li><a href="elements-products.html"><span class="menu-text">Product Styles</span></a></li>
-                                            <li><a href="elements-products-tabs.html"><span class="menu-text">Product Tabs</span></a></li>
-                                            <li><a href="elements-product-sale-banner.html"><span class="menu-text">Product & Sale Banner</span></a></li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="mega-menu-title"><span class="menu-text">Bottomwear</span></a>
-                                        <ul>
-                                            <li><a href="elements-category-banner.html"><span class="menu-text">Category Banner</span></a></li>
-                                            <li><a href="elements-team.html"><span class="menu-text">Team Member</span></a></li>
-                                            <li><a href="elements-testimonials.html"><span class="menu-text">Testimonials</span></a></li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="mega-menu-title"><span class="menu-text">Accessories</span></a>
-                                        <ul>
-                                            <li><a href="elements-instagram.html"><span class="menu-text">Instagram</span></a></li>
-                                            <li><a href="elements-map.html"><span class="menu-text">Google Map</span></a></li>
-                                            <li><a href="elements-icon-box.html"><span class="menu-text">Icon Box</span></a></li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="mega-menu-title"><span class="menu-text">Others</span></a>
-                                        <ul>
-                                            <li><a href="elements-buttons.html"><span class="menu-text">Buttons</span></a></li>
-                                            <li><a href="elements-faq.html"><span class="menu-text">FAQs / Toggles</span></a></li>
-                                            <li><a href="elements-brands.html"><span class="menu-text">Brands</span></a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
+                            @foreach($category as $items)
+                                @if($items->status==1)
+                                <li class="has-children"><a href="#"><span class="menu-text">{{$items->name}}</span></a>
+                                    @if($items->is_sub_category==2)
+                                    @php
+                                        $sub_category = $items->subCategory;
+                                    @endphp
+                                    <ul class="sub-menu mega-menu">                                        
+                                        @if(!empty($sub_category))
+                                   
+                                        @foreach($sub_category as $sub_cat)
+                                            @if($sub_cat->status == 1)
+                                            <li>
+                                                <a href="#" class="mega-menu-title"><span class="menu-text">{{$sub_cat->name}}</span></a>
+                                                @if($items->is_sub_category==2)
+                                                @php
+                                                    $third_cat = $sub_cat->thirdCategory;
+                                                @endphp
+                                                <ul>
+                                                    @if(!empty($third_cat))
+                                                        @foreach($third_cat as $thirdlevel)
+                                                            @if($thirdlevel->status==1)
+                                                                <li><a href="elements-products.html"><span class="menu-text">{{$thirdlevel->name}}</span></a></li>
+                                                            @endif
+                                                        @endforeach
+                                                    @endif
+                                                </ul>
+                                                @endif
+                                            </li>
+                                            @endif
+                                        @endforeach
+                                        @endif
+                                    </ul>
+                                    
+                                    @endif
+                                </li>
+                                @endif
+                            @endforeach
                             <li class="has-children"><a href="#"><span class="menu-text"><i class="fal fa-user"></i> Login/Register</span></a>
                                 <ul class="sub-menu">
                                     <li><a href="{{route('web.login')}}"><span class="ti-unlock" style="padding-right: 10px;"></span><span class="menu-text">Login</span></a></li>

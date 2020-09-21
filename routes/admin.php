@@ -86,7 +86,21 @@ Route::group(['namespace' => 'Admin'],function(){
             Route::get('edit/{id}', 'ChargesController@chargesEdit')->name('admin.charges_edit');
             Route::put('update/{id}', 'ChargesController@chargesUpdate')->name('admin.charges_update');
             Route::get('status/{id}/{status}', 'ChargesController@chargesStatus')->name('admin.charges_status');
+
         });
+
+        Route::group(['prefix'=>'slider'],function(){
+            Route::get('app/list','SliderController@appSliderList')->name('admin.app_slider_list');
+            Route::get('web/list','SliderController@webSliderList')->name('admin.web_slider_list');
+            Route::get('app/add/form', 'SliderController@appSliderAddForm')->name('admin.app_slider_add_form');
+            Route::get('web/add/form', 'SliderController@webSliderAddForm')->name('admin.web_slider_add_form');
+            Route::post('web/insert/form', 'SliderController@insertWebSlider')->name('admin.insert_web_slider');
+            Route::post('app/insert/form', 'SliderController@insertAppSlider')->name('admin.insert_app_slider');
+            Route::get('delete/{id}', 'SliderController@SliderDelete')->name('admin.slider_delete');
+            Route::get('status/{id}/{status}', 'SliderController@SliderStatus')->name('admin.slider_status');
+            Route::get('edit/{id}', 'SliderController@bannerEdit')->name('admin.banner_edit');
+            Route::put('update/{id}', 'SliderController@bannerUpdate')->name('admin.banner_update');
+        }); 
 
         Route::group(['prefix'=>'product'],function(){       
             Route::get('add/form','ProductController@AddProductForm')->name('admin.product_add_form');

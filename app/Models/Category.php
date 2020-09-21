@@ -15,7 +15,7 @@ class Category extends Model
 
     public function subCategory()
     {
-        return $this->hasMany('App\Models\Category','parent_id',$this->primaryKey);
+        return $this->hasMany('App\Models\SubCategory','category_id',$this->primaryKey);
     }
 
     public function productSubCategory()

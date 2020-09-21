@@ -10,11 +10,18 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::group(['namespace'=>'Web'],function(){
+    Route::get('/','HomePageController@index')->name('web.index');
+
+
+
+});
+
 
 //========= index =========//
-Route::get('/', function () {
-    return view('web.index');
-})->name('web.index');
+// Route::get('/', function () {
+//     return view('web.index');
+// })->name('web.index');
 
 //========= login =========//
 Route::get('/Login', function () {

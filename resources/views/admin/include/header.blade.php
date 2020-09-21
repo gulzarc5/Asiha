@@ -116,6 +116,13 @@
                       <li class="sub_menu"><a href="{{route('admin.charges_list')}}">Charges List</a></li>
                     </ul>
                   </li>
+                  <li><a><i class="fa fa-image" aria-hidden="true"></i> Slider <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li class="sub_menu"><a href="{{route('admin.app_slider_list')}}">App Slider</a></li>
+                      <li class="sub_menu"><a href="{{route('admin.web_slider_list')}}">Web Slider</a></li>
+                      
+                    </ul>
+                  </li>
 
                   <li><a><i class="fa fa-first-order" aria-hidden="true"></i> Orders <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
@@ -131,6 +138,7 @@
               </div>
 
             </div>
+          </div>
             <!-- /sidebar menu -->
 
             <!-- /menu footer buttons -->

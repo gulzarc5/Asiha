@@ -12,4 +12,9 @@ class ProductColor extends Model
         'color_id', 'product_id','status',
     ];
 
+    public function color()
+    {
+        return $this->belongsTo('App\Models\Color','color_id',$this->primaryKey);
+    }
+
 }

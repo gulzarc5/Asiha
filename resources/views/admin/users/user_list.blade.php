@@ -8,7 +8,7 @@
     	    <div class="x_panel">
 
     	        <div class="x_title">
-    	            <h2>Product List <b><button onclick="export_excel()"><i class="fa fa-file-excel-o" aria-hidden="true" style="font-size: 20px; color:#FF9800"></i></button></b></h2>
+    	            <h2>User List</h2>
     	            <div class="clearfix"></div>
               </div>
     	        <div>
@@ -17,12 +17,15 @@
                           <thead>
                             <tr>
                               <th>Sl</th>
-                              <th>Product Id</th>
-                              <th>Product Name</th>
-                              <th>Category</th>
-                              <th>SubCategory</th>
-                              <th>ThirdCategory</th>
-                              <th>Status</th>
+                              <th>Name</th>
+                              <th>Email</th>
+                              <th>Mobile</th>
+                              <th>Gender</th>
+                              <th>DOB</th>
+                              <th>State</th>
+                              <th>City</th>
+                              <th>Address</th>
+                              <th>Pin</th>
                               <th>action</th>
                             </tr>
                           </thead>
@@ -47,14 +50,17 @@
         var table = $('#size_list').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('admin.product_list_ajax') }}",
+            ajax: "{{ route('admin.user_list_ajax') }}",
             columns: [
                 {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-                {data: 'id', name: 'id',searchable: true},
                 {data: 'name', name: 'name',searchable: true},
-                {data: 'category', name: 'category' ,searchable: true},
-                {data: 'sub_category', name: 'sub_category' ,searchable: true},  
-                {data: 'third_category', name: 'third_category' ,searchable: true},  
+                {data: 'email', name: 'email',searchable: true},
+                {data: 'mobile', name: 'mobile' ,searchable: true},
+                {data: 'user_gender', name: 'user_gender' ,searchable: true},  
+                {data: 'dob', name: 'dob' ,searchable: true},  
+                {data: 'state', name: 'state' ,searchable: true},  
+                {data: 'city', name: 'city' ,searchable: true},  
+                {data: 'address', name: 'address' ,searchable: true},  
                 {data: 'status', name: 'status', render:function(data, type, row){
                   if (row.status == '1') {
                     return "<button class='btn btn-info'>Enable</a>"

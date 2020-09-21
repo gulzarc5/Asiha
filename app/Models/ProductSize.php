@@ -12,4 +12,9 @@ class ProductSize extends Model
         'size_id', 'product_id','mrp', 'price','stock',
     ];
 
+    public function size()
+    {
+        return $this->belongsTo('App\Models\Size','size_id',$this->primaryKey);
+    }
+
 }

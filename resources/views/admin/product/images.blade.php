@@ -31,19 +31,10 @@
 
             @if($product->main_image == $image->image)
               <a href="" class="btn btn-sm btn-primary">Thumb Image</a>
-            @else              
+            @else 
+                <a href="{{ route('admin.product_make_cover_image',['product_id'=>$product->id,'image_id' =>$image->id ])}}" class="btn btn-sm btn-success">Set As Main Image</a>
 
-                @if($image->status == 1)
-                  <a href="{{ route('admin.product_make_cover_image',['product_id'=>encrypt($product->id),'image_id' =>encrypt($image->id) ])}}" class="btn btn-sm btn-success">Set As Main Image</a>
-
-                  <a href="{{ route('admin.product_make_cover_image',['product_id'=>encrypt($product->id),'image_id' =>encrypt($image->id),'status'=>encrypt(2) ])}}" class="btn btn-sm btn-warning">Disable</a>
-                @else
-                
-                <a href="{{ route('admin.product_make_cover_image',['product_id'=>encrypt($product->id),'image_id' =>encrypt($image->id) ])}}" class="btn btn-sm btn-success">Set As Main Image</a>
-                  <a href="{{ route('admin.product_make_cover_image',['product_id'=>encrypt($product->id),'image_id' =>encrypt($image->id),'status'=>encrypt(1) ])}}" class="btn btn-sm btn-info">Enable</a>
-                @endif
-
-              <a href="{{ route('admin.product_make_cover_image',['product_id'=>encrypt($product->id),'image_id' =>encrypt($image->id)])}}" class="btn btn-sm btn-danger" >Delete</a>
+              <a href="{{ route('admin.product_delete_image',['image_id' =>$image->id])}}" class="btn btn-sm btn-danger" >Delete</a>
             @endif
           </div>
         </div>
@@ -66,12 +57,12 @@
             <div class="x_content">
            
               {{ Form::open(['method' => 'post','route'=>'admin.product_add_new_images' , 'enctype'=>'multipart/form-data']) }}
-                <input type="hidden" name="product_id" value="{{ encrypt($product->id)}}">
+                <input type="hidden" name="product_id" value="{{ $product->id}}">
                  <div class="well" style="overflow: auto" id="image_div">
                       <div class="form-row mb-10">
                           <div class="col-md-8 col-sm-12 col-xs-12 mb-3">
                               <label for="size">Image</label>
-                              <input type="file" name="image[]" class="form-control">
+                              <input type="file" name="image[]" class="form-control" multiple>
                           </div>
                           <div class="col-md-4 col-sm-12 col-xs-12 mb-3">
                              <a class="btn btn-sm btn-primary" style="margin-top: 25px;" onclick="add_more_image()">Add More</a>                                 

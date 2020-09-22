@@ -12,6 +12,7 @@ use\App\Models\Category;
 use\App\Models\SubCategory;
 use\App\Models\ThirdCategory;
 use\App\Models\Brands;
+use\App\Models\Size;
 use\App\Models\Product;
 use\App\Models\ProductImage;
 use\App\Models\ProductSize;
@@ -36,7 +37,7 @@ class ProductController extends Controller
             ->addColumn('action', function($row){
                 $btn ='<a href="'.route('admin.product_view',['id'=>$row->id]).'" class="btn btn-info btn-sm" target="_blank">View</a>
                 <a href="'.route('admin.product_edit',['id'=>$row->id]).'" class="btn btn-warning btn-sm" target="_blank">Edit</a>
-                <a href="#" class="btn btn-warning btn-sm" target="_blank">Edit Sizes</a>               
+                <a href="'.route('admin.product_edit_sizes',['product_id'=>$row->id]).'" class="btn btn-warning btn-sm" target="_blank">Edit Sizes</a>               
                 <a href="'.route('admin.product_edit_images',['product_id'=>$row->id]).'" class="btn btn-warning btn-sm" target="_blank">Edit Images</a>';
                 if ($row->status == '1') {
                     $btn .='<a href="'.route('admin.product_status_update',['id'=>$row->id,'status'=>2]).'" class="btn btn-danger btn-sm" >Disable</a>';
@@ -254,4 +255,79 @@ class ProductController extends Controller
         $product = Product::find($product_id);
         return view('admin.product.images',compact('product_images','product'));
     }
+    
+    public function makeCoverImage($product_id,$image_id)
+    {
+        $image = ProductImage::find($image_id);
+        if ($image) {
+            Product::where('id',$product_id)->update([
+                'main_image' => $image->image,
+            ]);
+        }
+        return redirect()->back();
+    }
+
+    public function deleteImage($image_id)
+    {
+        $image = ProductImage::where('id',$image_id)->first();
+        if ($image) {
+            $path = base_path().'/public/images/products/'.$image->image;
+            if (File::exists($path)) {
+                File::delete($path);
+            }
+            $path_thumb = base_path().'/public/images/products/thumb/'.$image->image;
+            if ( File::exists($path_thumb)) {
+                File::delete($path_thumb);
+            }
+        }
+        ProductImage::where('id',$image_id)->delete();
+        return redirect()->back();
+    }
+
+    public function addNewImages(Request $request)
+    {
+        $path = base_path().'/public/images/products/';
+        File::exists($path) or File::makeDirectory($path, 0777, true, true);
+        $path_thumb = base_path().'/public/images/products/thumb/';
+        File::exists($path_thumb) or File::makeDirectory($path_thumb, 0777, true, true);
+
+        $product_id = $request->input('product_id');
+
+        if ($request->hasFile('image')) {              
+            for ($i=0; $i < count($request->file('image')); $i++) {                     
+                $image = $request->file('image')[$i];  
+                $image_name = $i.time().date('Y-M-d').'.'.$image->getClientOriginalExtension();
+
+                //Product Original Image
+                $destinationPath =base_path().'/public/images/products';
+                $img = Image::make($image->getRealPath());
+                $img->save($destinationPath.'/'.$image_name);
+
+                //Product Thumbnail
+                $destination = base_path().'/public/images/products/thumb';
+                $img = Image::make($image->getRealPath());
+                $img->resize(600, 600, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save($destination.'/'.$image_name); 
+
+                ProductImage::create([
+                    'image' => $image_name,
+                    'product_id' => $product_id,
+                ]);
+            }
+        }
+        return redirect()->back();
+    }
+
+    public function editSizes($product_id)
+    {
+        $product = Product::where('id',$product_id)->first();
+        $sizes = null;
+        if ($product) {
+            $sizes = Size::where('sub_category_id',$product->sub_category_id)->where('status',1)->get();
+        }
+        // dd($product->sizes);
+        return view('admin.product.edit_size',compact('product','sizes'));
+    }
+
 }

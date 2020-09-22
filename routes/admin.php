@@ -112,9 +112,9 @@ Route::group(['namespace' => 'Admin'],function(){
             Route::post('update','ProductController@productUpdate')->name('admin.product_update');
             Route::get('status/update/{id}/{status}','ProductController@productStatusUpdate')->name('admin.product_status_update');
 
-            // Route::get('edit/sizes/{product_id}','ProductController@editSizes')->name('admin.product_edit_sizes');
-            // Route::post('add/new/sizes/','ProductController@addNewSize')->name('admin.product_add_new_sizes');
-            // Route::post('update/sizes/','ProductController@updateSize')->name('admin.product_update_sizes');
+            Route::get('edit/sizes/{product_id}','ProductController@editSizes')->name('admin.product_edit_sizes');
+            Route::post('add/new/sizes/','ProductController@addNewSize')->name('admin.product_add_new_sizes');
+            Route::put('update/sizes/{product_id}','ProductController@updateSize')->name('admin.product_update_sizes');
             
             // Route::get('edit/specifications/{product_id}','ProductController@editSpecifications')->name('admin.product_edit_specifications');
             // Route::post('add/new/specofication/','ProductController@addNewSpecification')->name('admin.product_add_new_specofication');
@@ -123,7 +123,7 @@ Route::group(['namespace' => 'Admin'],function(){
 
             Route::get('edit/images/{product_id}','ProductController@editImages')->name('admin.product_edit_images');
             Route::post('add/new/images/','ProductController@addNewImages')->name('admin.product_add_new_images');            
-            Route::get('make/cover/image/{image_id}','ProductController@makeCoverImage')->name('admin.product_make_cover_image');            
+            Route::get('make/cover/image/{product_id}/{image_id}','ProductController@makeCoverImage')->name('admin.product_make_cover_image');            
             Route::get('delete/image/{image_id}','ProductController@deleteImage')->name('admin.product_delete_image');
         });
 

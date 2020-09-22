@@ -22,14 +22,16 @@
                 </div>
     	        <div>
     	            <div class="x_content">
-    	           
-    	            	{{ Form::open(['method' => 'post','route'=>'admin.product_insert' , 'enctype'=>'multipart/form-data']) }}
+    	               
+                            
+                        
+    	            	{{ Form::open(['method' => 'put','route'=>['admin.product_update',$product_id] , 'enctype'=>'multipart/form-data']) }}
     	            	
                         <div class="well" style="overflow: auto">
                             <div class="form-row mb-10">
                                 <div class="col-md-4 col-sm-12 col-xs-12 mb-3">
                                   <label for="name">Product name <span><b style="color: red"> * </b></span></label>
-                                  <input type="text" class="form-control" name="name"  placeholder="Enter Product name" value="{{$product->name}}" required>
+                                  <input type="text" class="form-control" name="name"  placeholder="Enter Product name" value="{{$product->name}}" >
                                     @if($errors->has('name'))
                                         <span class="invalid-feedback" role="alert" style="color:red">
                                             <strong>{{ $errors->first('name') }}</strong>
@@ -109,10 +111,10 @@
                                       <option value="">Select Brand</option>
                                       @if(isset($brand) && !empty($brand))
                                             @foreach($brand as $item)
-                                                @if ($product->last_category_id == $item->id)
+                                                @if ($product->brand_id == $item->id)
                                                     <option value="{{ $item->id }}" selected>{{ $item->name }}</option>
                                                 @else
-                                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                                    <option value="{{ $item->id }}" >{{ $item->name }}</option>
                                                 @endif
                                             @endforeach
                                         @endif

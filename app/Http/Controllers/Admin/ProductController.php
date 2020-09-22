@@ -17,6 +17,7 @@ use\App\Models\Product;
 use\App\Models\ProductImage;
 use\App\Models\ProductSize;
 use\App\Models\ProductColor;
+use\App\Models\Color;
 use DataTables;
 
 class ProductController extends Controller
@@ -37,8 +38,11 @@ class ProductController extends Controller
             ->addColumn('action', function($row){
                 $btn ='<a href="'.route('admin.product_view',['id'=>$row->id]).'" class="btn btn-info btn-sm" target="_blank">View</a>
                 <a href="'.route('admin.product_edit',['id'=>$row->id]).'" class="btn btn-warning btn-sm" target="_blank">Edit</a>
-                <a href="'.route('admin.product_edit_sizes',['product_id'=>$row->id]).'" class="btn btn-warning btn-sm" target="_blank">Edit Sizes</a>               
+                <a href="'.route('admin.product_edit_sizes',['product_id'=>$row->id]).'" class="btn btn-warning btn-sm" target="_blank">Edit Sizes</a>
+                <a href="'.route('admin.product_edit_colors',['id'=>$row->id]).'" class="btn btn-warning btn-sm" target="_blank">Edit Colors</a>
                 <a href="'.route('admin.product_edit_images',['product_id'=>$row->id]).'" class="btn btn-warning btn-sm" target="_blank">Edit Images</a>';
+                
+                
                 if ($row->status == '1') {
                     $btn .='<a href="'.route('admin.product_status_update',['id'=>$row->id,'status'=>2]).'" class="btn btn-danger btn-sm" >Disable</a>';
                 } else {
@@ -237,7 +241,76 @@ class ProductController extends Controller
         if (!empty($product->brand_id)) {
             $brand = Brands::where('sub_category_id',$product->sub_category_id)->where('status',1)->get();
         }
-        return view('admin.product.edit_product',compact('product','category','sub_category','third_category','brand'));
+        
+        
+        return view('admin.product.edit_product',compact('product','category','sub_category','third_category','brand','product_id'));
+    }
+    
+    public function productUpdate(Request $request,$id)
+    {
+        
+        $this->validate($request, [
+            'name'   => 'required',
+            'category'   => 'required',
+            'sub_category'   => 'required',
+            'size_chart' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',            
+        ]);
+       
+        Product::where('id',$id)->update([
+            'name'=>$request->input('name'),
+            'category_id'=>$request->input('category'),
+            'sub_category_id'=>$request->input('sub_category'),
+            'last_category_id'=>$request->input('third_category'),
+            'brand_id'=>$request->input('brand'),
+            'short_description'=>$request->input('short_description'),
+            'description'=>$request->input('description')
+        ]);
+        
+       
+        $size_chart_id=Product::where('id',$id)->first();
+        if ($request->hasFile('size_chart')) {  
+            $path = base_path().'/public/images/products/';
+            File::exists($path) or File::makeDirectory($path, 0777, true, true);
+            $path_thumb = base_path().'/public/images/products/thumb/';
+            File::exists($path_thumb) or File::makeDirectory($path_thumb, 0777, true, true);
+            $image = $request->file('size_chart');  
+            $image_name = time().date('Y-M-d').'.'.$image->getClientOriginalExtension();
+
+            $destinationPath =base_path().'/public/images/products';
+            $img = Image::make($image->getRealPath());
+            $img->save($destinationPath.'/'.$image_name);
+            $prev_img_delete_path = base_path().'/public/images/products/'.$size_chart_id->size_chart;
+            if ( File::exists($prev_img_delete_path)) {
+                File::delete($prev_img_delete_path);
+            }
+            $prev_img_delete_path_thumb = base_path().'/public/images/products/thumb/'.$size_chart_id->size_chart;
+            $destination = base_path().'/public/images/products/thumb';
+            $img = Image::make($image->getRealPath());
+            $img->resize(600, 600, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($destination.'/'.$image_name);
+            if ( File::exists($prev_img_delete_path_thumb)) {
+                File::delete($prev_img_delete_path_thumb);
+            }
+            Product::where('id',$id)->update([
+            'size_chart' => $image_name
+            ]);            
+        }
+        return redirect()->back()->with('message','Product Updated Successfully');      
+    }
+
+    public function productEditColors($id){
+       
+        $product_data = Product::where('id',$id)->first();
+        $color_data = Color::where('sub_category_id',$product_data->sub_category_id)->get();
+        
+        
+        return view('admin.product.edit_product_color',['colors'=>$color_data]);
+        
+    }
+
+    public function productDeleteColor($product_id){
+        
     }
 
     public function productStatusUpdate($id,$status)

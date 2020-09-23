@@ -445,4 +445,9 @@ class ProductController extends Controller
         return view('admin.product.edit_size',compact('product','sizes'));
     }
 
+    public function updateSize(Type $var = null)
+    {
+        # code...
+    }
+
 }

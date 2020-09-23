@@ -28,7 +28,6 @@ class AppServiceProvider extends ServiceProvider
         View::composer('web.include.header', function($view){
            $category = Category::where('status',1)->get();
            $view->with('category',$category);
-
         });
     }
 }

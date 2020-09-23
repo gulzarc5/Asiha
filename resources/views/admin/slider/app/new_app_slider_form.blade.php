@@ -28,9 +28,9 @@
                         <div class="well" style="overflow:auto">
                             <div class="well" style="overflow: auto" id="image_div">
                                 <div class="form-row mb-10">
-                                    <div class="col-md-4 col-sm-12 col-xs-12 mb-3">
+                                    <div class="col-md-12 col-sm-12 col-xs-12 mb-3">
                                         <label for="size">Images <span><b style="color: red"> * </b></span></label>
-                                        <input type="file" name="images" class="form-control" multiple required>
+                                        <input type="file" name="images[]" class="form-control" multiple required>
                                         @if($errors->has('images'))
                                             <span class="invalid-feedback" role="alert" style="color:red">
                                                 <strong>{{ $errors->first('images') }}</strong>
@@ -56,32 +56,4 @@
 
     <div class="clearfix"></div>
 </div>
- @endsection
-
- @section('script')
-     <script>
-          $(document).ready(function(){
-            $("#category").change(function(){
-                var category = $(this).val();
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    type:"GET",
-                    url:"{{ url('/admin/sub/category/list/with/category/')}}"+"/"+category+"",
-                    success:function(data){
-                        console.log(data);
-                        $("#sub_category").html("<option value=''>Please Select Sub Category</option>");
-
-                        $.each( data, function( key, value ) {
-                            $("#sub_category").append("<option value='"+value.id+"'>"+value.name+"</option>");
-                        });
-
-                    }
-                });
-            });
-        });
-     </script>
  @endsection

@@ -116,6 +116,9 @@ Route::group(['namespace' => 'Admin'],function(){
             Route::post('add/new/sizes/','ProductController@addNewSize')->name('admin.product_add_new_sizes');
             Route::put('update/sizes/{product_id}','ProductController@updateSize')->name('admin.product_update_sizes');
             Route::get('edit/color/{id}','ProductController@productEditColors')->name('admin.product_edit_colors');
+            Route::put('update/color/{product_id}','ProductController@updateColor')->name('admin.product_update_color');
+            Route::post('add/new/colors/{product_id}','ProductController@addNewColor')->name('admin.product_add_new_colors');
+            Route::get('delete/color/{product_color_id}','ProductController@productDeleteColor')->name('admin.delete_product_color');
             // Route::get('edit/sizes/{product_id}','ProductController@editSizes')->name('admin.product_edit_sizes');
             // Route::post('add/new/sizes/','ProductController@addNewSize')->name('admin.product_add_new_sizes');
             // Route::post('update/sizes/','ProductController@updateSize')->name('admin.product_update_sizes');

@@ -109,12 +109,19 @@ Route::group(['namespace' => 'Admin'],function(){
             Route::get('list/ajax','ProductController@productListAjax')->name('admin.product_list_ajax');
             Route::get('view/{id}','ProductController@productView')->name('admin.product_view');
             Route::get('edit/{id}','ProductController@productEdit')->name('admin.product_edit');
-            Route::post('update','ProductController@productUpdate')->name('admin.product_update');
+            Route::put('update/{id}','ProductController@productUpdate')->name('admin.product_update');
             Route::get('status/update/{id}/{status}','ProductController@productStatusUpdate')->name('admin.product_status_update');
 
             Route::get('edit/sizes/{product_id}','ProductController@editSizes')->name('admin.product_edit_sizes');
             Route::post('add/new/sizes/','ProductController@addNewSize')->name('admin.product_add_new_sizes');
             Route::put('update/sizes/{product_id}','ProductController@updateSize')->name('admin.product_update_sizes');
+            Route::get('edit/color/{id}','ProductController@productEditColors')->name('admin.product_edit_colors');
+            Route::put('update/color/{product_id}','ProductController@updateColor')->name('admin.product_update_color');
+            Route::post('add/new/colors/{product_id}','ProductController@addNewColor')->name('admin.product_add_new_colors');
+            Route::get('delete/color/{product_color_id}','ProductController@productDeleteColor')->name('admin.delete_product_color');
+            // Route::get('edit/sizes/{product_id}','ProductController@editSizes')->name('admin.product_edit_sizes');
+            // Route::post('add/new/sizes/','ProductController@addNewSize')->name('admin.product_add_new_sizes');
+            // Route::post('update/sizes/','ProductController@updateSize')->name('admin.product_update_sizes');
             
             // Route::get('edit/specifications/{product_id}','ProductController@editSpecifications')->name('admin.product_edit_specifications');
             // Route::post('add/new/specofication/','ProductController@addNewSpecification')->name('admin.product_add_new_specofication');

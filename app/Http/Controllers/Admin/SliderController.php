@@ -29,78 +29,79 @@ class SliderController extends Controller
 
     public function insertWebSlider(Request $request){
         $this->validate($request, [
-            'images'=>'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
        
         $image_name = null;
-        if($request->hasfile('images'))
-        {           
-           
+        if($request->hasfile('images')){       
             $path = base_path().'/public/images/slider/web/thumb/';
             File::exists($path) or File::makeDirectory($path, 0777, true, true);
             $path_thumb = base_path().'/public/images/slider/web/thumb/';
             File::exists($path_thumb) or File::makeDirectory($path_thumb, 0777, true, true);
-            $image = $request->file('images');
-            $destination = base_path().'/public/images/slider/web/';
-            $image_extension = $image->getClientOriginalExtension();
-            $image_name = md5(date('now').time())."-".uniqid()."."."$image_extension";
-            $original_path = $destination.$image_name;
-            Image::make($image)->save($original_path);
-            $thumb_path = base_path().'/public/images/slider/web/thumb/'.$image_name;
-            $img = Image::make($image->getRealPath());
-            $img->resize(null,400, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save($thumb_path);
-        }
 
-        $sliders = Slider::create([
-            'variant_type'=>2,
-            'slider_type'=>2,
-            'image'=>$image_name,
-        ]);
+            for ($i=0; $i < count($request->file('images')); $i++) {                     
+                $image = $request->file('images')[$i];  
+                $image_name = $i.time().date('Y-M-d').'.'.$image->getClientOriginalExtension();
 
-        if ($sliders) {
-            return redirect()->back()->with('message','Slider Added Successfull');
-        } else {
-            return redirect()->back()->with('error','Something Wrong Please Try again');
+                //Product Original Image
+                $destination = base_path().'/public/images/slider/web/';
+                $img = Image::make($image->getRealPath());
+                $img->save($destination.'/'.$image_name);
+
+                //Product Thumbnail
+                $destination = base_path().'/public/images/slider/web/thumb';
+                $img = Image::make($image->getRealPath());
+                $img->resize(600, 600, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save($destination.'/'.$image_name); 
+
+                $sliders = Slider::create([
+                    'variant_type'=>2,
+                    'slider_type'=>2,
+                    'image'=>$image_name,
+                ]);
+            }
         }
+        return redirect()->back()->with('message','Slider Added Successfull');
     }
     public function insertAppSlider(Request $request){
         $this->validate($request, [
-            'images'=>'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         $image_name = null;
-        if($request->hasfile('images'))
-        {           
+
+        if($request->hasfile('images')){       
             $path = base_path().'/public/images/slider/app/thumb/';
             File::exists($path) or File::makeDirectory($path, 0777, true, true);
             $path_thumb = base_path().'/public/images/slider/app/thumb/';
             File::exists($path_thumb) or File::makeDirectory($path_thumb, 0777, true, true);
-            $image = $request->file('images');
-            $destination = base_path().'/public/images/slider/app/';
-            $image_extension = $image->getClientOriginalExtension();
-            $image_name = md5(date('now').time())."-".uniqid()."."."$image_extension";
-            $original_path = $destination.$image_name;
-            Image::make($image)->save($original_path);
-            $thumb_path = base_path().'/public/images/slider/app/thumb/'.$image_name;
-            $img = Image::make($image->getRealPath());
-            $img->resize(null,400, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save($thumb_path);
+
+            for ($i=0; $i < count($request->file('images')); $i++) {                     
+                $image = $request->file('images')[$i];  
+                $image_name = $i.time().date('Y-M-d').'.'.$image->getClientOriginalExtension();
+
+                //Product Original Image
+                $destination = base_path().'/public/images/slider/app/';
+                $img = Image::make($image->getRealPath());
+                $img->save($destination.'/'.$image_name);
+
+                //Product Thumbnail
+                $destination = base_path().'/public/images/slider/app/thumb';
+                $img = Image::make($image->getRealPath());
+                $img->resize(600, 600, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save($destination.'/'.$image_name); 
+
+                $sliders = Slider::create([
+                    'variant_type'=>1,
+                    'slider_type'=>2,
+                    'image'=>$image_name,
+                ]);
+            }
         }
 
-        $sliders = Slider::create([
-            'variant_type'=>1,
-            'slider_type'=>2,
-            'image'=>$image_name,
-        ]);
-
-        if ($sliders) {
-            return redirect()->back()->with('message','Slider Added Successfull');
-        } else {
-            return redirect()->back()->with('error','Something Wrong Please Try again');
-        }
+        return redirect()->back()->with('message','Slider Added Successfull');
     }
    
     

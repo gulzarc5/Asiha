@@ -4,13 +4,13 @@ use Illuminate\Http\Request;
 
 Route::group(['namespace'=>'Api'], function(){
 
-    // Route::get('category/list/{main_cat_id}/{traditional_type?}','CategoryController@CategoryList');
+    Route::get('last/category/list/{sub_cat_id}','CategoryController@LastCategoryList');
 
-    // Route::get('app/load/','CategoryController@appLoadApi');
+    Route::get('app/load/','CategoryController@appLoadApi');
     
-    // Route::get('product/list/second/category/{second_category}/{page}','ProductController@productList');
-    // Route::post('product/filter','ProductController@productListWithFilter');
-    // Route::get('product/single/view/{product_id}','ProductController@singleProductView');
+    Route::get('product/list/{category_id}/{type}','ProductController@productList');
+    Route::post('product/filter','ProductController@productListWithFilter');
+    Route::get('product/single/view/{product_id}','ProductController@singleProductView');
 
     // Route::get('product/search/{search_key}','ProductController@productSearch');
 

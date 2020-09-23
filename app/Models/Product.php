@@ -38,11 +38,11 @@ class Product extends Model
         return $this->hasMany('App\Models\ProductSize','product_id',$this->primaryKey);
     }
 
-    public function minSize()
-    {
-        return $this->hasMany('App\Models\ProductSize','product_id',$this->primaryKey)
-        ->where('product_sizes.customer_price',$this->sizes->min('customer_price'));
-    }
+    // public function minSize()
+    // {
+    //     return $this->hasMany('App\Models\ProductSize','product_id',$this->primaryKey)
+    //     ->where('product_sizes.customer_price',$this->sizes->min('customer_price'));
+    // }
 
 
     public function productColors()

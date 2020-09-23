@@ -20,6 +20,7 @@ use\App\Models\ProductColor;
 use\App\Models\Color;
 use DataTables;
 
+
 class ProductController extends Controller
 {
     public function AddProductForm(){
@@ -39,8 +40,9 @@ class ProductController extends Controller
                 $btn ='<a href="'.route('admin.product_view',['id'=>$row->id]).'" class="btn btn-info btn-sm" target="_blank">View</a>
                 <a href="'.route('admin.product_edit',['id'=>$row->id]).'" class="btn btn-warning btn-sm" target="_blank">Edit</a>
                 <a href="'.route('admin.product_edit_sizes',['product_id'=>$row->id]).'" class="btn btn-warning btn-sm" target="_blank">Edit Sizes</a>
-                <a href="'.route('admin.product_edit_colors',['id'=>$row->id]).'" class="btn btn-warning btn-sm" target="_blank">Edit Colors</a>
-                <a href="'.route('admin.product_edit_images',['product_id'=>$row->id]).'" class="btn btn-warning btn-sm" target="_blank">Edit Images</a>';
+                <a href="'.route('admin.product_edit_colors',['id'=>$row->id]).'" class="btn btn-warning btn-sm" target="_blank">Edit Colors</a>';
+
+                    $btn .=  '<a href="'.route('admin.product_edit_images',['product_id'=>$row->id]).'" class="btn btn-warning btn-sm" target="_blank">Edit Images</a>';
                 
                 
                 if ($row->status == '1') {
@@ -299,18 +301,57 @@ class ProductController extends Controller
         return redirect()->back()->with('message','Product Updated Successfully');      
     }
 
-    public function productEditColors($id){
-       
-        $product_data = Product::where('id',$id)->first();
-        $color_data = Color::where('sub_category_id',$product_data->sub_category_id)->get();
+    public function productEditColors($id){              
+        $product = Product::where('id',$id)->first(); 
+        $colors = null;
+        if (!empty($product) && !empty($product->sub_category_id)) {
+            $colors = Color::where('sub_category_id',$product->sub_category_id)->get();
+        }
+
+        return view('admin.product.edit_product_color',compact('product','colors'));
+    }
+    
+    public function addNewColor(Request $request,$id){
         
-        
-        return view('admin.product.edit_product_color',['colors'=>$color_data]);
-        
+        $color= $request->input('colors');
+        if (isset($color) && !empty($color)) {
+            for ($i=0; $i < count($color); $i++) { 
+                if (!empty($color[$i])) {                        
+                    $colors = new ProductColor();
+                    $colors->color_id = $color[$i];
+                    $colors->product_id = $id;
+                    $colors->save();
+                }
+            }
+        }       
+        return redirect()->back()->with('message','Color Added Successfully');    
+
+    }
+    
+    public function productDeleteColor($id){
+        ProductColor::where('id',$id)->delete('color_id');
+        return redirect()->back()->with('message','Color Deleted Successfully');
     }
 
-    public function productDeleteColor($product_id){
-        
+    public function updateColor($product_id,Request $request){
+        $this->validate($request, [
+            'colors'   => 'required|array',           
+            'color_id'   => 'required|array',           
+        ]);
+        $colors = $request->input('colors');
+        $color_id = $request->input('color_id');
+       
+        for($i=0;$i<count($color_id);$i++){ 
+            if (isset($color_id[$i]) && !empty($color_id[$i]) && isset($colors[$i]) && !empty($colors[$i])) {                
+                $check_color = ProductColor::where('color_id',$colors[$i])->where('product_id',$product_id)->count();
+                if ($check_color == 0) {
+                    $product_color = ProductColor::find($color_id[$i]);
+                    $product_color->color_id = $colors[$i];
+                    $product_color->save();
+                }
+            }                
+        }    
+        return redirect()->back()->with("message","Color Updated Sucessfully");
     }
 
     public function productStatusUpdate($id,$status)
@@ -394,6 +435,7 @@ class ProductController extends Controller
 
     public function editSizes($product_id)
     {
+        
         $product = Product::where('id',$product_id)->first();
         $sizes = null;
         if ($product) {

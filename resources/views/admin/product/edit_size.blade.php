@@ -58,7 +58,7 @@
                                                 <input type="number" step="any" class="form-control" name="price[]"  placeholder="Enter Price" required>
                                             </div>
                                             <div class="col-md-8 col-sm-12 col-xs-12 mb-3" style="margin-top: 25px;">
-                                                <button type="button" class="btn btn-sm btn-info" onclick="add_more_inner_size_div()">Add More</button>
+                                                <button type="button" class="btn btn-sm btn-info" id="add_more_size">Add More</button>
                                             </div>
                                         </div>
                                     </div>

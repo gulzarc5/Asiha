@@ -1,231 +1,191 @@
 @extends('web.templet.master')
 
-  {{-- @include('web.include.seo') --}}
+@section('head')
+    <meta name="description" content="description">
+@endsection
 
-  @section('seo')
-    <meta name="description" content="Assambigmart">
-  @endsection
+@section('content')
 
-  @section('content')
-        <!-- site__header / end -->
-        <!-- site__body -->
-        <div class="site__body">
-            <div class="block-header block-header--has-breadcrumb block-header--has-title">
-                <div class="container-fluid">
-                    <div class="block-header__body">
-                        <nav class="breadcrumb block-header__breadcrumb" aria-label="breadcrumb">
-                            <ol class="breadcrumb__list">
-                                <li class="breadcrumb__spaceship-safe-area" role="presentation"></li>
-                                <li class="breadcrumb__item breadcrumb__item--parent breadcrumb__item--first"><a href="{{route('web.index')}}" class="breadcrumb__item-link">Home</a></li>
-                                <li class="breadcrumb__item breadcrumb__item--current breadcrumb__item--last" aria-current="page"><span class="breadcrumb__item-link">Checkout</span></li>
-                                <li class="breadcrumb__title-safe-area" role="presentation"></li>
-                            </ol>
-                        </nav>
+<!-- Shopping Checkout Section Start -->
+<div class="section section-padding bg-white border-top-dashed border-bottom-dashed">
+    <div class="container">
+        <div class="order-nav mb-3">
+            <ul>
+                <li class="navi d"><i class="ti-check"></i>Cart</li>
+                <li>></li>
+                <li class="navi d"><i class="ti-check"></i>Login</li>
+                <li>></li>
+                <li class="navi current">Checkout</li>
+                <li>></li>
+                <li class="navi">Order Placed</li>
+            </ul>
+        </div>
+        <div class="row ashia-mb-n40">
+            <div class="col ashia-mb-40">
+                <div class="row">
+                    <div class="col">
+                        <div class="accordion" id="faq-accordion">
+                            <div class="card active">
+                                <div class="card-header">
+                                    <button class="btn btn-link">Shipping Address</button>
+                                </div>
+                                <div id="faq-accordion-1" class="collapse show" data-parent="#faq-accordion">
+                                    <div class="card-body pattern-bg">
+                                        <div class="myaccount-content address" id="selt-add">
+                                            <h3>Select Address</h3>
+                                            <div class="row ashia-mb-n30">
+                                                <div class="col-md-4 col-12 ashia-mb-30">
+                                                    <address>                                                        
+                                                        <p><input type="radio" name="select-address" checked> <strong>Alex Tuntuni</strong></p>
+                                                        <p>1355 Market St, Suite 900 <br>
+                                                            San Francisco, CA 94103</p>
+                                                        <p class="mb-0">Mobile: (123) 456-7890</p>
+                                                        <a href="{{route('web.checkout.checkout-edit-address')}}" class="edit-link">edit this address</a>
+                                                    </address>
+                                                </div>
+                                                <div class="col-md-4 col-12 ashia-mb-30">
+                                                    <address>                                                        
+                                                        <p><input type="radio" name="select-address"><strong>Alex Tuntuni</strong></p>
+                                                        <p>1355 Market St, Suite 900 <br>
+                                                            San Francisco, CA 94103</p>
+                                                        <p class="mb-0">Mobile: (123) 456-7890</p>
+                                                        <a href="{{route('web.checkout.checkout-edit-address')}}" class="edit-link">edit this address</a>
+                                                    </address>
+                                                </div>
+                                                <div class="col-md-4 col-12 ashia-mb-30">
+                                                    <address>
+                                                        <p><input type="radio" name="select-address"><strong>Alex Tuntuni</strong></p>
+                                                        <p>1355 Market St, Suite 900 <br>
+                                                            San Francisco, CA 94103</p>
+                                                        <p class="mb-0">Mobile: (123) 456-7890</p>
+                                                        <a href="{{route('web.checkout.checkout-edit-address')}}" class="edit-link">edit this address</a>
+                                                    </address>
+                                                </div>
+                                                <div class="col-12 mb-4">                                                         
+                                                    <button class="btn btn-sm btn-primary text-white" data-toggle="collapse" data-target="#faq-accordion-2">Proceed</button> &nbsp; &nbsp; 
+                                                    <p class="add-address" style="display: inline;cursor:pointer">Or, <span style="color: #ff6c62;">Add New Address<span></p>   
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="myaccount-content address" id="add-addr" style="display:none">
+                                            <h3>Add New Address</h3>
+                                            <form>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="inputName4">Nane</label>
+                                                        <input type="text" class="form-control" id="inputName4" placeholder="Name">
+                                                    </div>
+                                                    <div class="form-group col-md-3">
+                                                        <label for="inputEmail4">Email</label>
+                                                        <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+                                                    </div>
+                                                    <div class="form-group col-md-3">
+                                                        <label for="inputPhone4">Phone</label>
+                                                        <input type="text" class="form-control" id="inputPhone4" placeholder="Phone">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="inputAddress">Address</label>
+                                                    <textarea id="inputAddress" placeholder="1234 Main St"></textarea>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="inputCity">City</label>
+                                                        <input type="text" class="form-control" id="inputCity">
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label for="inputState">State</label>
+                                                        <input type="text" class="form-control" id="inputState">
+                                                    </div>
+                                                    <div class="form-group col-md-2">
+                                                        <label for="inputPincode">Pincode</label>
+                                                        <input type="text" class="form-control" id="inputPincode">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group mb-0">
+                                                    <a class="btn btn-sm btn-outline-dark mr-3 bck-selt">Cancel</a>
+                                                    <a class="btn btn-sm btn-primary text-white">Save</a>  
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header">
+                                    <button class="btn btn-link collapsed">Payment</button>
+                                </div>
+                                <div id="faq-accordion-2" class="collapse" data-parent="#faq-accordion">
+                                    <div class="card-body pattern-bg">
+                                        <div class="row ashia-mb-n30">
+                                            <div class="col-lg-6 order-lg-1">
+                                                <div class="order-review">
+                                                    <table class="table">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="name" style="border-top: 0;">Subtotal</td>
+                                                                <td class="total" style="border-top: 0;"><span>₹242.00</span></td>
+                                                            </tr>
+                                                            <tr style="border-bottom: 1px solid #fe6c62;">
+                                                                <td class="name">Shipping</td>
+                                                                <td class="total"><span>₹50.00</span></td>
+                                                            </tr>
+                                                        </tbody>
+                                                        <tfoot>
+                                                            <tr class="total">
+                                                                <td style="text-align: left;"><span>Grand Total</span></td>
+                                                                <td><strong><span>₹242.00</span></strong></td>
+                                                            </tr>
+                                                        </tfoot>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 order-lg-2">
+                                                <div class="order-payment">
+                                                    <div class="payment-method">
+                                                        <div class="accordion" id="paymentMethod">
+                                                            <div class="card active">
+                                                                <div class="card-header">
+                                                                    <button data-toggle="collapse" data-target="#cashkPayments">Cash on delivery </button>
+                                                                </div>
+                                                                <div id="cashkPayments" class="collapse show" data-parent="#paymentMethod">
+                                                                    <div class="card-body">
+                                                                        <p>Pay with cash upon delivery.</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="card">
+                                                                <div class="card-header">
+                                                                    <button data-toggle="collapse" data-target="#payPalPayments">instamojo <img src="assets/images/others/pay.png" alt=""></button>
+                                                                </div>
+                                                                <div id="payPalPayments" class="collapse" data-parent="#paymentMethod">
+                                                                    <div class="card-body">
+                                                                        <p>Pay via instamojo; you can pay with your credit / debit card.</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 order-lg-2 mb-4">
+                                                <button class="btn btn-sm btn-outline-dark" data-toggle="collapse" data-target="#faq-accordion-1">< Back</button> &nbsp; &nbsp; 
+                                                <a href="{{route('web.checkout.confirm-order')}}" class="btn btn-sm btn-primary">Place Order</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="checkout block">
-                <div class="container-fluid">
-                    <span id="checkout_div">
-                        <form class="row" action="{{route('web.order_place')}}" method="post">
-                            @csrf
-                            <div class="col-12 col-lg-8 col-xl-8">
-                                <div class="card mb-lg-0">
-                                    <div class="card-body card-body--padding--2">
-                                        <h3 class="card-title">Select Shipping Address 
-                                            <button type="button" class="btn btn-primary" style="float: right;margin-top: -6px;" onclick="showDiv()"><i class="fa fa-plus"></i> Add Address</button>
-                                        </h3>
-                                        <div class="addresses-list">
-                                            @if (isset($address) && !empty($address))
-                                            @php
-                                                $address_count = true;
-                                            @endphp
-                                                @foreach ($address as $item)
-                                                <div class="addresses-list__item card address-card">
-                                                    <label class="address-list__item-header">
-                                                        <span class="payment-methods__item-radio input-radio"><span class="input-radio__body"><input class="input-radio__input" name="address_id" type="radio" {{$address_count ? 'checked':''}}> <span class="input-radio__circle"></span></span></span>
-                                                    </label>
-                                                    <div class="address-card__body">
-                                                        <div class="address-card__name">{{$item->name}}</div>
-                                                        <div class="address-card__row">{{$item->address}}<br>{{$item->city}},{{$item->state}}-{{$item->pin}}</div>
-                                                        <div class="address-card__row">
-                                                            <div class="address-card__row-title">Phone Number</div>
-                                                            <div class="address-card__row-content">{{$item->mobile}}</div>
-                                                        </div>
-                                                        <div class="address-card__row">
-                                                            <div class="address-card__row-title">Email Address</div>
-                                                            <div class="address-card__row-content">{{$item->email}}</div>
-                                                        </div>
-                                                        {{-- <div class="address-card__footer"><a href="#">Edit</a>&nbsp;&nbsp; <a href="#">Remove</a></div> --}}
-                                                    </div>
-                                                </div><div class="addresses-list__divider"></div>
-                                                @php
-                                                    $address_count = false;
-                                                @endphp
-                                                @endforeach
-                                            @endif
-                                            
-
-                                            {{-- <div class="addresses-list__item card address-card">
-                                                <label class="address-list__item-header">
-                                                    <span class="payment-methods__item-radio input-radio"><span class="input-radio__body"><input class="input-radio__input" name="checkout_address_method" type="radio" checked="checked"> <span class="input-radio__circle"></span></span></span>
-                                                </label>
-                                                <div class="address-card__body">
-                                                    <div class="address-card__name">Helena Garcia</div>
-                                                    <div class="address-card__row">Random Federation
-                                                        <br>115302, Moscow
-                                                        <br>ul. Varshavskaya, 15-2-178</div>
-                                                    <div class="address-card__row">
-                                                        <div class="address-card__row-title">Phone Number</div>
-                                                        <div class="address-card__row-content">38 972 588-42-36</div>
-                                                    </div>
-                                                    <div class="address-card__row">
-                                                        <div class="address-card__row-title">Email Address</div>
-                                                        <div class="address-card__row-content">helena@example.com</div>
-                                                    </div>
-                                                    <div class="address-card__footer"><a href="#">Edit</a>&nbsp;&nbsp; <a href="#">Remove</a></div>
-                                                </div>
-                                            </div><div class="addresses-list__divider"></div>
-
-                                            <div class="addresses-list__item card address-card">
-                                                <label class="address-list__item-header">
-                                                    <span class="payment-methods__item-radio input-radio"><span class="input-radio__body"><input class="input-radio__input" name="checkout_address_method" type="radio"> <span class="input-radio__circle"></span></span></span>
-                                                </label>
-                                                <div class="address-card__body">
-                                                    <div class="address-card__name">Jupiter Saturnov</div>
-                                                    <div class="address-card__row">RandomLand
-                                                        <br>4b4f53, MarsGrad
-                                                        <br>Sun Orbit, 43.3241-85.239</div>
-                                                    <div class="address-card__row">
-                                                        <div class="address-card__row-title">Phone Number</div>
-                                                        <div class="address-card__row-content">ZX 971 972-57-26</div>
-                                                    </div>
-                                                    <div class="address-card__row">
-                                                        <div class="address-card__row-title">Email Address</div>
-                                                        <div class="address-card__row-content">jupiter@example.com</div>
-                                                    </div>
-                                                    <div class="address-card__footer"><a href="#">Edit</a>&nbsp;&nbsp; <a href="#">Remove</a></div>
-                                                </div>
-                                            </div><div class="addresses-list__divider"></div> --}}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-lg-4 col-xl-4 mt-4 mt-lg-0">
-                                <div class="card mb-0">
-                                    <div class="card-body card-body--padding--2">
-                                        <h3 class="card-title">Your Order</h3>
-                                        <table class="checkout__totals">
-                                            {{-- <tbody class="checkout__totals-subtotals">
-                                                <tr>
-                                                    <th>Subtotal</th>
-                                                    <td>$5877.00</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Shipping</th>
-                                                    <td>$25.00</td>
-                                                </tr>
-                                            </tbody> --}}
-                                            <tfoot class="checkout__totals-footer">
-                                                <tr>
-                                                    <th>Cart Total</th>
-                                                    <td>Rs. {{number_format($cart_total, 2)}}</td>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-                                        <div class="checkout__payment-methods payment-methods">
-                                            <ul class="payment-methods__list">
-                                                {{-- <li class="payment-methods__item payment-methods__item--active">
-                                                    <label class="payment-methods__item-header"><span class="payment-methods__item-radio input-radio"><span class="input-radio__body"><input class="input-radio__input" name="payment_method" type="radio" checked="checked" value="2"> <span class="input-radio__circle"></span> </span>
-                                                        </span><span class="payment-methods__item-title">Online transfer</span></label>
-                                                    <div class="payment-methods__item-container">
-                                                        <div class="payment-methods__item-details text-muted">Make your payment directly into our bank account. Please use our payment gateway.</div>
-                                                    </div>
-                                                </li> --}}
-                                                <li class="payment-methods__item">
-                                                    <label class="payment-methods__item-header"><span class="payment-methods__item-radio input-radio"><span class="input-radio__body"><input class="input-radio__input" name="payment_method" type="radio" value="3" checked> <span class="input-radio__circle"></span> </span>
-                                                        </span><span class="payment-methods__item-title">Cash on delivery</span></label>
-                                                    <div class="payment-methods__item-container">
-                                                        <div class="payment-methods__item-details text-muted">Pay with cash upon delivery.</div>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary btn-xl btn-block">Place Order</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </span>
-
-
-                    <span id="address_div" style="display: none">
-                            <div class="col-12 col-lg-8 col-xl-8">
-                                <div class="card mb-lg-0">
-                                    <div class="card-body card-body--padding--2">
-                                        <h3 class="card-title">Add Shipping Address</h3>
-                                        <form method="post" action="{{route('web.shipping_add')}}">
-                                            @csrf
-                                            <div class="form-group">
-                                                <label for="checkout-first-name"> Name</label>
-                                                <input type="text" class="form-control" id="checkout-first-name" placeholder="Enter Name" name="name" required>
-                                            </div>
-                                            <div class="form-row">
-                                                <div class="form-group col-md-6">
-                                                    <label for="checkout-email">Email address</label>
-                                                    <input type="email" class="form-control" id="checkout-email" placeholder="Email address" name="email" >
-                                                </div>
-                                                <div class="form-group col-md-6">
-                                                    <label for="checkout-phone">Phone</label>
-                                                    <input type="text" class="form-control" id="checkout-phone" placeholder="Phone" name="mobile" required>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="checkout-address">Address </label>
-                                                <textarea id="checkout-comment" class="form-control" rows="4" name="address"></textarea>
-                                            </div>
-                                            <div class="form-row">
-                                                <div class="form-group col-md-4">
-                                                    <label for="checkout-city">State</label>
-                                                    <input type="text" class="form-control" id="checkout-city" name="state" required>
-                                                </div>
-                                                <div class="form-group col-md-4">
-                                                    <label for="checkout-city">Town / City</label>
-                                                    <input type="text" class="form-control" id="checkout-city" name="city" required>
-                                                </div>
-                                                <div class="form-group col-md-4">
-                                                    <label for="checkout-postcode">Postcode / ZIP</label>
-                                                    <input type="text" class="form-control" id="checkout-postcode" name="pin" required>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <button type="button" class="btn btn-secondary btn-lg" onclick="hideDiv()">Cancel</button>
-                                                <button type="submit" class="btn btn-primary btn-lg">Submit</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                    </span>
-                </div>
-            </div>
-            <div class="block-space block-space--layout--before-footer"></div>
         </div>
-        <!-- site__body / end -->
-        <!-- site__footer -->
-	@endsection
-	
-    @section('script')
-        <script>
+    </div>
+</div>
+<!-- Shopping Checkout Section End -->
+@endsection
 
-            function showDiv(){            
-                $("#address_div").show();
-                $("#checkout_div").hide();
-            }
+@section('script')
 
-            function hideDiv(){
-                $("#address_div").hide();
-                $("#checkout_div").show();
-            }
-        </script>
-	@endsection
+@endsection

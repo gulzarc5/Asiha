@@ -1,8 +1,8 @@
 @extends('web.templet.master')
 
-  @section('seo')
-    <meta name="description" content="Assambigmart">
-  @endsection
+@section('head')
+    <meta name="description" content="description">
+@endsection
 
   @section('content')
     <!-- Lost Password Section Start -->

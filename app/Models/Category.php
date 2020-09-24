@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-
     protected $table = 'category';
     protected $primaryKey = 'id';
     protected $fillable = [
@@ -17,6 +16,7 @@ class Category extends Model
     {
         return $this->hasMany('App\Models\SubCategory','category_id',$this->primaryKey);
     }
+    
 
     public function productSubCategory()
     {

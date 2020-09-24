@@ -14,4 +14,7 @@
     .dashboard>div>a i {
         font-size: 2rem!important;
     }
+    .order-nav {
+        display: none;
+    }
 }

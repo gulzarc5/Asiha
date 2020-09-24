@@ -1,9 +1,7 @@
 @extends('web.templet.master')
 
-    {{-- @include('web.include.seo') --}}
-
-    @section('seo')
-        <meta name="description" content="Assambigmart">
+    @section('head')
+        <meta name="description" content="description">
     @endsection
 
     @section('content')

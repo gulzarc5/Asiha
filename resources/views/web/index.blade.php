@@ -38,12 +38,12 @@
                                 <div class="col">
                                     <div class="product">
                                         <div class="product-thumb">
-                                            <a href="product-list.php" class="image">
+                                            <a href="{{route('web.product.product-list')}}" class="image">
                                                 <img src="{{asset('web/images/product/s328/product-1.jpg')}}" alt="Product Image">
                                             </a>
                                         </div>
                                         <div class="product-info">
-                                            <h6 class="title"><a href="product-list.php">Boho Beard Mug</a></h6>
+                                            <h6 class="title"><a href="{{route('web.product.product-list')}}">Boho Beard Mug</a></h6>
                                             <span class="number">16 Items</span>
                                         </div>
                                     </div>
@@ -52,12 +52,12 @@
                                 <div class="col">
                                     <div class="product">
                                         <div class="product-thumb">
-                                            <a href="product-list.php" class="image">
+                                            <a href="{{route('web.product.product-list')}}" class="image">
                                                 <img src="{{asset('web/images/product/s328/product-2.jpg')}}" alt="Product Image">
                                             </a>
                                         </div>
                                         <div class="product-info">
-                                            <h6 class="title"><a href="product-list.php">Formal Wear</a></h6>
+                                            <h6 class="title"><a href="{{route('web.product.product-list')}}">Formal Wear</a></h6>
                                             <span class="number">16 Items</span>
                                         </div>
                                     </div>
@@ -66,12 +66,12 @@
                                 <div class="col">
                                     <div class="product">
                                         <div class="product-thumb">
-                                            <a href="product-list.php" class="image">
+                                            <a href="{{route('web.product.product-list')}}" class="image">
                                                 <img src="{{asset('web/images/product/s328/product-3.jpg')}}" alt="Product Image">
                                             </a>
                                         </div>
                                         <div class="product-info">
-                                            <h6 class="title"><a href="product-list.php">Casual Shoes</a></h6>
+                                            <h6 class="title"><a href="{{route('web.product.product-list')}}">Casual Shoes</a></h6>
                                             <span class="number">16 Items</span>
                                         </div>
                                     </div>
@@ -80,12 +80,12 @@
                                 <div class="col">
                                     <div class="product">
                                         <div class="product-thumb">
-                                            <a href="product-list.php" class="image">
+                                            <a href="{{route('web.product.product-list')}}" class="image">
                                                 <img src="{{asset('web/images/product/s328/product-4.jpg')}}" alt="Product Image">
                                             </a>
                                         </div>
                                         <div class="product-info">
-                                            <h6 class="title"><a href="product-list.php">Casual Shirts</a></h6>
+                                            <h6 class="title"><a href="{{route('web.product.product-list')}}">Casual Shirts</a></h6>
                                             <span class="number">16 Items</span>
                                         </div>
                                     </div>
@@ -94,12 +94,12 @@
                                 <div class="col">
                                     <div class="product">
                                         <div class="product-thumb">
-                                            <a href="product-list.php" class="image">
+                                            <a href="{{route('web.product.product-list')}}" class="image">
                                                 <img src="{{asset('web/images/product/s328/product-5.jpg')}}" alt="Product Image">
                                             </a>
                                         </div>
                                         <div class="product-info">
-                                            <h6 class="title"><a href="product-list.php">T-Shirts</a></h6>
+                                            <h6 class="title"><a href="{{route('web.product.product-list')}}">T-Shirts</a></h6>
                                             <span class="number">16 Items</span>
                                         </div>
                                     </div>
@@ -108,12 +108,12 @@
                                 <div class="col">
                                     <div class="product">
                                         <div class="product-thumb">
-                                            <a href="product-list.php" class="image">
+                                            <a href="{{route('web.product.product-list')}}" class="image">
                                                 <img src="{{asset('web/images/product/s328/product-6.jpg')}}" alt="Product Image">
                                             </a>
                                         </div>
                                         <div class="product-info">
-                                            <h6 class="title"><a href="product-list.php">Traditional Blasers</a></h6>
+                                            <h6 class="title"><a href="{{route('web.product.product-list')}}">Traditional Blasers</a></h6>
                                             <span class="number">16 Items</span>
                                         </div>
                                     </div>
@@ -122,12 +122,12 @@
                                 <div class="col">
                                     <div class="product">
                                         <div class="product-thumb">
-                                            <a href="product-list.php" class="image">
+                                            <a href="{{route('web.product.product-list')}}" class="image">
                                                 <img src="{{asset('web/images/product/s328/product-7.jpg')}}" alt="Product Image">
                                             </a>
                                         </div>
                                         <div class="product-info">
-                                            <h6 class="title"><a href="product-list.php">Nehru Jacket</a></h6>
+                                            <h6 class="title"><a href="{{route('web.product.product-list')}}">Nehru Jacket</a></h6>
                                             <span class="number">16 Items</span>
                                         </div>
                                     </div>
@@ -136,12 +136,12 @@
                                 <div class="col">
                                     <div class="product">
                                         <div class="product-thumb">
-                                            <a href="product-list.php" class="image">
+                                            <a href="{{route('web.product.product-list')}}" class="image">
                                                 <img src="{{asset('web/images/product/s328/product-8.jpg')}}" alt="Product Image">
                                             </a>
                                         </div>
                                         <div class="product-info">
-                                            <h6 class="title"><a href="product-list.php">Sherwani</a></h6>
+                                            <h6 class="title"><a href="{{route('web.product.product-list')}}">Sherwani</a></h6>
                                             <span class="number">16 Items</span>
                                         </div>
                                     </div>
@@ -150,7 +150,7 @@
                                 <div class="col">
                                     <div class="product">
                                         <div class="product-thumb">
-                                            <a href="product-list.php" class="image">
+                                            <a href="{{route('web.product.product-list')}}" class="image">
                                                 <img src="{{asset('web/images/product/s328/more.jpg')}}" alt="Product Image">
                                             </a>
                                         </div>
@@ -168,12 +168,12 @@
                                 <div class="col">
                                     <div class="product">
                                         <div class="product-thumb">
-                                            <a href="product-list.php" class="image">
+                                            <a href="{{route('web.product.product-list')}}" class="image">
                                                 <img src="{{asset('web/images/product/s328/product-9.jpg')}}" alt="Product Image">
                                             </a>
                                         </div>
                                         <div class="product-info">
-                                            <h6 class="title"><a href="product-list.php">Boho Beard Mug</a></h6>
+                                            <h6 class="title"><a href="{{route('web.product.product-list')}}">Boho Beard Mug</a></h6>
                                             <span class="number">16 Items</span>
                                         </div>
                                     </div>
@@ -182,12 +182,12 @@
                                 <div class="col">
                                     <div class="product">
                                         <div class="product-thumb">
-                                            <a href="product-list.php" class="image">
+                                            <a href="{{route('web.product.product-list')}}" class="image">
                                                 <img src="{{asset('web/images/product/s328/product-16.jpg')}}" alt="Product Image">
                                             </a>
                                         </div>
                                         <div class="product-info">
-                                            <h6 class="title"><a href="product-list.php">Formal Wear</a></h6>
+                                            <h6 class="title"><a href="{{route('web.product.product-list')}}">Formal Wear</a></h6>
                                             <span class="number">16 Items</span>
                                         </div>
                                     </div>
@@ -196,12 +196,12 @@
                                 <div class="col">
                                     <div class="product">
                                         <div class="product-thumb">
-                                            <a href="product-list.php" class="image">
+                                            <a href="{{route('web.product.product-list')}}" class="image">
                                                 <img src="{{asset('web/images/product/s328/product-10.jpg')}}" alt="Product Image">
                                             </a>
                                         </div>
                                         <div class="product-info">
-                                            <h6 class="title"><a href="product-list.php">Casual Shoes</a></h6>
+                                            <h6 class="title"><a href="{{route('web.product.product-list')}}">Casual Shoes</a></h6>
                                             <span class="number">16 Items</span>
                                         </div>
                                     </div>
@@ -210,12 +210,12 @@
                                 <div class="col">
                                     <div class="product">
                                         <div class="product-thumb">
-                                            <a href="product-list.php" class="image">
+                                            <a href="{{route('web.product.product-list')}}" class="image">
                                                 <img src="{{asset('web/images/product/s328/product-11.jpg')}}" alt="Product Image">
                                             </a>
                                         </div>
                                         <div class="product-info">
-                                            <h6 class="title"><a href="product-list.php">Casual Shirts</a></h6>
+                                            <h6 class="title"><a href="{{route('web.product.product-list')}}">Casual Shirts</a></h6>
                                             <span class="number">16 Items</span>
                                         </div>
                                     </div>
@@ -224,12 +224,12 @@
                                 <div class="col">
                                     <div class="product">
                                         <div class="product-thumb">
-                                            <a href="product-list.php" class="image">
+                                            <a href="{{route('web.product.product-list')}}" class="image">
                                                 <img src="{{asset('web/images/product/s328/product-12.jpg')}}" alt="Product Image">
                                             </a>
                                         </div>
                                         <div class="product-info">
-                                            <h6 class="title"><a href="product-list.php">T-Shirts</a></h6>
+                                            <h6 class="title"><a href="{{route('web.product.product-list')}}">T-Shirts</a></h6>
                                             <span class="number">16 Items</span>
                                         </div>
                                     </div>
@@ -238,12 +238,12 @@
                                 <div class="col">
                                     <div class="product">
                                         <div class="product-thumb">
-                                            <a href="product-list.php" class="image">
+                                            <a href="{{route('web.product.product-list')}}" class="image">
                                                 <img src="{{asset('web/images/product/s328/product-13.jpg')}}" alt="Product Image">
                                             </a>
                                         </div>
                                         <div class="product-info">
-                                            <h6 class="title"><a href="product-list.php">Traditional Blasers</a></h6>
+                                            <h6 class="title"><a href="{{route('web.product.product-list')}}">Traditional Blasers</a></h6>
                                             <span class="number">16 Items</span>
                                         </div>
                                     </div>
@@ -252,12 +252,12 @@
                                 <div class="col">
                                     <div class="product">
                                         <div class="product-thumb">
-                                            <a href="product-list.php" class="image">
+                                            <a href="{{route('web.product.product-list')}}" class="image">
                                                 <img src="{{asset('web/images/product/s328/product-14.jpg')}}" alt="Product Image">
                                             </a>
                                         </div>
                                         <div class="product-info">
-                                            <h6 class="title"><a href="product-list.php">Nehru Jacket</a></h6>
+                                            <h6 class="title"><a href="{{route('web.product.product-list')}}">Nehru Jacket</a></h6>
                                             <span class="number">16 Items</span>
                                         </div>
                                     </div>
@@ -266,12 +266,12 @@
                                 <div class="col">
                                     <div class="product">
                                         <div class="product-thumb">
-                                            <a href="product-list.php" class="image">
+                                            <a href="{{route('web.product.product-list')}}" class="image">
                                                 <img src="{{asset('web/images/product/s328/product-15.jpg')}}" alt="Product Image">
                                             </a>
                                         </div>
                                         <div class="product-info">
-                                            <h6 class="title"><a href="product-list.php">Sherwani</a></h6>
+                                            <h6 class="title"><a href="{{route('web.product.product-list')}}">Sherwani</a></h6>
                                             <span class="number">16 Items</span>
                                         </div>
                                     </div>
@@ -280,7 +280,7 @@
                                 <div class="col">
                                     <div class="product">
                                         <div class="product-thumb">
-                                            <a href="product-list.php" class="image">
+                                            <a href="{{route('web.product.product-list')}}" class="image">
                                                 <img src="{{asset('web/images/product/s328/more.jpg')}}" alt="Product Image">
                                             </a>
                                         </div>
@@ -390,12 +390,12 @@
                     <div class="col">
                         <div class="product">
                             <div class="product-thumb">
-                                <a href="product-list.php" class="image">
+                                <a href="{{route('web.product.product-list')}}" class="image">
                                     <img src="{{asset('web/images/product/s328/product-11.jpg')}}" alt="Product Image">
                                 </a>
                             </div>
                             <div class="product-info">
-                                <h6 class="title"><a href="product-list.php">Boho Beard Mug</a></h6>
+                                <h6 class="title"><a href="{{route('web.product.product-list')}}">Boho Beard Mug</a></h6>
                                 <span class="price">
                                     <span class="old">$45.00</span>
                                 <span class="new">$39.00</span>
@@ -411,12 +411,12 @@
                     <div class="col">
                         <div class="product">
                             <div class="product-thumb">
-                                <a href="product-list.php" class="image">
+                                <a href="{{route('web.product.product-list')}}" class="image">
                                     <img src="{{asset('web/images/product/s328/product-4.jpg')}}" alt="Product Image">
                                 </a>
                             </div>
                             <div class="product-info">
-                                <h6 class="title"><a href="product-list.php">Boho Beard Mug</a></h6>
+                                <h6 class="title"><a href="{{route('web.product.product-list')}}">Boho Beard Mug</a></h6>
                                 <span class="price">
                                     <span class="old">$45.00</span>
                                 <span class="new">$39.00</span>
@@ -432,12 +432,12 @@
                     <div class="col">
                         <div class="product">
                             <div class="product-thumb">
-                                <a href="product-list.php" class="image">
+                                <a href="{{route('web.product.product-list')}}" class="image">
                                     <img src="{{asset('web/images/product/s328/product-8.jpg')}}" alt="Product Image">
                                 </a>
                             </div>
                             <div class="product-info">
-                                <h6 class="title"><a href="product-list.php">Boho Beard Mug</a></h6>
+                                <h6 class="title"><a href="{{route('web.product.product-list')}}">Boho Beard Mug</a></h6>
                                 <span class="price">
                                     <span class="old">$45.00</span>
                                 <span class="new">$39.00</span>
@@ -453,12 +453,12 @@
                     <div class="col">
                         <div class="product">
                             <div class="product-thumb">
-                                <a href="product-list.php" class="image">
+                                <a href="{{route('web.product.product-list')}}" class="image">
                                     <img src="{{asset('web/images/product/s328/product-2.jpg')}}" alt="Product Image">
                                 </a>
                             </div>
                             <div class="product-info">
-                                <h6 class="title"><a href="product-list.php">Boho Beard Mug</a></h6>
+                                <h6 class="title"><a href="{{route('web.product.product-list')}}">Boho Beard Mug</a></h6>
                                 <span class="price">
                                     <span class="old">$45.00</span>
                                 <span class="new">$39.00</span>
@@ -474,12 +474,12 @@
                     <div class="col">
                         <div class="product">
                             <div class="product-thumb">
-                                <a href="product-list.php" class="image">
+                                <a href="{{route('web.product.product-list')}}" class="image">
                                     <img src="{{asset('web/images/product/s328/product-15.jpg')}}" alt="Product Image">
                                 </a>
                             </div>
                             <div class="product-info">
-                                <h6 class="title"><a href="product-list.php">Boho Beard Mug</a></h6>
+                                <h6 class="title"><a href="{{route('web.product.product-list')}}">Boho Beard Mug</a></h6>
                                 <span class="price">
                                     <span class="old">$45.00</span>
                                 <span class="new">$39.00</span>
@@ -495,12 +495,12 @@
                     <div class="col">
                         <div class="product">
                             <div class="product-thumb">
-                                <a href="product-list.php" class="image">
+                                <a href="{{route('web.product.product-list')}}" class="image">
                                     <img src="{{asset('web/images/product/s328/product-13.jpg')}}" alt="Product Image">
                                 </a>
                             </div>
                             <div class="product-info">
-                                <h6 class="title"><a href="product-list.php">Boho Beard Mug</a></h6>
+                                <h6 class="title"><a href="{{route('web.product.product-list')}}">Boho Beard Mug</a></h6>
                                 <span class="price">
                                     <span class="old">$45.00</span>
                                 <span class="new">$39.00</span>
@@ -516,12 +516,12 @@
                     <div class="col">
                         <div class="product">
                             <div class="product-thumb">
-                                <a href="product-list.php" class="image">
+                                <a href="{{route('web.product.product-list')}}" class="image">
                                     <img src="{{asset('web/images/product/s328/product-7.jpg')}}" alt="Product Image">
                                 </a>
                             </div>
                             <div class="product-info">
-                                <h6 class="title"><a href="product-list.php">Boho Beard Mug</a></h6>
+                                <h6 class="title"><a href="{{route('web.product.product-list')}}">Boho Beard Mug</a></h6>
                                 <span class="price">
                                     <span class="old">$45.00</span>
                                 <span class="new">$39.00</span>
@@ -537,12 +537,12 @@
                     <div class="col">
                         <div class="product">
                             <div class="product-thumb">
-                                <a href="product-list.php" class="image">
+                                <a href="{{route('web.product.product-list')}}" class="image">
                                     <img src="{{asset('web/images/product/s328/product-5.jpg')}}" alt="Product Image">
                                 </a>
                             </div>
                             <div class="product-info">
-                                <h6 class="title"><a href="product-list.php">Boho Beard Mug</a></h6>
+                                <h6 class="title"><a href="{{route('web.product.product-list')}}">Boho Beard Mug</a></h6>
                                 <span class="price">
                                     <span class="old">$45.00</span>
                                 <span class="new">$39.00</span>
@@ -558,7 +558,7 @@
                     <div class="col">
                         <div class="product">
                             <div class="product-thumb">
-                                <a href="product-list.php" class="image">
+                                <a href="{{route('web.product.product-list')}}" class="image">
                                     <img src="{{asset('web/images/product/s328/more.jpg')}}" alt="Product Image">
                                 </a>
                             </div>

@@ -28,37 +28,32 @@
     	        <div>
     	            <div class="x_content">
                         @if (isset($product) && !empty($product))
-                            @php
-                                $color = $product->productColors; 
-                            @endphp
-                            @if(isset($color) && !empty($color) && count($color) > 0)
+                            @if(isset($product_colors) && !empty($product_colors) && count($product_colors) > 0)
                                 <div id="product_size_add_form">
-                                    {{ Form::open(['method' => 'post','route'=>'admin.product_add_new_sizes']) }}
-                                        <input type="hidden" name="product_id" value="">
+                                    {{ Form::open(['method' => 'put','route'=>['admin.product_add_new_colors','product_id'=>$product->id]]) }}
                                         <div class="well" style="overflow: auto" id="size_div">
-                                            <div class="form-row mb-3">                                
+                                            <div class="form-row mb-3">
                                                 <div class="col-md-4 col-sm-12 col-xs-12 mb-3">
                                                     <label for="color">Select Color <span><b style="color: red"> * </b></span></label>
-                                                    <select class="form-control size_option" name="color[]"  required>
+                                                    <select class="form-control" name="color[]" id="color_option1"  required onchange="chkColorAdd(1)">
                                                     <option value="">Select Color</option>
                                                         @if (isset($colors) && !empty($colors))
                                                             @foreach ($colors as $color)
-                                                                <option value="{{$color->id}}">{{$color->name}}</option>
+                                                                <option value="{{$color->id}}" data-colorid="{{$color->color}}">{{$color->name}}</option>
                                                             @endforeach
                                                         @endif
                                                     </select>
                                                 </div>
-                                                <div class="col-md-4 col-sm-12 col-xs-12 mb-3">
-                                                    <label for="stock">Color Code <span><b style="color: red"> * </b></span></label>
-                                                    <input type="number" step="any" class="form-control" name="stock[]"  placeholder="Enter Stock" min="1" value="1" required>
+                                                <div class="col-md-4 col-sm-12 col-xs-12 mb-3" style="margin-top: 34px;">
+                                                   <div id="color_code1"></div>
                                                 </div>
                                                 
-                                                <div class="col-md-8 col-sm-12 col-xs-12 mb-3" style="margin-top: 25px;">
+                                                <div class="col-md-4 col-sm-12 col-xs-12 mb-3" style="margin-top: 25px;">
                                                     <button type="button" class="btn btn-sm btn-info" id="add_more_size" >Add More</button>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-group">    
+                                        <div class="form-group">
                                             <button type="submit" class='btn btn-success'>Submit</button>
                                             <button type="button" class='btn btn-warning' id="size_add_form_back_btn">Back</button>
                                         </div>
@@ -78,15 +73,9 @@
                                             </thead>
 
                                             <tbody>
-                                                @foreach ($color as $item)
-                                                    <tr>
-                                                        <td>{{dd($color->name)}}</td>
-                                                    </tr>
-                                                @endforeach
-                                                @foreach ($color as $data)
+                                                @foreach ($product_colors as $value)
                                                     <tr>
                                                         <td> 
-                                                            {{dd($color)}}
                                                             <input type="hidden" name="color_id[]" value="{{$value->id}}">
                                                             <select class="form-control size_option" name="colors[]" id="colors{{$value->id}}" required onchange="chkColor({{$value->id}})">
                                                                 <option value=""  >Select Color</option>
@@ -111,7 +100,7 @@
                                                             <div id="code{{$value->id}}" style="background-color:{{$value->color->color}}; height:10px;"></div>
                                                         </td>
                                                         <td>
-                                                            <a href="{{route('admin.delete_product_color',['product_color_id'=>$item->id])}}" class="btn btn-danger">Delete</a>
+                                                            <a href="{{route('admin.delete_product_color',['product_color_id'=>$value->id])}}" class="btn btn-danger">Delete</a>
                                                         </td>
                                                     </tr>
                                                 @endforeach   
@@ -126,17 +115,17 @@
                                         </table>
                                         {{ Form::close() }}
                                     </div>
-                                </div>  
+                                </div>
                             @else
                                 <div>
-                                    {{ Form::open(['method' => 'post','route'=>'admin.product_add_new_sizes']) }}
+                                    {{ Form::open(['method' => 'put','route'=>['admin.product_add_new_colors','product_id'=>$product->id]]) }}
                                         <input type="hidden" name="product_id" value="">
                                         <div class="well" style="overflow: auto" id="size_div">
                                             <div class="form-row mb-3">                                
                                                 <div class="col-md-4 col-sm-12 col-xs-12 mb-3">
                                                     <label for="color">Select Color <span><b style="color: red"> * </b></span></label>
-                                                    <select class="form-control size_option" name="color[]"  required>
-                                                    <option value="">Select Color</option>
+                                                    <select class="form-control size_option" name="color[]"  required id="color_option1"  required onchange="chkColorAdd(1)">
+                                                        <option value="">Select Color</option>
                                                         @if (isset($colors) && !empty($colors))
                                                             @foreach ($colors as $color)
                                                                 <option value="{{$color->id}}">{{$color->name}}</option>
@@ -144,12 +133,11 @@
                                                         @endif
                                                     </select>
                                                 </div>
-                                                <div class="col-md-4 col-sm-12 col-xs-12 mb-3">
-                                                    <label for="stock">Color Code <span><b style="color: red"> * </b></span></label>
-                                                    <input type="number" step="any" class="form-control" name="stock[]"  placeholder="Enter Stock" min="1" value="1" required>
-                                                </div>
+                                                <div class="col-md-4 col-sm-12 col-xs-12 mb-3" style="margin-top: 34px;">
+                                                    <div id="color_code1"></div>
+                                                 </div>
                                                 
-                                                <div class="col-md-8 col-sm-12 col-xs-12 mb-3" style="margin-top: 25px;">
+                                                <div class="col-md-4 col-sm-12 col-xs-12 mb-3" style="margin-top: 25px;">
                                                     <button type="button" class="btn btn-sm btn-info" id="add_more_size" >Add More</button>
                                                 </div>
                                             </div>
@@ -174,34 +162,26 @@
 
 @section('script')
 <script>
-    var size_div_count = 1;
+    var size_div_count = 2;
     $(function() {  
         $("#product_size_add_form").hide();
+        var color_option = $("#color_option1").html();
         $(document).on('click',"#add_more_size", function(){
-            var size_html = `<br><div class="form-row mb-3">
+            var size_html = `<br>
+            <div class="form-row mb-3">
                 <div class="col-md-4 col-sm-12 col-xs-12 mb-3">
                     <label for="retailer_price">Select Color</label>
-                    <select class="form-control size_option" name="colors[]"  required>
-                        <option value=""  >Select Color</option>
+                    <select class="form-control size_option" name="color[]"  required id="color_option${size_div_count}" onchange="chkColorAdd(${size_div_count})">
+                        ${color_option}
                     </select>
                 </div>
-
+                <div class="col-md-4 col-sm-12 col-xs-12 mb-3" style="margin-top: 34px;">
+                   <div id="color_code${size_div_count}"></div>
+                </div> 
                 <div class="col-md-4 col-sm-12 col-xs-12 mb-3">
-                    <label for="mrp">Enter Product M.R.P.</label>
-                    <input type="number" class="form-control" name="mrp[]"  placeholder="Enter Product M.R.P." required>
-                </div>
-
-                
-
-            </div>
-            
-            
-
-            <div class="form-row mb-3">
-               <div class="col-md-4 col-sm-12 col-xs-12 mb-3">
                     <button type="button" class="btn btn-danger btn-sm" style="margin-top: 26px;" onclick="removeSize(${size_div_count})">Remove</button>
-                </div>
-            </div>`;
+                </div>  
+            </div> `;
             $("#size_div").append("<span id='sizes"+size_div_count+"'>"+size_html+"</span>");
             size_div_count++;
         });
@@ -229,10 +209,9 @@
         $('#code'+id).html('<div id="code" style="background-color:'+data+'; height:10px;"></div>');
     }
 
-
+    function chkColorAdd(id) {
+        var data = $("#color_option"+id).find(':selected').attr('data-colorid');
+        $('#color_code'+id).html('<div id="code" style="background-color:'+data+'; height:10px;"></div>');
+    }
 </script>
  @endsection
-
-
-        
-    

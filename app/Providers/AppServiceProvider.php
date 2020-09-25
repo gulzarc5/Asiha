@@ -14,7 +14,7 @@ class AppServiceProvider extends ServiceProvider
      * @return void
      */
     public function register()
-    {        
+    {
         Schema::defaultStringLength(191);
     }
 

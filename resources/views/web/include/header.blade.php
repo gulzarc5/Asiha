@@ -95,8 +95,8 @@
                                         @foreach($sub_category as $sub_cat)
                                             @if($sub_cat->status == 1)
                                             <li>
+                                                @if($sub_cat->is_sub_category==2)
                                                 <a href="#" class="mega-menu-title"><span class="menu-text">{{$sub_cat->name}}</span></a>
-                                                @if($items->is_sub_category==2)
                                                 @php
                                                     $third_cat = $sub_cat->thirdCategory;
                                                 @endphp
@@ -104,11 +104,13 @@
                                                     @if(!empty($third_cat))
                                                         @foreach($third_cat as $thirdlevel)
                                                             @if($thirdlevel->status==1)
-                                                                <li><a href="elements-products.html"><span class="menu-text">{{$thirdlevel->name}}</span></a></li>
+                                                                <li><a href="{{route('web.product_list',['cat_slug'=>"$thirdlevel->slug",'category_id'=>$thirdlevel->id,'type' => 3])}}"><span class="menu-text">{{$thirdlevel->name}}</span></a></li>
                                                             @endif
                                                         @endforeach
                                                     @endif
                                                 </ul>
+                                                @else
+                                                    <a href="{{route('web.product_list',['cat_slug'=>"$sub_cat->slug",'category_id'=>$sub_cat->id,'type' => 2])}}" class="mega-menu-title"><span class="menu-text">{{$sub_cat->name}}</span></a>
                                                 @endif
                                             </li>
                                             @endif
@@ -184,49 +186,27 @@
                                                     @foreach($sub_category as $sub_cat)
                                                         @if($sub_cat->status == 1)
                                                             <li>
+                                                                @if($sub_cat->is_sub_category==2)
                                                                 <a href="#" class="mega-menu-title"><span class="menu-text">{{$sub_cat->name}}</span></a>
-                                                                @if($items->is_sub_category==2)
-                                                                @php
-                                                                    $third_cat = $sub_cat->thirdCategory;
-                                                                @endphp
-                                                                <ul>
-                                                                @if(!empty($third_cat))
-                                                                    @foreach($third_cat as $thirdlevel)
-                                                                        @if($thirdlevel->status==1)
-                                                                            <li><a href="elements-products.html"><span class="menu-text">{{$thirdlevel->name}}</span></a></li>
-                                                                        @endif
-                                                                    @endforeach
-                                                                @endif
-                                                                </ul>
+                                                                    @php
+                                                                        $third_cat = $sub_cat->thirdCategory;
+                                                                    @endphp
+                                                                    <ul>
+                                                                    @if(!empty($third_cat))
+                                                                        @foreach($third_cat as $thirdlevel)
+                                                                            @if($thirdlevel->status==1)
+                                                                                <li><a href="elements-products.html"><span class="menu-text">{{$thirdlevel->name}}</span></a></li>
+                                                                            @endif
+                                                                        @endforeach
+                                                                    @endif
+                                                                    </ul>
+                                                                @else
+                                                                    <a href="{{route('web.product_list',['cat_slug'=>"$sub_cat->slug",'category_id'=>$sub_cat->id,'type' => 2])}}" class="mega-menu-title"><span class="menu-text">{{$sub_cat->name}}</span></a>
                                                                 @endif
                                                             </li>
                                                         @endif
                                                     @endforeach
                                                 @endif
-                                                {{-- <li>
-                                                    <a href="#" class="mega-menu-title"><span class="menu-text">Bottomwear</span></a>
-                                                    <ul>
-                                                        <li><a href="elements-category-banner.html"><span class="menu-text">Category Banner</span></a></li>
-                                                        <li><a href="elements-team.html"><span class="menu-text">Team Member</span></a></li>
-                                                        <li><a href="elements-testimonials.html"><span class="menu-text">Testimonials</span></a></li>
-                                                    </ul>
-                                                </li>
-                                                <li>
-                                                    <a href="#" class="mega-menu-title"><span class="menu-text">Accessories</span></a>
-                                                    <ul>
-                                                        <li><a href="elements-instagram.html"><span class="menu-text">Instagram</span></a></li>
-                                                        <li><a href="elements-map.html"><span class="menu-text">Google Map</span></a></li>
-                                                        <li><a href="elements-icon-box.html"><span class="menu-text">Icon Box</span></a></li>
-                                                    </ul>
-                                                </li>
-                                                <li>
-                                                    <a href="#" class="mega-menu-title"><span class="menu-text">Others</span></a>
-                                                    <ul>
-                                                        <li><a href="elements-buttons.html"><span class="menu-text">Buttons</span></a></li>
-                                                        <li><a href="elements-faq.html"><span class="menu-text">FAQs / Toggles</span></a></li>
-                                                        <li><a href="elements-brands.html"><span class="menu-text">Brands</span></a></li>
-                                                    </ul>
-                                                </li> --}}
                                             </ul>
                                         @endif
                                     </li>

@@ -57,6 +57,7 @@ class CategoryController extends Controller
 
         $category = Category::create([
             'name'=>$request->input('name'),
+            'slug' => Str::slug($request->input('name'), '-'),
             'image'=>$image_name,
         ]);
 
@@ -138,6 +139,7 @@ class CategoryController extends Controller
             Category::where('id',$id)
             ->update([
                 'name'=>$request->input('name'),
+                'slug' => Str::slug($request->input('name'), '-'),
                 'image'=>$image_name,
             ]);
 
@@ -146,6 +148,7 @@ class CategoryController extends Controller
             Category::where('id',$id)
             ->update([
                 'name'=>$request->input('name'),
+                'slug' => Str::slug($request->input('name'), '-'),
             ]);
             return redirect()->back()->with('message','Category Updated Successfully');
         }
@@ -201,6 +204,7 @@ class CategoryController extends Controller
 
         $sub_category = SubCategory::create([
             'name'=>$request->input('name'),
+            'slug' => Str::slug($request->input('name'), '-'),
             'category_id'=>$request->input('category'),
             'image'=>$image_name,
         ]);
@@ -273,6 +277,7 @@ class CategoryController extends Controller
             SubCategory::where('id',$id)
             ->update([
                 'name'=>$request->input('name'),
+                'slug' => Str::slug($request->input('name'), '-'),
                 'image'=>$image_name,
                 'category_id' => $request->input('category'),
             ]);
@@ -282,6 +287,7 @@ class CategoryController extends Controller
             SubCategory::where('id',$id)
             ->update([
                 'name'=>$request->input('name'),
+                'slug' => Str::slug($request->input('name'), '-'),
                 'category_id' => $request->input('category'),
             ]);
             return redirect()->back()->with('message','Sub Category Updated Successfully');

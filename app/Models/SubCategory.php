@@ -10,7 +10,7 @@ class SubCategory  extends Model
     protected $table = 'sub_category';
     protected $primaryKey = 'id';
     protected $fillable = [
-        'name','status','image','category_id','is_sub_category'
+        'name','slug','status','image','category_id','is_sub_category'
     ];
 
     public function category()
@@ -21,5 +21,10 @@ class SubCategory  extends Model
     public function thirdCategory()
     {
         return $this->hasMany('App\Models\ThirdCategory','sub_category_id',$this->primaryKey);
+    }
+
+    public function productCount()
+    {
+        return $this->hasMany('App\Models\Product','sub_category_id',$this->primaryKey);
     }
 }

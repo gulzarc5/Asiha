@@ -27,7 +27,7 @@ class ProductController extends Controller
             $sub_category = $cat->subCategory->id;
             $product = $product->where('last_category_id',$category_id);
         }
-        
+
         $total_rows = $product->count();
         $total_page = ceil($total_rows/12);
         $brands = [];
@@ -38,7 +38,7 @@ class ProductController extends Controller
         $product = $product->orderBy('id','desc')->limit(12)->get();
         if ($product){
             if (!empty($sub_category)) {
-                
+
                 $brands = Brands::where('sub_category_id',$sub_category)->where('status',1)->get();
                 $colors = Color::where('sub_category_id',$sub_category)->where('status',1)->get();
                 $sizes = Size::where('sub_category_id',$sub_category)->where('status',1)->get();
@@ -61,7 +61,7 @@ class ProductController extends Controller
                     'price_range' => $price_range,
                     'product' => $product,
                 ],
-            ];    	
+            ];
             return response()->json($response, 200);
         }else{
             $response = [
@@ -70,17 +70,17 @@ class ProductController extends Controller
                 'total_page' => $total_page,
                 'current_page' => 1,
                 'data' => [],
-            ];    	
+            ];
             return response()->json($response, 200);
         }
 
-       
+
     }
     public function productListWithFilter(Request $request){
         $validator =  Validator::make($request->all(),[
 	        'category_id' => 'required',
 	        'page' => 'required',
-            'type' => 'required', // 1 = subcategory,2 = third category 
+            'type' => 'required', // 1 = subcategory,2 = third category
 	        'brand' => 'array',
 	        'color' => 'array',
 	        'size' => 'array',
@@ -91,8 +91,8 @@ class ProductController extends Controller
                 'status' => false,
                 'message' => 'Required Field Can not be Empty',
                 'error_code' => true,
-                'error_message' => $validator->errors(),    
-            ];    	
+                'error_message' => $validator->errors(),
+            ];
             return response()->json($response, 200);
         }
 
@@ -122,7 +122,7 @@ class ProductController extends Controller
             $product->where(function($q) use ($brand) {
                 $brand_count = true;
                 foreach ($brand as $key => $brands) {
-                    if (isset($brands) && !empty($brands)) {                        
+                    if (isset($brands) && !empty($brands)) {
                         if ($brand_count) {
                             $q->where('products.brand_id',$brands);
                             $brand_count = false;
@@ -130,13 +130,13 @@ class ProductController extends Controller
                             $q->orWhere('products.brand_id',$brands);
                         }
                     }
-                } 
+                }
             });
         }
         if (count($size) > 0) {
             $size_count = true;
             foreach ($size as $key => $sizes) {
-                if (isset($sizes) && !empty($sizes)) { 
+                if (isset($sizes) && !empty($sizes)) {
                     $product->whereIn('id',function($q) use ($sizes,$size_count) {
                         $q->select('product_id')->from('product_sizes');
                         if ($size_count) {
@@ -147,12 +147,12 @@ class ProductController extends Controller
                         }
                     });
                 }
-            } 
+            }
         }
         if (count($color) > 0) {
                 $color_count = true;
-                foreach ($color as $key => $colors) {      
-                    if (isset($colors) && !empty($colors)) { 
+                foreach ($color as $key => $colors) {
+                    if (isset($colors) && !empty($colors)) {
                         $product->whereIn('id',function($q) use ($colors,$color_count) {
                             $q->select('product_id')->from('product_colors');
                             if ($color_count) {
@@ -163,7 +163,7 @@ class ProductController extends Controller
                             }
                         });
                     }
-                } 
+                }
         }
         if (!empty($price_from) && !empty($price_to)) {
             $product->whereBetween('products.min_price',[$price_from,$price_to]);
@@ -174,7 +174,7 @@ class ProductController extends Controller
         $limit = ($page*12)-12;
 
         if ($total_product > 0) {
-            
+
             $product =$product_query->skip($limit)->take(12);
             if (isset($sort) && !empty($sort)) {
                 //Sort By Newest
@@ -211,8 +211,8 @@ class ProductController extends Controller
             'total_page' =>$total_page,
             'total_product' =>$total_product,
             'message' => $message,
-            'data' => $product,    
-        ];    	
+            'data' => $product,
+        ];
         return response()->json($response, 200);
     }
 
@@ -222,8 +222,8 @@ class ProductController extends Controller
         $response = [
             'status' => true,
             'message' => 'product details',
-            'data' => $product,    
-        ];    	
+            'data' => $product,
+        ];
         return response()->json($response, 200);
     }
 }

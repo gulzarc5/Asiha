@@ -35,7 +35,7 @@
 
                             <li>
                                 <div class="product-sorting">
-                                    <select class="nice-select" name="sort">
+                                    <select class="nice-select" name="sort" id="product_sort">
                                         <option value="title_asc">Sort by Title : A-z</option>
                                         <option value="title_desc">Sort by Title : Z-A</option>
                                         <option value="latest" selected>Default Sort by latest First</option>
@@ -149,13 +149,14 @@
             <div class="container">
                 <div class="row ashia-mb-n50">
 
-                    <div class="col-lg-9 col-12 ashia-mb-50 order-lg-2">
+                    <div class="col-lg-9 col-12 ashia-mb-50 order-lg-2" id="pagination_data">
                         <!-- Products Start -->
                         @include('web.product.product_pagination_list_page')
                     </div>
 
                     <div class="col-lg-3 col-12 ashia-mb-10 order-lg-1">
-
+                        <input type="hidden" id="category_id" value="{{$category_id}}">
+                        <input type="hidden" id="type_filter" value="{{$type}}">
                         <!-- Categories Start -->
                         @if (isset($category) && !empty($category) && (count($category) > 0))
                         <div class="single-widget border-right-dashed ashia-pb-20 ashia-pt-20">
@@ -163,11 +164,11 @@
                             <ul class="widget-list">
                                 @foreach ($category as $item)
                                     @if ($type == 1)
-                                        <li><a>{{$item->name}}</a> <span class="count">{{$item->productCount->count()}}</span></li>
-                                    @elseif($type == 1)
-                                        <li><a>{{$item->name}}</a> <span class="count">{{$item->productCount->count()}}</span></li>
+                                        <li><a href="{{route('web.product_list',['cat_slug'=>"$item->slug",'category_id'=>$item->id,'type' => 1])}}">{{$item->name}}</a> <span class="count">{{$item->productCount->count()}}</span></li>
+                                    @elseif($type == 2)
+                                        <li><a href="{{route('web.product_list',['cat_slug'=>"$item->slug",'category_id'=>$item->id,'type' => 2])}}">{{$item->name}}</a> <span class="count">{{$item->productCount->count()}}</span></li>
                                     @else
-                                        <li><a>{{$item->name}}</a> <span class="count">{{$item->productCount->count()}}</span></li>
+                                        <li><a href="{{route('web.product_list',['cat_slug'=>"$item->slug",'category_id'=>$item->id,'type' => 3])}}">{{$item->name}}</a> <span class="count">{{$item->productCount()->count()}}</span></li>
                                     @endif
                                 @endforeach
                             </ul>
@@ -195,7 +196,7 @@
                             <h3 class="widget-title product-filter-widget-title">Brand</h3>
                             <ul class="widget-list">
                                 @foreach ($brands as $item)
-                                    <li><a><input type="checkbox" name="brand[]" value="{{$item->id}}">{{$item->name}}</a> <span class="count">{{$item->productCount->count()}}</span></li>
+                                    <li><a><input type="checkbox" name="brand[]" value="{{$item->id}}">{{$item->name}}</a> <span class="count">{{$item->count}}</span></li>
                                  @endforeach
                             </ul>
                         </div>
@@ -208,12 +209,25 @@
                             <h3 class="widget-title product-filter-widget-title">Sizes</h3>
                             <ul class="widget-list">
                                 @foreach ($sizes as $item)
-                                <li><a><input type="checkbox" name="size[]" value="{{$item->id}}">{{$item->name}}</a> <span class="count">{{$item->productCount->count()}}</span></li>
+                                <li><a><input type="checkbox" name="size[]" value="{{$item->size_id}}">{{$item->size_name}}</a> <span class="count">{{$item->product_count}}</span></li>
                                 @endforeach
                             </ul>
                         </div>
                         @endif
                         <!-- Sizes End -->
+
+                        <!-- Colors Start -->
+                        @if (isset($colors) && !empty($colors) && (count($colors) > 0))
+                         <div class="single-widget border-top-dashed border-right-dashed ashia-pb-20 ashia-pt-20">
+                            <h3 class="widget-title product-filter-widget-title">Colors</h3>
+                            <ul class="widget-list">
+                                @foreach ($colors as $item)
+                                <li><a><input type="checkbox" name="size[]" value="{{$item->color_id}}">{{$item->color_name}}</a> <span class="count">{{$item->product_count}}</span></li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @endif
+                        <!-- Colors End -->
                     </div>
 
                 </div>
@@ -225,5 +239,5 @@
 @endsection
 
 @section('script')
-
+    @include('web.product.product_script');
 @endsection

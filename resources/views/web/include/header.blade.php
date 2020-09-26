@@ -77,49 +77,48 @@
                 </div>
                 <!-- Header Logo End -->
 
-                <!-- Search Start -->
+                <!-- ====================================Main Header Menu Start  ========================== -->
                 <div class="col-auto mr-auto">
                     <nav class="site-main-menu site-main-menu-left menu-height-100 justify-content-center">
                         <ul>
-                            <li><a href="{{route('web.index')}}"><span class="menu-text">Home</span></a></li>
+                            <li><a href="{{route('web.index')}}"><span class="menu-text">Homes</span></a></li>
                             @foreach($category as $items)
                                 @if($items->status==1)
-                                <li class="has-children"><a href="#"><span class="menu-text">{{$items->name}}</span></a>
-                                    @if($items->is_sub_category==2)
-                                    @php
-                                        $sub_category = $items->subCategory;
-                                    @endphp
-                                    <ul class="sub-menu mega-menu">
-                                        @if(!empty($sub_category))
+                                    <li class="has-children"><a href="#"><span class="menu-text">{{$items->name}}</span></a>
+                                        @if($items->is_sub_category==2)
+                                            @php
+                                                $sub_category = $items->subCategory;
+                                            @endphp
+                                            <ul class="sub-menu mega-menu">
+                                                @if(!empty($sub_category))
 
-                                        @foreach($sub_category as $sub_cat)
-                                            @if($sub_cat->status == 1)
-                                            <li>
-                                                @if($sub_cat->is_sub_category==2)
-                                                <a href="#" class="mega-menu-title"><span class="menu-text">{{$sub_cat->name}}</span></a>
-                                                @php
-                                                    $third_cat = $sub_cat->thirdCategory;
-                                                @endphp
-                                                <ul>
-                                                    @if(!empty($third_cat))
-                                                        @foreach($third_cat as $thirdlevel)
-                                                            @if($thirdlevel->status==1)
-                                                                <li><a href="{{route('web.product_list',['cat_slug'=>"$thirdlevel->slug",'category_id'=>$thirdlevel->id,'type' => 3])}}"><span class="menu-text">{{$thirdlevel->name}}</span></a></li>
+                                                @foreach($sub_category as $sub_cat)
+                                                    @if($sub_cat->status == 1)
+                                                        <li>
+                                                            @if($sub_cat->is_sub_category==2)
+                                                                <a href="#" class="mega-menu-title"><span class="menu-text">{{$sub_cat->name}}</span></a>
+                                                                @php
+                                                                    $third_cat = $sub_cat->thirdCategory;
+                                                                @endphp
+                                                                <ul>
+                                                                    @if(!empty($third_cat))
+                                                                        @foreach($third_cat as $thirdlevel)
+                                                                            @if($thirdlevel->status==1)
+                                                                                <li><a href="{{route('web.product_list',['cat_slug'=>"$thirdlevel->slug",'category_id'=>$thirdlevel->id,'type' => 3])}}"><span class="menu-text">{{$thirdlevel->name}}</span></a></li>
+                                                                            @endif
+                                                                        @endforeach
+                                                                    @endif
+                                                                </ul>
+                                                            @else
+                                                                <a href="{{route('web.product_list',['cat_slug'=>"$sub_cat->slug",'category_id'=>$sub_cat->id,'type' => 2])}}" class="mega-menu-title"><span class="menu-text">{{$sub_cat->name}}</span></a>
                                                             @endif
-                                                        @endforeach
+                                                        </li>
                                                     @endif
-                                                </ul>
-                                                @else
-                                                    <a href="{{route('web.product_list',['cat_slug'=>"$sub_cat->slug",'category_id'=>$sub_cat->id,'type' => 2])}}" class="mega-menu-title"><span class="menu-text">{{$sub_cat->name}}</span></a>
+                                                @endforeach
                                                 @endif
-                                            </li>
-                                            @endif
-                                        @endforeach
+                                            </ul>
                                         @endif
-                                    </ul>
-
-                                    @endif
-                                </li>
+                                    </li>
                                 @endif
                             @endforeach
                             <li class="has-children"><a href="#"><span class="menu-text"><i class="fal fa-user"></i> Login/Register</span></a>
@@ -132,7 +131,7 @@
                         </ul>
                     </nav>
                 </div>
-                <!-- Search End -->
+                <!-- ======================================- Main Header Menu End ================================== -->
 
                 <!-- Header Tools Start -->
                 <div class="col-auto">
@@ -169,11 +168,11 @@
                 </div>
                 <!-- Header Logo End -->
 
-                <!-- Search Start -->
+                <!-- =======================================Sticky top Menu Start============================================== -->
                 <div class="col-auto mr-auto d-none d-xl-block">
                     <nav class="site-main-menu site-main-menu-left justify-content-center">
                         <ul>
-                            <li><a href="{{route('web.index')}}"><span class="menu-text">Home</span></a></li>
+                            <li><a href="{{route('web.index')}}"><span class="menu-text">Homess</span></a></li>
                             @foreach($category as $items)
                                 @if($items->status==1)
                                     <li class="has-children"><a href="#"><span class="menu-text">{{$items->name}}</span></a>
@@ -296,7 +295,7 @@
                         </ul>
                     </nav>
                 </div>
-                <!-- Search End -->
+                <!-- ======================================Sticky top Menu End=============================================== -->
 
                 <!-- Header Tools Start -->
                 <div class="col-auto">

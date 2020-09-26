@@ -45,9 +45,9 @@ Route::get('/New_Password', function () {
 })->name('web.password.change-password');
 
 //========= product-list =========//
-// Route::get('/Roadster', function () {
-//     return view('web.product.product-list');
-// })->name('web.product.product-list');
+Route::get('/Roadster', function () {
+    return view('web.product.product-list');
+})->name('web.product.product-list');
 
 //========= product-detail =========//
 Route::get('/Roadster/Men-Olive-Green-Solid-Bomber-Jacket', function () {

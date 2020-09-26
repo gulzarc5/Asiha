@@ -27,4 +27,9 @@ class Category extends Model
     {
         return $this->hasMany('App\Models\Product','category_id',$this->primaryKey);
     }
+
+    public function categoryImages()
+    {
+        return $this->hasMany('App\Models\CategoryImages','category_id',$this->primaryKey);
+    }
 }

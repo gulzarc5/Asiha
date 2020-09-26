@@ -8,60 +8,64 @@ use App\Models\Category;
 use App\Models\SubCategory;
 use App\Models\ThirdCategory;
 use File;
+use App\Models\CategoryImages;
+use App\Models\SubCategoryImages;
+use App\Models\ThirdLevelCategoryImages;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
-    public function categoryList()
-    {
+    public function categoryList(){
         $category = Category::get();
         return view('admin.category.category_list',compact('category'));
     }
 
-    public function categoryAddForm()
-    {
+    public function categoryAddForm(){
         return view('admin.category.add_new_category');
     }
 
-    public function categoryInsertForm(Request $request)
-    {
+    public function categoryInsertForm(Request $request){
         $this->validate($request, [
             'name'   => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-        
-        $image_name = null;
-        if($request->hasfile('image'))
-        {
-           
-            $path = base_path().'/public/images/category/category/thumb';
-            File::exists($path) or File::makeDirectory($path, 0777, true, true);
-            $path_thumb = base_path().'/public/images/category/category/thumb';
-            File::exists($path_thumb) or File::makeDirectory($path_thumb, 0777, true, true);
+        $name = $request->input('name');
+        $category = new Category();
+        $category->slug = Str::slug($request->input('name'), '-');
+        $category->name=$name;
+        if ($category->save()) {
+        if ($request->hasFile('images')) {
+            $banner=null;
+            for ($i = 0; $i < count($request->file('images')); $i++) {
+                $image = $request->file('images')[$i];
+                $image_name = $i . time() . date('Y-M-d') . '.' . $image->getClientOriginalExtension();
+                if ($i == 0) {
+                    $banner = $image_name;
+                }
+                //Category Original Image
+                $destinationPath = base_path() . '/public/images/category/category/';
+                $img = Image::make($image->getRealPath());
+                $img->save($destinationPath . '/' . $image_name);
+                //Category Image Thumbnail
+                $destination = base_path() . '/public/images/category/category/thumb/';
+                $img = Image::make($image->getRealPath());
+                $img->resize(600, 600, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save($destination . '/' . $image_name);
 
-        	$image = $request->file('image');
-            $destination = base_path().'/public/images/category/category/';
-            $image_extension = $image->getClientOriginalExtension();
-            $image_name = md5(date('now').time())."-".uniqid()."."."$image_extension";
-            $original_path = $destination.$image_name;
-            Image::make($image)->save($original_path);
-
+                $category_image = new CategoryImages();
+                $category_image->image = $image_name;
+                $category_image->category_id = $category->id;
+                $category_image->save();
+            }
+            
+            $category->image = $banner;
+            $category->save();
            
-            $thumb_path = base_path().'/public/images/category/category/thumb/'.$image_name;
-            $img = Image::make($image->getRealPath());
-            $img->resize(null,400, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save($thumb_path);
         }
-
-        $category = Category::create([
-            'name'=>$request->input('name'),
-            'slug' => Str::slug($request->input('name'), '-'),
-            'image'=>$image_name,
-        ]);
-
-        if ($category) {
+    
+        
             return redirect()->back()->with('message','Category Added Successfull');
         } else {
             return redirect()->back()->with('error','Something Wrong Please Try again');
@@ -69,8 +73,7 @@ class CategoryController extends Controller
         
     }
 
-    public function categoryStatus($id,$status)
-    {
+    public function categoryStatus($id,$status){
         try {
             $id = decrypt($id);
         }catch(DecryptException $e) {
@@ -83,8 +86,7 @@ class CategoryController extends Controller
         return redirect()->back();
     }
 
-    public function categoryEdit($id)
-    {
+    public function categoryEdit($id){
         try {
             $id = decrypt($id);
         }catch(DecryptException $e) {
@@ -94,8 +96,7 @@ class CategoryController extends Controller
         return view('admin.category.add_new_category',compact('category'));
     }
 
-    public function categoryUpdate(Request $request,$id)
-    {   
+    public function categoryUpdate(Request $request,$id){   
         $this->validate($request, [
             'name'   => 'required',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -157,70 +158,68 @@ class CategoryController extends Controller
 
     //////////////////////////////////Sub Category /////////////////////////////
 
-    public function subCategoryList()
-    {
+    public function subCategoryList(){
         $sub_category = SubCategory::get();
 
         return view('admin.category.sub_category_list',compact('sub_category'));
     }
 
-    public function subCategoryAddForm()
-    {
+    public function subCategoryAddForm(){
         $category = Category::where('status',1)->pluck('name', 'id');
         return view('admin.category.add_new_sub_category',compact('category'));
     }
 
-    public function subCategoryInsertForm(Request $request)
-    {
+    public function subCategoryInsertForm(Request $request){
         $this->validate($request, [
             'name'   => 'required',
-            'category'   => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'category'=>'required',
+            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-        
-        $image_name = null;
-        if($request->hasfile('image'))
-        {
-           
-            $path = base_path().'/public/images/category/sub_category/thumb';
-            File::exists($path) or File::makeDirectory($path, 0777, true, true);
-            $path_thumb = base_path().'/public/images/category/sub_category/thumb';
-            File::exists($path_thumb) or File::makeDirectory($path_thumb, 0777, true, true);
+        $name = $request->input('name');
+        $sub_category = new SubCategory();
+        $sub_category->slug = Str::slug($request->input('name'), '-');
+        $sub_category->category_id = $request->input('category');
+        $sub_category->name=$name;
+        if ($sub_category->save()) {
+        if ($request->hasFile('images')) {
+            $banner=null;
+            for ($i = 0; $i < count($request->file('images')); $i++) {
+                $image = $request->file('images')[$i];
+                $image_name = $i . time() . date('Y-M-d') . '.' . $image->getClientOriginalExtension();
+                if ($i == 0) {
+                    $banner = $image_name;
+                }
+                //Category Original Image
+                $destinationPath = base_path() . '/public/images/category/sub_category/';
+                $img = Image::make($image->getRealPath());
+                $img->save($destinationPath . '/' . $image_name);
+                //Category Image Thumbnail
+                $destination = base_path() . '/public/images/category/sub_category/thumb/';
+                $img = Image::make($image->getRealPath());
+                $img->resize(600, 600, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save($destination . '/' . $image_name);
 
-        	$image = $request->file('image');
-            $destination = base_path().'/public/images/category/sub_category/';
-            $image_extension = $image->getClientOriginalExtension();
-            $image_name = md5(date('now').time())."-".uniqid()."."."$image_extension";
-            $original_path = $destination.$image_name;
-            Image::make($image)->save($original_path);
-
+                $sub_category_image = new SubCategoryImages();
+                $sub_category_image->image = $image_name;
+                $sub_category_image->sub_category_id = $sub_category->id;
+                $sub_category_image->save();
+            }
+            
+            $sub_category->image = $banner;
+            $sub_category->save();
            
-            $thumb_path = base_path().'/public/images/category/sub_category/thumb/'.$image_name;
-            $img = Image::make($image->getRealPath());
-            $img->resize(null,400, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save($thumb_path);
         }
-
-        $sub_category = SubCategory::create([
-            'name'=>$request->input('name'),
-            'slug' => Str::slug($request->input('name'), '-'),
-            'category_id'=>$request->input('category'),
-            'image'=>$image_name,
-        ]);
-
-        if ($sub_category) {
-            Category::where('id',$request->input('category'))->update([
-                'is_sub_category'=>2,
-            ]);
-            return redirect()->back()->with('message','Category Added Successfull');
+    
+        
+            return redirect()->back()->with('message','Sub Category Added Successfull');
         } else {
             return redirect()->back()->with('error','Something Wrong Please Try again');
         }
+        
     }
 
-    public function subCategoryEdit($id)
-    {
+    public function subCategoryEdit($id){
         try {
             $id = decrypt($id);
         }catch(DecryptException $e) {
@@ -231,8 +230,7 @@ class CategoryController extends Controller
         return view('admin.category.add_new_sub_category',compact('sub_category','category'));
     }
 
-    public function subCategoryUpdate(Request $request,$id)
-    {   
+    public function subCategoryUpdate(Request $request,$id){   
         $this->validate($request, [
             'name'   => 'required',
             'category'   => 'required',
@@ -294,8 +292,7 @@ class CategoryController extends Controller
         }
     }
 
-    public function subCategoryStatus($id,$status)
-    {
+    public function subCategoryStatus($id,$status){
         try {
             $id = decrypt($id);
         }catch(DecryptException $e) {
@@ -308,8 +305,7 @@ class CategoryController extends Controller
         return redirect()->back();
     }
 
-    public function subCategoryListWithCategory($category_id)
-    {
+    public function subCategoryListWithCategory($category_id){
         $sub_category = SubCategory::where('category_id',$category_id)->where('status',1)->get();
         return $sub_category;
     }
@@ -318,68 +314,67 @@ class CategoryController extends Controller
 
     ///////////////Third category////////////
 
-    public function thirdCategoryList()
-    {
+    public function thirdCategoryList(){
         $third_category = ThirdCategory::get();
         return view('admin.category.third_category_list',compact('third_category'));
     }
 
-    public function thirdCategoryAddForm()
-    {
+    public function thirdCategoryAddForm(){
         $category = Category::where('status',1)->pluck('name', 'id');
         return view('admin.category.add_new_third_category',compact('category'));
     }
 
-    public function thirdCategoryInsertForm(Request $request)
-    {
+    public function ThirdCategoryInsertForm(Request $request){
         $this->validate($request, [
             'name'   => 'required',
-            'category'   => 'required',
-            'sub_category'   => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'sub_category'=>'required',
+            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-        
-        $image_name = null;
-        if($request->hasfile('image'))
-        {           
-            $path = base_path().'/public/images/category/third_category/thumb';
-            File::exists($path) or File::makeDirectory($path, 0777, true, true);
-            $path_thumb = base_path().'/public/images/category/third_category/thumb';
-            File::exists($path_thumb) or File::makeDirectory($path_thumb, 0777, true, true);
+        $name = $request->input('name');
+        $third_category = new ThirdCategory();
+        $third_category->slug = Str::slug($request->input('name'), '-');
+        $third_category->sub_category_id = $request->input('sub_category');
+        $third_category->name=$name;
+        if ($third_category->save()) {
+        if ($request->hasFile('images')) {
+            $banner=null;
+            for ($i = 0; $i < count($request->file('images')); $i++) {
+                $image = $request->file('images')[$i];
+                $image_name = $i . time() . date('Y-M-d') . '.' . $image->getClientOriginalExtension();
+                if ($i == 0) {
+                    $banner = $image_name;
+                }
+                //Category Original Image
+                $destinationPath = base_path() . '/public/images/category/third_category/';
+                $img = Image::make($image->getRealPath());
+                $img->save($destinationPath . '/' . $image_name);
+                //Category Image Thumbnail
+                $destination = base_path() . '/public/images/category/third_category/thumb/';
+                $img = Image::make($image->getRealPath());
+                $img->resize(600, 600, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save($destination . '/' . $image_name);
 
-        	$image = $request->file('image');
-            $destination = base_path().'/public/images/category/third_category/';
-            $image_extension = $image->getClientOriginalExtension();
-            $image_name = md5(date('now').time())."-".uniqid()."."."$image_extension";
-            $original_path = $destination.$image_name;
-            Image::make($image)->save($original_path);
-
+                $third_category_image = new ThirdLevelCategoryImages();
+                $third_category_image->image = $image_name;
+                $third_category_image->third_category_id = $third_category->id;
+                $third_category_image->save();
+            }
+            
+            $third_category->image = $banner;
+            $third_category->save();
            
-            $thumb_path = base_path().'/public/images/category/third_category/thumb/'.$image_name;
-            $img = Image::make($image->getRealPath());
-            $img->resize(null,400, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save($thumb_path);
         }
-
-        $third_category = ThirdCategory::create([
-            'name'=>$request->input('name'),
-            'sub_category_id'=>$request->input('sub_category'),
-            'image'=>$image_name,
-        ]);
-
-        if ($third_category) {
-            SubCategory::where('id',$request->input('sub_category'))->update([
-                'is_sub_category'=>2,
-            ]);
-            return redirect()->back()->with('message','Category Added Successfull');
+    
+        
+            return redirect()->back()->with('message','Third Level Category Added Successfull');
         } else {
             return redirect()->back()->with('error','Something Wrong Please Try again');
         }
+        
     }
 
-    public function thirdCategoryEdit($third_cat_id)
-    {
+    public function thirdCategoryEdit($third_cat_id){
         try {
             $id = decrypt($third_cat_id);
         }catch(DecryptException $e) {
@@ -391,8 +386,7 @@ class CategoryController extends Controller
         return view('admin.category.add_new_third_category',compact('sub_category','category','third_category'));
     }
 
-    public function thirdCategoryUpdate(Request $request,$id)
-    {   
+    public function thirdCategoryUpdate(Request $request,$id){   
         $this->validate($request, [
             'name'   => 'required',
             'category'   => 'required',
@@ -453,8 +447,7 @@ class CategoryController extends Controller
         }
     }
 
-    public function thirdCategoryStatus($id,$status)
-    {
+    public function thirdCategoryStatus($id,$status){
         try {
             $id = decrypt($id);
         }catch(DecryptException $e) {
@@ -467,8 +460,7 @@ class CategoryController extends Controller
         return redirect()->back();
     }
 
-    public function thirdCategoryListWithSubCategory($sub_category_id)
-    {
+    public function thirdCategoryListWithSubCategory($sub_category_id){
         $third_category = ThirdCategory::where('sub_category_id',$sub_category_id)->where('status',1)->get();
         return $third_category;
     }

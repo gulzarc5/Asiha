@@ -22,4 +22,9 @@ class ThirdCategory  extends Model
     {
         return $this->hasMany('App\Models\Product','last_category_id',$this->primaryKey);
     }
+
+    public function thirdLevelCategoryImages()
+    {
+        return $this->hasMany('App\Models\thirdLevelCategoryImages','third_category_id',$this->primaryKey);
+    }
 }

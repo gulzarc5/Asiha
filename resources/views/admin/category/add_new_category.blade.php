@@ -43,8 +43,9 @@
                                 </span> 
                             @enderror
                         </div>
+                        @if(empty($category) && !isset($category))
                         <div class="form-group">
-                            {{ Form::label('image', 'Image')}} 
+                           {{ Form::label('image', 'Image')}} 
                             <input type="file" class="form-control" name="images[]" multiple>
                             @if($errors->has('image'))
                                 <span class="invalid-feedback" role="alert" style="color:red">
@@ -52,7 +53,7 @@
                                 </span> 
                             @enderror
                         </div>
-
+                        @endif
                         <div class="form-group">
                             @if(isset($category) && !empty($category))
                                 {{ Form::submit('Save', array('class'=>'btn btn-success')) }}

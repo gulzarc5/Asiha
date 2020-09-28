@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 Route::group(['namespace'=>'Api'], function(){
 
     Route::get('last/category/list/{sub_cat_id}','CategoryController@LastCategoryList');
+    Route::get('sub/category/list/{cat_id}','CategoryController@SubCategoryList');
 
     Route::get('app/load/','CategoryController@appLoadApi');
 

@@ -11,6 +11,7 @@ use App\Http\Resources\CategoryResource;
 
 use App\Models\SubCategory;
 use App\Http\Resources\SubCategoryResource;
+use App\Http\Resources\SubCategoryWithResource;
 
 use App\Models\ThirdCategory;
 use App\Http\Resources\ThirdCategoryResource;
@@ -48,7 +49,7 @@ class CategoryController extends Controller
         $response = [
             'status' => true,
             'message' => 'Second Category List With category',
-            'data' => SubCategoryResource::collection($sub_cat),
+            'data' => SubCategoryWithResource::collection($sub_cat),
         ];
         return response()->json($response, 200);
     }

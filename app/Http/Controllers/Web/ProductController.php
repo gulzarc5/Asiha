@@ -11,6 +11,8 @@ use App\Models\Brands;
 use App\Models\ThirdCategory;
 use App\Models\SubCategory;
 use App\Models\Color;
+use Validator;
+
 class ProductController extends Controller
 {
     public function productlist($slug,$category_id,$type){
@@ -124,5 +126,167 @@ class ProductController extends Controller
             }
         }
         return $colors;
+    }
+
+    public function productListWithFilter(Request $request){
+        $validator =  Validator::make($request->all(),[
+	        'category' => 'required',// 2 = subcategory,3 = third category
+	        'type' => 'required',
+            'price_range' => 'array',
+	        'colors' => 'array',
+	        'brand' => 'array',
+            'sizes' => 'array',
+            'sort' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $response = [
+                'status' => false,
+                'message' => 'Required Field Can not be Empty',
+                'error_code' => true,
+                'error_message' => $validator->errors(),
+            ];
+            return response()->json($response, 200);
+        }
+
+        $price_range = $request->input('price_range');
+        $price_range = isset($price_range) ? $price_range : [];
+
+        $category_id = $request->input('category');
+        $page = $request->input('page');
+        if (!isset($page) || empty($page)) {
+            $page = 1;
+        }
+        $type = $request->input('type');
+        $brand = $request->input('brand'); // array of brand
+        $brand = isset($brand) ? $brand : [];
+        $color = $request->input('colors'); // array of Color
+        $color = isset($color) ? $color : [];
+        $size = $request->input('sizes'); // array of Size
+        $size = isset($size) ? $size : [];
+        $sort = $request->input('sort');
+
+        $product = Product::where('products.status',1);
+        if ($type == 1) {
+            $product->where('sub_category_id',$category_id);
+        } else {
+            $product->where('last_category_id',$category_id);
+        }
+        if (count($brand) > 0) {
+            $product->where(function($q) use ($brand) {
+                $brand_count = true;
+                foreach ($brand as $key => $brands) {
+                    if (isset($brands) && !empty($brands)) {
+                        if ($brand_count) {
+                            $q->where('products.brand_id',$brands);
+                            $brand_count = false;
+                        }else{
+                            $q->orWhere('products.brand_id',$brands);
+                        }
+                    }
+                }
+            });
+        }
+        if (count($size) > 0) {
+            $size_count = true;
+            foreach ($size as $key => $sizes) {
+                if (isset($sizes) && !empty($sizes)) {
+                    $product->whereIn('id',function($q) use ($sizes,$size_count) {
+                        $q->select('product_id')->from('product_sizes');
+                        if ($size_count) {
+                            $q->where('product_sizes.size_id',$sizes);
+                            $size_count = false;
+                        }else{
+                            $q->orWhere('product_sizes.size_id',$sizes);
+                        }
+                    });
+                }
+            }
+        }
+        if (count($color) > 0) {
+                $color_count = true;
+                foreach ($color as $key => $colors) {
+                    if (isset($colors) && !empty($colors)) {
+                        $product->whereIn('id',function($q) use ($colors,$color_count) {
+                            $q->select('product_id')->from('product_colors');
+                            if ($color_count) {
+                                $q->where('product_colors.color_id',$colors);
+                                $color_count = false;
+                            }else{
+                                $q->orWhere('product_colors.color_id',$colors);
+                            }
+                        });
+                    }
+                }
+        }
+
+        if (count($price_range) > 0) {
+            $product->where(function($q) use ($price_range) {
+                $price_count = true;
+                foreach ($price_range as $key => $price_ranges) {
+                    if (isset($price_ranges) && !empty($price_ranges)) {
+                        if ($price_count) {
+                            if ($price_ranges == '1') {
+                                $q->whereBetween('products.min_price',[0,500]);
+                            } elseif ($price_ranges == '2') {
+                                $q->whereBetween('products.min_price',[501,1000]);
+                            } elseif ($price_ranges == '3') {
+                                $q->whereBetween('products.min_price',[1001,1500]);
+                            }else{
+                                $q->where('products.min_price','>',1500);
+                            }
+                        } else {
+                            if ($price_ranges == '1') {
+                                $q->orWhereBetween('products.min_price',[0,500]);
+                            } elseif ($price_ranges == '2') {
+                                $q->orWhereBetween('products.min_price',[501,1000]);
+                            } elseif ($price_ranges == '3') {
+                                $q->orWhereBetween('products.min_price',[1001,1500]);
+                            }else{
+                                $q->orWhere('products.min_price','>',1500);
+                            }
+                        }
+                    }
+                    $price_count = false;
+                }
+            });
+        }
+
+        $product_query = clone $product;
+        $total_product = $product->count('products.id');
+        $total_page = intval(ceil($total_product / 12 ));
+        $limit = ($page*12)-12;
+
+        if ($total_product > 0) {
+            if (isset($sort) && !empty($sort)) {
+                //Sort By Newest
+                if ($sort == 'latest') {
+                    $product_query->orderBy('products.id', 'desc');
+                }
+                // Sort By Low Price
+                elseif ($sort == 'price_low') {
+                    $product_query->orderBy('products.min_price', 'asc');
+                }
+                // Sort By High Price
+                elseif ($sort == 'price_high') {
+                    $product_query->orderBy('products.min_price', 'desc');
+                }
+                // Sort By Title Asc
+                elseif ($sort == 'title_asc') {
+                    $product_query->orderBy('products.name', 'asc');
+                }
+                // Sort By Title Desc
+                elseif ($sort == 'title_desc') {
+                    $product_query->orderBy('products.name', 'desc');
+                }
+            }
+
+            $products =$product_query->skip($limit)->take(12)->get();
+
+           return view('web.product.product_pagination_list_page',compact('products','total_page','page'));
+        }else{
+            $products = [];
+            return view('web.product.product_pagination_list_page',compact('products','total_page','page'));
+        }
     }
 }

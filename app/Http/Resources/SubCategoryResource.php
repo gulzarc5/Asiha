@@ -3,8 +3,6 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\CategoryImageResource;
-
 class SubCategoryResource extends JsonResource
 {
     /**
@@ -21,7 +19,6 @@ class SubCategoryResource extends JsonResource
             'image' => $this->image,
             'status' => $this->status,
             'is_sub_category' => $this->is_sub_category,
-            'main_category_images' => CategoryImageResource::collection($this->category->categoryImages),
         ];
     }
 }

@@ -35,12 +35,12 @@
 
                             <li>
                                 <div class="product-sorting">
-                                    <select class="nice-select" name="sort" id="product_sort">
+                                    <select class="nice-select" name="sort" id="product_sort" onchange="fetchData()">
                                         <option value="title_asc">Sort by Title : A-z</option>
                                         <option value="title_desc">Sort by Title : Z-A</option>
                                         <option value="latest" selected>Default Sort by latest First</option>
                                         <option value="price_low">Sort by price: Low to High</option>
-                                        <option value="price-high">Sort by price: High to Low</option>
+                                        <option value="price_high">Sort by price: High to Low</option>
                                     </select>
                                 </div>
                             </li>
@@ -182,10 +182,10 @@
                         <div class="single-widget border-top-dashed border-right-dashed ashia-pb-20 ashia-pt-20">
                             <h3 class="widget-title product-filter-widget-title">Price</h3>
                             <ul class="widget-list">
-                                <li><a><input type="checkbox" name="price_range[]" value="1">₹0 - ₹500</a> <span class="count">{{$price_0_500}}</span></li>
-                                <li><a><input type="checkbox" name="price_range[]" value="2">₹501 - ₹1000</a>  <span class="count">{{$price_0_1000}}</span></li>
-                                <li><a><input type="checkbox" name="price_range[]" value="3">₹1001 - ₹1500</a> <span class="count">{{$price_0_1500}}</span></li>
-                                <li><a><input type="checkbox" name="price_range[]" value="4">₹1501 - Above</a>  <span class="count">{{$price_0_1500}}</span></li>
+                                <li><a><input type="checkbox" name="price_range" value="1" onclick="fetchData()">₹0 - ₹500</a> <span class="count">{{$price_0_500}}</span></li>
+                                <li><a><input type="checkbox" name="price_range" value="2" onclick="fetchData()">₹501 - ₹1000</a>  <span class="count">{{$price_0_1000}}</span></li>
+                                <li><a><input type="checkbox" name="price_range" value="3" onclick="fetchData()">₹1001 - ₹1500</a> <span class="count">{{$price_0_1500}}</span></li>
+                                <li><a><input type="checkbox" name="price_range" value="4" onclick="fetchData()">₹1501 - Above</a>  <span class="count">{{$price_0_1500}}</span></li>
                             </ul>
                         </div>
                         <!-- Price Range End -->
@@ -196,7 +196,7 @@
                             <h3 class="widget-title product-filter-widget-title">Brand</h3>
                             <ul class="widget-list">
                                 @foreach ($brands as $item)
-                                    <li><a><input type="checkbox" name="brand[]" value="{{$item->id}}">{{$item->name}}</a> <span class="count">{{$item->count}}</span></li>
+                                    <li><a><input type="checkbox" name="brand" value="{{$item->id}}" onclick="fetchData()">{{$item->name}}</a> <span class="count">{{$item->count}}</span></li>
                                  @endforeach
                             </ul>
                         </div>
@@ -209,7 +209,7 @@
                             <h3 class="widget-title product-filter-widget-title">Sizes</h3>
                             <ul class="widget-list">
                                 @foreach ($sizes as $item)
-                                <li><a><input type="checkbox" name="size[]" value="{{$item->size_id}}">{{$item->size_name}}</a> <span class="count">{{$item->product_count}}</span></li>
+                                <li><a><input type="checkbox" name="size" value="{{$item->size_id}}" onclick="fetchData()">{{$item->size_name}}</a> <span class="count">{{$item->product_count}}</span></li>
                                 @endforeach
                             </ul>
                         </div>
@@ -222,7 +222,7 @@
                             <h3 class="widget-title product-filter-widget-title">Colors</h3>
                             <ul class="widget-list">
                                 @foreach ($colors as $item)
-                                <li><a><input type="checkbox" name="size[]" value="{{$item->color_id}}">{{$item->color_name}}</a> <span class="count">{{$item->product_count}}</span></li>
+                                <li><a><input type="checkbox" name="color" value="{{$item->color_id}}" onclick="fetchData()">{{$item->color_name}}</a> <span class="count">{{$item->product_count}}</span></li>
                                 @endforeach
                             </ul>
                         </div>

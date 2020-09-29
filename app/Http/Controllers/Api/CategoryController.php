@@ -7,11 +7,15 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Validator;
 use App\Models\Category;
+use App\Models\CategoryImages;
 use App\Http\Resources\CategoryResource;
+use App\Http\Resources\CategoryImageResource;
 
 use App\Models\SubCategory;
+use App\Models\SubCategoryImages;
 use App\Http\Resources\SubCategoryResource;
 use App\Http\Resources\SubCategoryWithResource;
+use App\Http\Resources\SubCategoryImageResource;
 
 use App\Models\ThirdCategory;
 use App\Http\Resources\ThirdCategoryResource;
@@ -21,6 +25,8 @@ use App\Http\Resources\SliderResource;
 
 use App\Models\Brands;
 use App\Http\Resources\BrandResource;
+
+
 
 class CategoryController extends Controller
 {
@@ -49,7 +55,10 @@ class CategoryController extends Controller
         $response = [
             'status' => true,
             'message' => 'Second Category List With category',
-            'data' => SubCategoryWithResource::collection($sub_cat),
+            'data' => [
+                'main_category_image' =>CategoryImageResource::collection(CategoryImages::where('category_id',$cat_id)->get()),
+                'sub_category' => SubCategoryWithResource::collection($sub_cat),
+            ],
         ];
         return response()->json($response, 200);
     }
@@ -60,7 +69,10 @@ class CategoryController extends Controller
         $response = [
             'status' => true,
             'message' => 'Third Category List With Sub category',
-            'data' => ThirdCategoryResource::collection($third_cat),
+            'data' => [
+                'second_category_image' =>SubCategoryImageResource::collection(SubCategoryImages::where('sub_category_id',$sub_catrgory_id)->get()),
+                'third_category' => ThirdCategoryResource::collection($third_cat)
+            ],
         ];
         return response()->json($response, 200);
     }

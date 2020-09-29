@@ -3,7 +3,6 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\SubCategoryImageResource;
 
 class ThirdCategoryResource extends JsonResource
 {
@@ -20,8 +19,6 @@ class ThirdCategoryResource extends JsonResource
             'name' => $this->name,
             'image' => $this->image,
             'status' => $this->status,
-            'sub_category_images' => SubCategoryImageResource::collection($this->subCategory->subCategoryImages),
-            // 'sub_category_images' => $this->subCategory->thirdLevelCategoryImages,
         ];
     }
 }

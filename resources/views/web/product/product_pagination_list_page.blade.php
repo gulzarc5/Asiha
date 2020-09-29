@@ -26,6 +26,7 @@
 </div>
 <!-- Products End -->
 <div class="text-center ashia-mt-70">
+    <input type="hidden" name="page" value="1" id="page">
     <a href="#" class="btn btn-dark btn-outline-hover-dark"><i class="ti-plus"></i> More</a>
 </div>
 @endif

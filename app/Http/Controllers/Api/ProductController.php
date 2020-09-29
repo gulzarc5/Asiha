@@ -12,7 +12,7 @@ use App\Models\Brands;
 use App\Http\Resources\BrandResource;
 use App\Models\Color;
 use App\Models\Size;
-use App\Models\Thirdcategory;
+use App\Models\ThirdCategory;
 
 class ProductController extends Controller
 {
@@ -33,7 +33,7 @@ class ProductController extends Controller
             $colors = $this->colorFetch($category_id,$category_id,$type);
             $sub_category = $category_id;
         } else{
-            $cat = Thirdcategory::find($category_id);
+            $cat = ThirdCategory::find($category_id);
             $sub_category = $cat->subCategory->id;
             $product = $product->where('last_category_id',$category_id);
             $brands = $this->BrandFetch($category_id,$sub_category,$type);

@@ -15,6 +15,7 @@ Route::group(['namespace'=>'Web'],function(){
     Route::group(['prefix'=>'product'],function(){
         Route::get('list/{cat_slug}/{category_id}/{type}','ProductController@productlist')->name('web.product_list');
         Route::post('filter/list','ProductController@productListWithFilter')->name('web.product_list_filter');
+        Route::get('/detail/{slug}/{product_id}', 'ProductController@productDetails')->name('web.product_detail');
     });
 });
 
@@ -44,10 +45,10 @@ Route::get('/New_Password', function () {
     return view('web.password.change-password');
 })->name('web.password.change-password');
 
-//========= product-list =========//
-Route::get('/Roadster', function () {
-    return view('web.product.product-list');
-})->name('web.product.product-list');
+// //========= product-list =========//
+// Route::get('/Roadster', function () {
+//     return view('web.product.product-list');
+// })->name('web.product.product-list');
 
 //========= product-detail =========//
 Route::get('/Roadster/Men-Olive-Green-Solid-Bomber-Jacket', function () {

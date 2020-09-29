@@ -48,13 +48,16 @@ class ProductController extends Controller
         $query_1000 = clone $product;
         $query_1500 = clone $product;
         $query_above = clone $product;
+        $p_query = clone $product;
         $price_0_500 = $query_500->whereBetween('products.min_price',[0,500])->count();
         $price_0_1000 = $query_1000->whereBetween('products.min_price',[501,1000])->count();
         $price_0_1500 = $query_1500->whereBetween('products.min_price',[1001,1500])->count();
         $price_0_1500 = $query_1500->where('products.min_price','>',1500)->count();
+        $total_product = $p_query->count();
+        $total_page = intval(ceil($total_product / 12 ));
         $products = $product->orderBy('id','desc')->limit(12)->get();
 
-        return view('web.product.product-list',compact('products','category','brands','sizes','category_id','type','price_0_500','price_0_1000','price_0_1500','price_0_1500','sub_cat','third_cat','colors'));
+        return view('web.product.product-list',compact('products','category','brands','sizes','category_id','type','price_0_500','price_0_1000','price_0_1500','price_0_1500','sub_cat','third_cat','colors','total_page'));
     }
 
     function BrandFetch($category_id,$sub_category,$type){
@@ -282,11 +285,25 @@ class ProductController extends Controller
             }
 
             $products =$product_query->skip($limit)->take(12)->get();
+            if ($page == 1) {
+                return view('web.product.product_pagination_list_page',compact('products','total_page','page'));
+            } else {
+               $data = [
+                'products' => $products,
+                'total_page' => $total_page,
+                'page' => $page,
+               ];
+               return response()->json($data, 200);
+            }
 
-           return view('web.product.product_pagination_list_page',compact('products','total_page','page'));
         }else{
             $products = [];
             return view('web.product.product_pagination_list_page',compact('products','total_page','page'));
         }
+    }
+
+    public function productDetails($slug,$product_id){
+        $product = Product::find($product_id);
+        return view('web.product.product-detail',compact('product'));
     }
 }

@@ -183,12 +183,12 @@
                     <div class="col">
                         <div class="product">
                             <div class="product-thumb">
-                                <a href="{{route('web.product.product-list')}}" class="image">
+                                <a href="#" class="image">
                                     <img src="{{asset('web/images/product/s328/product-11.jpg')}}" alt="Product Image">
                                 </a>
                             </div>
                             <div class="product-info">
-                                <h6 class="title"><a href="{{route('web.product.product-list')}}">Boho Beard Mug</a></h6>
+                                <h6 class="title"><a href="#">Boho Beard Mug</a></h6>
                                 <span class="price">
                                     <span class="old">$45.00</span>
                                 <span class="new">$39.00</span>
@@ -204,12 +204,12 @@
                     <div class="col">
                         <div class="product">
                             <div class="product-thumb">
-                                <a href="{{route('web.product.product-list')}}" class="image">
+                                <a href="#" class="image">
                                     <img src="{{asset('web/images/product/s328/product-4.jpg')}}" alt="Product Image">
                                 </a>
                             </div>
                             <div class="product-info">
-                                <h6 class="title"><a href="{{route('web.product.product-list')}}">Boho Beard Mug</a></h6>
+                                <h6 class="title"><a href="#">Boho Beard Mug</a></h6>
                                 <span class="price">
                                     <span class="old">$45.00</span>
                                 <span class="new">$39.00</span>
@@ -225,12 +225,12 @@
                     <div class="col">
                         <div class="product">
                             <div class="product-thumb">
-                                <a href="{{route('web.product.product-list')}}" class="image">
+                                <a href="#" class="image">
                                     <img src="{{asset('web/images/product/s328/product-8.jpg')}}" alt="Product Image">
                                 </a>
                             </div>
                             <div class="product-info">
-                                <h6 class="title"><a href="{{route('web.product.product-list')}}">Boho Beard Mug</a></h6>
+                                <h6 class="title"><a href="#">Boho Beard Mug</a></h6>
                                 <span class="price">
                                     <span class="old">$45.00</span>
                                 <span class="new">$39.00</span>
@@ -246,12 +246,12 @@
                     <div class="col">
                         <div class="product">
                             <div class="product-thumb">
-                                <a href="{{route('web.product.product-list')}}" class="image">
+                                <a href="#" class="image">
                                     <img src="{{asset('web/images/product/s328/product-2.jpg')}}" alt="Product Image">
                                 </a>
                             </div>
                             <div class="product-info">
-                                <h6 class="title"><a href="{{route('web.product.product-list')}}">Boho Beard Mug</a></h6>
+                                <h6 class="title"><a href="#">Boho Beard Mug</a></h6>
                                 <span class="price">
                                     <span class="old">$45.00</span>
                                 <span class="new">$39.00</span>
@@ -267,12 +267,12 @@
                     <div class="col">
                         <div class="product">
                             <div class="product-thumb">
-                                <a href="{{route('web.product.product-list')}}" class="image">
+                                <a href="#" class="image">
                                     <img src="{{asset('web/images/product/s328/product-15.jpg')}}" alt="Product Image">
                                 </a>
                             </div>
                             <div class="product-info">
-                                <h6 class="title"><a href="{{route('web.product.product-list')}}">Boho Beard Mug</a></h6>
+                                <h6 class="title"><a href="#">Boho Beard Mug</a></h6>
                                 <span class="price">
                                     <span class="old">$45.00</span>
                                 <span class="new">$39.00</span>
@@ -288,12 +288,12 @@
                     <div class="col">
                         <div class="product">
                             <div class="product-thumb">
-                                <a href="{{route('web.product.product-list')}}" class="image">
+                                <a href="#" class="image">
                                     <img src="{{asset('web/images/product/s328/product-13.jpg')}}" alt="Product Image">
                                 </a>
                             </div>
                             <div class="product-info">
-                                <h6 class="title"><a href="{{route('web.product.product-list')}}">Boho Beard Mug</a></h6>
+                                <h6 class="title"><a href="#">Boho Beard Mug</a></h6>
                                 <span class="price">
                                     <span class="old">$45.00</span>
                                 <span class="new">$39.00</span>
@@ -309,12 +309,12 @@
                     <div class="col">
                         <div class="product">
                             <div class="product-thumb">
-                                <a href="{{route('web.product.product-list')}}" class="image">
+                                <a href="#" class="image">
                                     <img src="{{asset('web/images/product/s328/product-7.jpg')}}" alt="Product Image">
                                 </a>
                             </div>
                             <div class="product-info">
-                                <h6 class="title"><a href="{{route('web.product.product-list')}}">Boho Beard Mug</a></h6>
+                                <h6 class="title"><a href="#">Boho Beard Mug</a></h6>
                                 <span class="price">
                                     <span class="old">$45.00</span>
                                 <span class="new">$39.00</span>
@@ -330,12 +330,12 @@
                     <div class="col">
                         <div class="product">
                             <div class="product-thumb">
-                                <a href="{{route('web.product.product-list')}}" class="image">
+                                <a href="#" class="image">
                                     <img src="{{asset('web/images/product/s328/product-5.jpg')}}" alt="Product Image">
                                 </a>
                             </div>
                             <div class="product-info">
-                                <h6 class="title"><a href="{{route('web.product.product-list')}}">Boho Beard Mug</a></h6>
+                                <h6 class="title"><a href="#">Boho Beard Mug</a></h6>
                                 <span class="price">
                                     <span class="old">$45.00</span>
                                 <span class="new">$39.00</span>
@@ -351,7 +351,7 @@
                     <div class="col">
                         <div class="product">
                             <div class="product-thumb">
-                                <a href="{{route('web.product.product-list')}}" class="image">
+                                <a href="#" class="image">
                                     <img src="{{asset('web/images/product/s328/more.jpg')}}" alt="Product Image">
                                 </a>
                             </div>

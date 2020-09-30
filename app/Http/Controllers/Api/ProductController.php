@@ -11,7 +11,9 @@ use App\Http\Resources\ProductResource;
 use App\Models\Brands;
 use App\Http\Resources\BrandResource;
 use App\Models\Color;
+use App\Http\Resources\ColorFilterResource;
 use App\Models\Size;
+use App\Http\Resources\SizeFilterResource;
 use App\Models\ThirdCategory;
 
 class ProductController extends Controller
@@ -67,12 +69,12 @@ class ProductController extends Controller
                         [
                             'name' => 'Colors',
                             'id' => '2',
-                            'value' => $colors,
+                            'value' => ColorFilterResource::collection($colors),
                         ],
                         [
                             'name' => 'Sizes',
                             'id' => '3',
-                            'value' => $sizes,
+                            'value' => SizeFilterResource::collection($sizes),
                         ],
                     ],
                     'price_range' => $price_range,

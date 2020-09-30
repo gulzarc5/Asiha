@@ -160,6 +160,7 @@ class ProductController extends Controller
                 $value->product_count = $query->select('products.id as product_id')->where('product_colors.color_id',$value->color_id)->count();
                 $color_name = Color::find($value->color_id);
                 $value->color_name = $color_name->name;
+                $value->color_code = $color_name->color;
             }
         }
         return $colors;

@@ -24,21 +24,26 @@ Route::group(['namespace'=>'Api'], function(){
     // Route::post('forgot/change/password/','UsersController@forgotChangePass');
 
     Route::group(['middleware'=>'auth:api'],function(){
-        Route::get('user/profile/{user_id}','UsersController@userProfile');
-        Route::post('user/profile/update','UsersController@userProfileUpdate');
-        Route::post('user/change/password','UsersController@userChangePassword');
-        // Route::get('user/logout/{user_id}','UsersController@userLogout');
 
-        Route::post('user/shipping/add','UsersController@userShippingAdd');
-        Route::get('user/shipping/list/{user_id}','UsersController@userShippingList');
-        Route::get('user/shipping/single/{user_id}/{address_id}','UsersController@userShippingSingleView');
-        Route::post('user/shipping/update','UsersController@userShippingUpdate');
-        Route::get('user/shipping/delete/{address_id}','UsersController@userShippingDelete');
+        Route::group(['prefix' => 'user'], function () {
+            Route::get('user/profile/{user_id}','UsersController@userProfile');
+            Route::post('user/profile/update','UsersController@userProfileUpdate');
+            Route::post('user/change/password','UsersController@userChangePassword');
+            // Route::get('user/logout/{user_id}','UsersController@userLogout');
 
-        // Route::post('user/add/to/cart','CartController@addToCart');
-        // Route::get('user/cart/all/product/{user_id}','CartController@cartProduct');
-        // Route::post('user/cart/update/quantity','CartController@cartUpdate');
-        // Route::get('user/cart/remove/item/{cart_id}','CartController@cartRemove');
+            Route::post('user/shipping/add','UsersController@userShippingAdd');
+            Route::get('user/shipping/list/{user_id}','UsersController@userShippingList');
+            Route::get('user/shipping/single/{user_id}/{address_id}','UsersController@userShippingSingleView');
+            Route::post('user/shipping/update','UsersController@userShippingUpdate');
+            Route::get('user/shipping/delete/{address_id}','UsersController@userShippingDelete');
+        });
+
+        Route::group(['prefix' => 'cart'], function () {
+            Route::post('add','CartController@addToCart');
+            Route::get('fetch/{user_id}','CartController@cartProduct');
+            Route::post('update','CartController@cartUpdate');
+            Route::get('remove/{cart_id}','CartController@cartRemove');
+        });
 
         // Route::get('user/add/to/wish/list/{product_id}/{user_id}','CartController@addToWishList');
         // Route::get('user/wish/list/items/{user_id}','CartController@wishListProducts');

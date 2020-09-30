@@ -3,11 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Laratrust\Traits\LaratrustUserTrait;
 
 class Cart extends Model
 {
-    use LaratrustUserTrait;
     protected $table = 'cart';
     protected $primaryKey = 'id';
     protected $fillable = [
@@ -17,5 +15,10 @@ class Cart extends Model
     public function sizes()
     {
         return $this->belongsTo('App\Models\ProductSize','size_id',$this->primaryKey);
+    }
+
+    public function product()
+    {
+        return $this->belongsTo('App\Models\Product','product_id',$this->primaryKey);
     }
 }

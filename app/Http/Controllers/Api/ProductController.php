@@ -58,9 +58,23 @@ class ProductController extends Controller
                 'total_page' => $total_page,
                 'current_page' => 1,
                 'data' => [
-                    'brands' => BrandResource::collection($brands),
-                    'colors' => $colors,
-                    'sizes' => $sizes,
+                    'filters' => [
+                        [
+                            'name' => 'Brands',
+                            'id' => '1',
+                            'value' => BrandResource::collection($brands),
+                        ],
+                        [
+                            'name' => 'Colors',
+                            'id' => '2',
+                            'value' => $colors,
+                        ],
+                        [
+                            'name' => 'Sizes',
+                            'id' => '3',
+                            'value' => $sizes,
+                        ],
+                    ],
                     'price_range' => $price_range,
                     'product' => ProductResource::collection($product),
                 ],

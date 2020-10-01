@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCouponsTable extends Migration
+class CreateWishListTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class CreateCouponsTable extends Migration
      */
     public function up()
     {
-        Schema::create('coupons', function (Blueprint $table) {
+        Schema::create('wish_list', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('code');
-            $table->double('discount',10,2);
-            $table->text('description');
-            $table->char('usertype',1)->default(1)->comment("1= New,2= Old");
-            $table->char('status',1)->default(1)->comment("1= Enable,2= Disable");
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('product_id');
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ class CreateCouponsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('coupons');
+        Schema::dropIfExists('wish_list');
     }
 }

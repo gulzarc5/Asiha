@@ -9,7 +9,7 @@
 
     	        <div class="x_title">
                     <h2>Coupon List</h2>
-                    <a class="btn btn-sm btn-info" style="float: right" href="{{route('admin.coupon_add_form')}}">Add New Coupon</a>
+                    {{-- <a class="btn btn-sm btn-info" style="float: right" href="{{route('admin.coupon_add_form')}}">Add New Coupon</a> --}}
     	            <div class="clearfix"></div>
     	        </div>
     	        <div>
@@ -18,13 +18,13 @@
                           <thead>
                             <tr>
                               <th>Sl</th>
-                              <th>Code</th>  
-                              <th>User Type</th>                            
+                              <th>Code</th>
+                              <th>User Type</th>
                               <th>Status</th>
                               <th>Action</th>
                             </tr>
                           </thead>
-                          <tbody>  
+                          <tbody>
                             @if (isset($coupons) && !empty($coupons))
                             @php
                               $count=1;
@@ -36,12 +36,12 @@
                                       <td>
 
                                         @if ($item->usertype== '1')
-                                            New 
+                                            New
                                         @else
-                                            Old 
+                                            Old
                                         @endif
                                       </td>
-                                      
+
                                       <td>
                                         @if ($item->status == '1')
                                           <a  class="btn btn-sm btn-primary" aria-disabled="true">Enabled</a>
@@ -56,15 +56,15 @@
                                         @else
                                           <a href="{{route('admin.coupon_status',['id'=>encrypt($item->id),'status'=>1])}}" class="btn btn-sm btn-primary">Enable</a>
                                         @endif
-                                        
+
                                       </td>
                                     </tr>
                                 @endforeach
                             @else
                               <tr>
                                 <td colspan="6" style="text-align: center">No Sub Category Found</td>
-                              </tr>  
-                            @endif                   
+                              </tr>
+                            @endif
                           </tbody>
                         </table>
     	            </div>
@@ -78,11 +78,11 @@
  @endsection
 
 @section('script')
-     
+
      <script type="text/javascript">
          $(function () {
             var table = $('#category').DataTable();
         });
      </script>
-    
+
  @endsection

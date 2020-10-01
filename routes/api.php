@@ -12,12 +12,13 @@ Route::group(['namespace'=>'Api'], function(){
     Route::get('product/list/{category_id}/{type}','ProductController@productList');
     Route::post('product/filter','ProductController@productListWithFilter')->name('api.product_filter');
     Route::get('product/single/view/{product_id}','ProductController@singleProductView');
+    Route::get('charges/list','CartController@chargesList');
 
     // Route::get('product/search/{search_key}','ProductController@productSearch');
 
     Route::post('user/registration','UsersController@userRegistration');
     Route::post('user/login','UsersController@userLogin');
-    // Route::get('user/Shipping/pin/check/{pin}','OrderController@pinAvailability');
+
 
     // Route::get('send/otp/{mobile}','UsersController@sendOtp');
     // Route::get('verify/otp/{mobile}/{otp}','UsersController@varifyOtp');
@@ -45,10 +46,13 @@ Route::group(['namespace'=>'Api'], function(){
             Route::get('remove/{cart_id}','CartController@cartRemove');
         });
 
-        // Route::get('user/add/to/wish/list/{product_id}/{user_id}','CartController@addToWishList');
-        // Route::get('user/wish/list/items/{user_id}','CartController@wishListProducts');
-        // Route::get('user/wish/to/cart/{user_id}/{wish_list_id}','CartController@wishListToCart');
-        // Route::get('user/wish/item/remove/{user_id}/{wish_list_id}','CartController@wishListItemRemove');
+        Route::group(['prefix'=>'wish/list',],function(){
+            Route::get('add/{product_id}/{user_id}','CartController@addToWishList');
+            Route::get('items/{user_id}','CartController@wishListProducts');
+            // Route::get('wish/to/cart/{user_id}/{wish_list_id}','CartController@wishListToCart');
+            Route::get('item/remove/{wish_list_id}','CartController@wishListItemRemove');
+        });
+
 
         // Route::post('user/place/order','OrderController@placeOrder');
         // Route::get('user/update/payment/request/id/{order_id}/{payment_rqst_id}','OrderController@updatePaymentRequestId');

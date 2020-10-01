@@ -192,6 +192,7 @@ class ProductController extends Controller
         if (!isset($page) || empty($page)) {
             $page = 1;
         }
+
         $type = $request->input('type');
         $brand = $request->input('brand'); // array of brand
         $brand = isset($brand) ? $brand : [];

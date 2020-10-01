@@ -446,7 +446,6 @@ class ProductController extends Controller
 
     public function editSizes($product_id)
     {
-
         $product = Product::where('id', $product_id)->first();
         $sizes = null;
         if ($product) {

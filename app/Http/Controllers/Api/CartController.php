@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Cart;
+use App\Models\Charges;
+use App\Models\WishList;
+use App\Http\Resources\WishListResource;
 use App\Http\Resources\CartResource;
 use Validator;
 class CartController extends Controller
@@ -100,4 +103,53 @@ class CartController extends Controller
         ];
         return response()->json($response, 200);
     }
+
+    public function addToWishList($product_id,$user_id)
+    {
+        $check = WishList::where('user_id',$user_id)->where('product_id',$product_id)->count();
+        if ($check == 0) {
+            WishList::create([
+                'user_id' => $user_id,
+                'product_id' => $product_id
+            ]);
+        }
+        $response = [
+            'status' => true,
+            'message' => 'Product Added In Wish List',
+        ];
+        return response()->json($response, 200);
+    }
+
+    public function wishListProducts($user_id)
+    {
+        $wish_list = WishList::where('user_id',$user_id)->get();
+        $response = [
+            'status' => true,
+            'message' => 'Wish List Products',
+            'data' => WishListResource::collection($wish_list),
+        ];
+        return response()->json($response, 200);
+    }
+
+    public function wishListItemRemove($wish_list_id)
+    {
+        WishList::destroy($wish_list_id);
+        $response = [
+            'status' => true,
+            'message' => 'Item Removed from Wish List',
+        ];
+        return response()->json($response, 200);
+    }
+
+    public function chargesList()
+    {
+        $charges = Charges::get();
+        $response = [
+            'status' => true,
+            'message' => 'Charges List',
+            'data' => $charges,
+        ];
+        return response()->json($response, 200);
+    }
+
 }

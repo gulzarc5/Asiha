@@ -151,6 +151,9 @@ Route::group(['namespace' => 'Admin'],function(){
         Route::group(['prefix'=>'user'],function(){
             Route::get('list','UserController@userList')->name('admin.user_list');
             Route::get('list/ajax','UserController@userListAjax')->name('admin.user_list_ajax');
+            Route::put('update/{id}','UserController@userUpdate')->name('admin.user_update');
+            Route::get('edit/user/{id}','UserController@EditUser')->name('admin.edit_user_details');
+            Route::get('status/{id}/{status}', 'UserController@userStatus')->name('admin.user_status');
         });
 
         // Route::group(['prefix'=>'order'],function(){

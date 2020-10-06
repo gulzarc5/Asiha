@@ -26,6 +26,7 @@
                               <th>City</th>
                               <th>Address</th>
                               <th>Pin</th>
+                              <th>Status</th>
                               <th>action</th>
                             </tr>
                           </thead>
@@ -60,10 +61,11 @@
                 {data: 'dob', name: 'dob' ,searchable: true},  
                 {data: 'state', name: 'state' ,searchable: true},  
                 {data: 'city', name: 'city' ,searchable: true},  
-                {data: 'address', name: 'address' ,searchable: true},  
+                {data: 'address', name: 'address' ,searchable: true}, 
+                {data: 'pin', name: 'pin' ,searchable: true},  
                 {data: 'status', name: 'status', render:function(data, type, row){
                   if (row.status == '1') {
-                    return "<button class='btn btn-info'>Enable</a>"
+                    return "<button class='btn btn-info'>Enabled</a>"
                   }else{
                     return "<button class='btn btn-danger'>Disabled</a>"
                   }                        

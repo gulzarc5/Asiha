@@ -26,6 +26,8 @@ use App\Http\Resources\SliderResource;
 use App\Models\Brands;
 use App\Http\Resources\BrandResource;
 
+use App\Models\Coupon;
+use App\Http\Resources\CouponResource;
 
 
 class CategoryController extends Controller
@@ -44,6 +46,7 @@ class CategoryController extends Controller
                 'banner' => new SliderResource($banner),
                 'slider' => SliderResource::collection($slider),
                 'brands' => BrandResource::collection($brands),
+                'coupons' => CouponResource::collection(Coupon::where('status',1)->get()),
             ],
         ];
         return response()->json($response, 200);

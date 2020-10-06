@@ -53,11 +53,13 @@ Route::group(['namespace'=>'Api'], function(){
             Route::get('item/remove/{wish_list_id}','CartController@wishListItemRemove');
         });
 
+        Route::group(['prefix'=>'order',],function(){
+            Route::post('place','OrderController@placeOrder');
+        });
 
-        // Route::post('user/place/order','OrderController@placeOrder');
+        Route::get('checkout/coupons/{user_id}','OrderController@couponFetch');
         // Route::get('user/update/payment/request/id/{order_id}/{payment_rqst_id}','OrderController@updatePaymentRequestId');
         // Route::get('user/update/payment/id/{order_id}/{payment_rqst_id}/{payment_id}','OrderController@updatePaymentId');
-
         // Route::get('user/order/history/{user_id}','OrderController@orderHistory');
 
         // Route::get('user/order/cancel/{order_id}','OrderController@orderCancel');

@@ -35,7 +35,7 @@
 
                         <div class="form-group">
                             {{ Form::label('code', 'Coupon Code')}}
-                            {{ Form::text('code',null,array('class' => 'form-control','value'=>$coupons->code)) }}
+                            {{ Form::text('code',null,array('class' => 'form-control')) }}
 
                            @if($errors->has('code'))
                                <span class="invalid-feedback" role="alert" style="color:red">
@@ -44,19 +44,27 @@
                            @enderror
                        </div>
 
+                       <div class="form-group">
+                            {{ Form::label('discount', 'Discount (In Percentage)')}}
+                            {{ Form::number('discount',null,array('class' => 'form-control')) }}
 
-
-                        <div class="form-group">
-                            {{ Form::label('User Type', 'Select User Type')}}
-                            {!! Form::select('user_type', array('1' => 'New User', '2' => 'Old User'), $coupons->usertype, ['class' => 'form-control','placeholder'=>'Please Select User Type','id'=>'user_type','value']) !!}
-
-                            @if($errors->has('user_type'))
+                            @if($errors->has('code'))
                                 <span class="invalid-feedback" role="alert" style="color:red">
-                                    <strong>{{ $errors->first('user_type') }}</strong>
+                                    <strong>{{ $errors->first('code') }}</strong>
                                 </span>
                             @enderror
                         </div>
 
+                        <div class="form-group">
+                            {{ Form::label('description', 'Enter Coupon Details')}}
+                            {{ Form::textarea('description',null,array('class' => 'form-control')) }}
+
+                            @if($errors->has('code'))
+                                <span class="invalid-feedback" role="alert" style="color:red">
+                                    <strong>{{ $errors->first('code') }}</strong>
+                                </span>
+                            @enderror
+                        </div>
 
 
 

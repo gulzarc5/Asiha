@@ -304,6 +304,14 @@ class ProductController extends Controller
 
     public function productDetails($slug,$product_id){
         $product = Product::find($product_id);
-        return view('web.product.product-detail',compact('product'));
+        $product_color = [];
+        $product_sizes = [];
+        $min_size = [];
+        if ($product) {
+            $product_color = $product->productColors;
+            $product_sizes = $product->sizes;
+            $min_size = $product->minSize;
+        }
+        return view('web.product.product-detail',compact('product','product_color','product_sizes','min_size'));
     }
 }

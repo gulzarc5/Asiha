@@ -34,7 +34,7 @@
                      <img src="{{asset('images/products/'.$item->image.'')}}" alt="">
                   </div>
                   @endforeach
-                  {{-- 
+                  {{--
                   <div class="product-zoom" data-image="{{asset('web/images/product/s328/product-2.jpg')}}">
                      <img src="{{asset('web/images/product/s328/product-2.jpg')}}" alt="">
                   </div>
@@ -55,7 +55,7 @@
                      <img src="{{asset('images/products/thumb/'.$item->image.'')}}" alt="">
                   </div>
                   @endforeach
-                  {{-- 
+                  {{--
                   <div class="item">
                      <img src="{{asset('web/images/product/s328/product-2.jpg')}}" alt="">
                   </div>
@@ -74,10 +74,13 @@
          </div>
          <!-- Product Images End -->
          <!-- Product Summery Start -->
+         @php
+            $min_size = $min_size[0];
+         @endphp
          <div class="col-lg-6 col-12 ashia-mb-40">
             <div class="product-summery">
                <h3 class="product-title">{{$product->name}}</h3>
-               <div class="product-price"><span class="old">₹{{number_format($product->mrp,2,".",'')}}</span>₹{{number_format($product->min_price,2,".",'')}} </div>
+               <div class="product-price"><span class="old">₹{{number_format($min_size->mrp,2,".",'')}}</span>₹{{number_format($min_size->min_price,2,".",'')}} </div>
                <div class="product-description">
                   <p>{{$product->short_description}}</p>
                </div>
@@ -88,15 +91,30 @@
                            <td class="label"><span>Color</span></td>
                            <td class="value">
                               <div class="product-colors">
-                                 <!-- <a href="#" data-bg-color="#000000"></a>
-                                    <a href="#" data-bg-color="#b2483c"></a> -->
-                                 <label class="clr-container">
-                                 <input type="radio" checked="checked" name="radio-clr">
-                                 <span class="clr-checkmark red"></span>
-                                 </label>
-                                 <label class="clr-container">
+                                 @if (isset($product_color) && !empty($product_color) && (count($product_color) > 0))
+                                 @php
+                                    $color_count = true;
+                                 @endphp
+                                    @foreach ($product_color as $item)
+                                        @if ($color_count)
+                                        <label class="clr-container">
+                                            <input type="radio" checked="checked" name="color" value="{{$item->color_id}}">
+                                            <span class="clr-checkmark" style="background-color:{{$item->color->color}}"></span>
+                                        </label>
+                                        @php
+                                            $color_count = false;
+                                        @endphp
+                                        @else
+                                        <label class="clr-container">
+                                            <input type="radio"  name="color" value="{{$item->color_id}}">
+                                            <span class="clr-checkmark" style="background-color:{{$item->color->color}}"></span>
+                                        </label>
+                                        @endif
+                                    @endforeach
+                                 @endif
+                                 {{-- <label class="clr-container">
                                  <input type="radio" name="radio-clr">
-                                 <span class="clr-checkmark green"></span>
+                                 <span class="clr-checkmark green" ></span>
                                  </label>
                                  <label class="clr-container">
                                  <input type="radio" name="radio-clr">
@@ -105,7 +123,7 @@
                                  <label class="clr-container">
                                  <input type="radio" name="radio-clr">
                                  <span class="clr-checkmark pink"></span>
-                                 </label>
+                                 </label> --}}
                               </div>
                            </td>
                         </tr>
@@ -113,12 +131,30 @@
                            <td class="label"><span>Size</span></td>
                            <td class="value">
                               <div class="product-sizes">
-                                 <!-- <a href="#">Large</a>
-                                 <a href="#">Medium</a>
-                                 <a href="#">Small</a> -->
+                                @if (isset($product_sizes) && !empty($product_sizes) && (count($product_sizes) > 0))
+                                @php
+                                    $size_count = true;
+                                @endphp
+                                   @foreach ($product_sizes as $item)
+                                       @if ($size_count)
+                                       <label class="size-container">
+                                            <input type="radio"  name="size_id">
+                                            <span class="size-checkmark">S</span>
+                                        </label>
+                                       @php
+                                           $size_count = false;
+                                       @endphp
+                                       @else
+                                       <label class="size-container">
+                                            <input type="radio"  name="size_id">
+                                            <span class="size-checkmark">S</span>
+                                        </label>
+                                       @endif
+                                   @endforeach
+                                @endif
                                  <label class="size-container">
-                                 <input type="radio"  name="radio-size">
-                                 <span class="size-checkmark">S</span>
+                                    <input type="radio"  name="radio-size">
+                                    <span class="size-checkmark">S</span>
                                  </label>
                                  <label class="size-container">
                                  <input type="radio" name="radio-size">

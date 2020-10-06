@@ -20,7 +20,7 @@ Route::group(['namespace' => 'Admin'],function(){
             Route::get('status/{id}/{status}', 'CategoryController@categoryStatus')->name('admin.category_status');
             Route::get('edit/{id}', 'CategoryController@categoryEdit')->name('admin.category_edit');
             Route::put('update/{id}', 'CategoryController@categoryUpdate')->name('admin.category_update');
-            
+
             Route::get('images/edit/{id}', 'CategoryController@imagesEdit')->name('admin.images_edit');
             Route::post('add/new/images/','CategoryController@addNewImages')->name('admin.category_add_new_images');
             Route::get('make/cover/image/{category_id}/{image_id}','CategoryController@makeImageCover')->name('admin.category_make_cover_image');
@@ -35,7 +35,7 @@ Route::group(['namespace' => 'Admin'],function(){
             Route::put('update/{id}', 'CategoryController@subCategoryUpdate')->name('admin.sub_category_update');
             Route::get('list/with/category/{category_id}', 'CategoryController@subCategoryListWithCategory')->name('admin.sub_category_list_with_category');
             Route::get('status/{id}/{status}', 'CategoryController@subCategoryStatus')->name('admin.sub_category_status');
-            
+
             Route::get('images/edit/{id}', 'CategoryController@subCatimagesEdit')->name('admin.sub_cat_images_edit');
             Route::post('add/new/images/','CategoryController@subCatNewImages')->name('admin.sub_cat_add_new_images');
             Route::get('make/cover/image/{sub_category_id}/{image_id}','CategoryController@makeSubCatImageCover')->name('admin.sub_category_make_cover_image');
@@ -153,10 +153,20 @@ Route::group(['namespace' => 'Admin'],function(){
             Route::get('list/ajax','UserController@userListAjax')->name('admin.user_list_ajax');
         });
 
-        // Route::group(['prefix'=>'order'],function(){
-        //     Route::get('/list','OrderController@orderList')->name('admin.order_list');
-        //     Route::get('/list/ajax','OrderController@orderListAjax')->name('admin.order_list_ajax');
-        // });
+        Route::group(['prefix'=>'order'],function(){
+            Route::get('/list', 'OrderController@orderList')->name('admin.order_list');
+            // Route::get('dispatched/list', 'OrderController@dispatchedList')->name('admin.dispatched_order_list');
+            // Route::get('/list','OrderController@orderList')->name('admin.order_list');
+            // Route::get('/list/ajax','OrderController@orderListAjax')->name('admin.order_list_ajax');
+            Route::get('/details/{order_id}','OrderController@orderDetails')->name('admin.order_details');
+
+            Route::get('/update/status/{order_list_id}/{status}','OrderController@statusUpdate')->name('admin.status_update');
+        });
+
+        Route::group(['prefix'=>'setting'],function(){
+            Route::get('invoice', 'ConfigurationController@invoiceForm')->name('admin.invoice_form');
+            Route::post('invoice/update/', 'ConfigurationController@invoiceUpdate')->name('admin.invoiceUpdate');
+        });
 
     });
 });

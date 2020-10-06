@@ -37,25 +37,7 @@
                                                     <a href="edit-address.php" class="edit-link">edit this address</a>
                                                 </address>
                                             </div>
-                                            <div class="col-md-4 col-12 ashia-mb-30">
-                                                <address>                                                        
-                                                    <p><strong>Alex Tuntuni</strong></p>
-                                                    <p>1355 Market St, Suite 900 <br>
-                                                        San Francisco, CA 94103</p>
-                                                    <p class="mb-0">Mobile: (123) 456-7890</p>
-                                                    <a href="edit-address.php" class="edit-link">edit this address</a>
-                                                </address>
-                                            </div>
-                                            <div class="col-md-4 col-12 ashia-mb-30">
-                                                <address>
-                                                    <p><strong>Alex Tuntuni</strong></p>
-                                                    <p>1355 Market St, Suite 900 <br>
-                                                        San Francisco, CA 94103</p>
-                                                    <p class="mb-0">Mobile: (123) 456-7890</p>
-                                                    <a href="edit-address.php" class="edit-link">edit this address</a>
-                                                </address>
-                                            </div>
-                                            <div class="col-12 mb-4">
+                                           <div class="col-12 mb-4">
                                                 <p class="add-address" style="display: inline;cursor:pointer"><span style="color: #ff6c62;">Add New Address<span></p>   
                                             </div>
                                         </div>
@@ -66,7 +48,7 @@
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                     <label for="inputName4">Nane</label>
-                                                    <input type="text" class="form-control" id="inputName4" placeholder="Name">
+                                                    <input type="text" class="form-control" value="{{$address->name}}" id="inputName4" placeholder="Name">
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <label for="inputEmail4">Email</label>

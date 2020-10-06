@@ -18,10 +18,17 @@
                 <div class="row row-cols-sm-3 row-cols-1 ashia-mb-n40">
                     <div class="col ashia-mb-40">
                         <ul class="widget-list">
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">Login</a></li>
-                            <li><a href="#">Register</a></li>
-                            <li><a href="#">Logout</a></li>
+                            <li><a href="{{route('web.index')}}">Home</a></li>
+                            @guest
+                                <li><a href="{{route('web.login_form')}}">Login</a></li>
+                                <li><a href="{{route('web.register_form')}}">Register</a></li>
+                            @endguest
+                            @auth('web')
+                                <li><a href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();"><span class="menu-text"> Logout</span></a>
+                                </li>
+                                <form id="logout-form" action="{{ route('web.logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                            @endauth
                         </ul>
                     </div>
                     <div class="col ashia-mb-40">

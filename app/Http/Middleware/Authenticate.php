@@ -21,8 +21,11 @@ class Authenticate extends Middleware
                     case 'admin':
                        $route = 'admin/deshboard';
                        break;
-                  default:
-                       $route = 'admin/deshboard';
+                    case 'user':
+                        $route = '/';
+                        break;
+                    default:
+                       $route = '/';
                }
                return redirect($route);
            }

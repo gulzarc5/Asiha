@@ -65,6 +65,9 @@ class Handler extends ExceptionHandler
             case 'admin':
                 $login = 'admin.login_form';
                 break;
+            case 'user':
+                $login = 'web.login_form';
+                break;
             case 'api':
                 $response = [
                     'status'=>false,
@@ -73,7 +76,7 @@ class Handler extends ExceptionHandler
                 ];
                 return response()->json($response, 200);              
             default:
-                $login = 'admin.login_form';
+                $login = 'web.login_form';
                 break;
         }
         return redirect()->guest(route($login));

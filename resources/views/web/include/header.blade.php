@@ -55,7 +55,13 @@
                         <ul>
                             <li><a href="#"><i class="fa fa-phone" style="transform: rotate(90deg);"></i>(+91) 77045 10101</a></li>
                             <li><a target="_blank" href="https://goo.gl/maps/gW65xccpcVNx51N69"><i class="fa fa-map-marker-alt"></i>Google Map Location</a></li>
-                            <li><a href="#">Logout</a></li>
+                            @auth('user')
+                            <li><a href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();"><span class="menu-text"><i class="fal fa-user"></i> Logout</span></a>
+                            </li>
+                            <form id="logout-form" action="{{ route('web.logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                            @endauth
                         </ul>
                     </div>
                 </div>
@@ -81,6 +87,17 @@
                 <div class="col-auto mr-auto">
                     <nav class="site-main-menu site-main-menu-left menu-height-100 justify-content-center">
                         <ul>
+                            @auth('user')
+                               
+                                    @php
+                                        $user_data = $header_data['user_data'];
+                                    @endphp
+                                
+                            @endauth
+                            @php
+                                $category = $header_data['category'];
+                            @endphp
+                            
                             <li><a href="{{route('web.index')}}"><span class="menu-text">Homes</span></a></li>
                             @foreach($category as $items)
                                 @if($items->status==1)
@@ -121,13 +138,17 @@
                                     </li>
                                 @endif
                             @endforeach
+                            @guest
                             <li class="has-children"><a href="#"><span class="menu-text"><i class="fal fa-user"></i> Login/Register</span></a>
                                 <ul class="sub-menu">
-                                    <li><a href="{{route('web.login')}}"><span class="ti-unlock" style="padding-right: 10px;"></span><span class="menu-text">Login</span></a></li>
-                                    <li><a href="{{route('web.register')}}"><span class="ti-user" style="padding-right: 10px;"></span><span class="menu-text">Register</span></a></li>
+                                    <li><a href="{{route('web.login_form')}}"><span class="ti-unlock" style="padding-right: 10px;"></span><span class="menu-text">Login</span></a></li>
+                                    <li><a href="{{route('web.register_form')}}"><span class="ti-user" style="padding-right: 10px;"></span><span class="menu-text">Register</span></a></li>
                                 </ul>
                             </li>
-                            <li><a href="{{route('web.profile.dashboard')}}"><span class="menu-text"><i class="fa fa-user"></i> Hello, <b>Vishal</b></span></a> </li>
+                            @endguest
+                            @auth('user')
+                                <li><a href="{{route('web.dashboard')}}"><span class="menu-text"><i class="fa fa-user"></i> Hello, <b>{{$user_data->name}}</b></span></a> </li>
+                            @endauth
                         </ul>
                     </nav>
                 </div>
@@ -285,13 +306,17 @@
                                 </ul>
                             </li> --}}
 
+                           @guest
                             <li class="has-children"><a href="#"><span class="menu-text"><i class="fal fa-user"></i> Login/Register</span></a>
                                 <ul class="sub-menu">
-                                    <li><a href="{{route('web.login')}}"><span class="menu-text">Login</span></a></li>
-                                    <li><a href="{{route('web.register')}}"><span class="menu-text">Register</span></a></li>
+                                    <li><a href="{{route('web.login_form')}}"><span class="ti-unlock" style="padding-right: 10px;"></span><span class="menu-text">Login</span></a></li>
+                                    <li><a href="{{route('web.register_form')}}"><span class="ti-user" style="padding-right: 10px;"></span><span class="menu-text">Register</span></a></li>
                                 </ul>
                             </li>
-                            <li><a href="dashboard.php"><span class="menu-text"><i class="fa fa-user"></i> Hello, <b>Vishal</b></span></a> </li>
+                            @endguest
+                            @auth('user')
+                                <li><a href="{{route('web.dashboard')}}"><span class="menu-text"><i class="fa fa-user"></i> Hello, <b>{{$user_data->name}}</b></span></a> </li>
+                            @endauth
                         </ul>
                     </nav>
                 </div>
@@ -345,7 +370,7 @@
                 <div class="col-auto">
                     <div class="header-tools justify-content-end">
                         <div class="header-login d-none d-sm-block">
-                            <a href="{{route('web.profile.dashboard')}}"><i class="fal fa-user"></i></a>
+                            <a href="{{route('web.dashboard')}}"><i class="fal fa-user"></i></a>
                         </div>
                         <div class="header-search d-none d-sm-block">
                             <a href="#offcanvas-search" class="offcanvas-toggle"><i class="fal fa-search"></i></a>
@@ -391,7 +416,7 @@
                 <div class="col-auto">
                     <div class="header-tools justify-content-end">
                         <div class="header-login d-none d-sm-block">
-                            <a href="{{route('web.profile.dashboard')}}"><i class="fal fa-user"></i></a>
+                            <a href="{{route('web.dashboard')}}"><i class="fal fa-user"></i></a>
                         </div>
                         <div class="header-search d-none d-sm-block">
                             <a href="#offcanvas-search" class="offcanvas-toggle"><i class="fal fa-search"></i></a>
@@ -581,19 +606,19 @@
                             </li>
                         </ul>
                     </li>
-                    <li><a href="#"><span class="menu-text"><i class="fal fa-user"></i> Login/Register</span></a>
+                    {{-- <li><a href="#"><span class="menu-text"><i class="fal fa-user"></i> Login/Register</span></a>
                         <ul class="sub-menu">
-                            <li><a href="{{route('web.login')}}"><span class="ti-unlock" style="padding-right: 10px;"></span><span class="menu-text">Login</span></a></li>
-                            <li><a href="{{route('web.register')}}"><span class="ti-user" style="padding-right: 10px;"></span><span class="menu-text">Register</span></a></li>
+                            <li><a href="{{route('web.login_form')}}"><span class="ti-unlock" style="padding-right: 10px;"></span><span class="menu-text">Login</span></a></li>
+                            <li><a href="{{route('web.register_form')}}"><span class="ti-user" style="padding-right: 10px;"></span><span class="menu-text">Register</span></a></li>
                         </ul>
                     </li>
-                    <li><a href="{{route('web.profile.dashboard')}}"><span class="menu-text"><i class="fa fa-user"></i> Hello, <b>Vishal</b></span></a> </li>
+                    <li><a href="{{route('web.dashboard')}}"><span class="menu-text"><i class="fa fa-user"></i> Hello, <b>Vishal</b></span></a> </li> --}}
                 </ul>
             </div>
             <div class="offcanvas-buttons">
                 <div class="header-tools">
                     <div class="header-login">
-                        <a href="{{route('web.profile.dashboard')}}"><i class="fal fa-user"></i></a>
+                        <a href="{{route('web.dashboard')}}"><i class="fal fa-user"></i></a>
                     </div>
                     <div class="header-wishlist">
                         <a href="{{route('web.wishlist.wishlist')}}"><span>3</span><i class="fal fa-heart"></i></a>

@@ -9,13 +9,13 @@ class OrderDetalis extends Model
     protected $table = 'order_details';
     protected $primaryKey = 'id';
     protected $fillable = [
-        'user_id', 'order_id', 'product_id', 'size','quantity','price','mrp','discount','order_status',
+        'user_id', 'order_id', 'product_id', 'size','quantity','price','mrp','discount','order_status','refund_request','refund_amount'
     ];
 
-    // public function sizes()
-    // {
-    //     return $this->belongsTo('App\Models\ProductSize','size_id',$this->primaryKey);
-    // }
+    public function order()
+    {
+        return $this->belongsTo('App\Models\Order','order_id',$this->primaryKey);
+    }
     public function product()
     {
         return $this->belongsTo('App\Models\Product','product_id',$this->primaryKey);

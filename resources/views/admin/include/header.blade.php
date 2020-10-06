@@ -102,7 +102,7 @@
                   <li><a><i class="fa fa-first-order" aria-hidden="true"></i> Orders <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li class="sub_menu"><a href="{{route('admin.order_list')}}">Orders</a></li>
-                      {{-- <li class="sub_menu"><a href="{{route('admin.order_list')}}">Refund List</a></li> --}}
+                      <li class="sub_menu"><a href="{{route('admin.refund_order_list')}}">Refund List</a></li>
                     </ul>
                   </li>
 

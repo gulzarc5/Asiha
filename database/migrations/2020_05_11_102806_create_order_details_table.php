@@ -24,6 +24,8 @@ class CreateOrderDetailsTable extends Migration
             $table->double('mrp',10,2)->default(0);
             $table->double('discount',10,2)->default(0)->comment('Discount in Percentage');
             $table->char('order_status',1)->default(1)->comment('1 = new order,2 = Packed,3 = shipped,4 = delivered,5=cancel,6 = Return request,7 = returned');
+            $table->char('refund_request',1)->default(1)->comment('1 = No,2 = Yes,3 = Refunded');
+            $table->double('refund_amount',10,2)->default(0);
             $table->timestamps();
         });
     }

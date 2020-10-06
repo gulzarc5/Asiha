@@ -162,8 +162,14 @@ Route::group(['namespace' => 'Admin'],function(){
             // Route::get('/list','OrderController@orderList')->name('admin.order_list');
             // Route::get('/list/ajax','OrderController@orderListAjax')->name('admin.order_list_ajax');
             Route::get('/details/{order_id}','OrderController@orderDetails')->name('admin.order_details');
-
             Route::get('/update/status/{order_list_id}/{status}','OrderController@statusUpdate')->name('admin.status_update');
+
+            Route::get('refund/info/form/{order_item_id}', 'OrderController@refundInfoForm')->name('admin.order_refund_info_form');
+            Route::put('refund/info/insert/{order_item_id}', 'OrderController@refundInfoInsert')->name('admin.order_refund_info_insert');
+            // Route::get('refund/info/view/{order_id}', 'OrderController@refundInfoView')->name('admin.order_refund_info_view');
+
+            Route::get('refund/list', 'OrderController@refundList')->name('admin.refund_order_list');
+            // Route::get('refund/status/{order_id}', 'OrderController@refundUpdate')->name('admin.refund_update');
         });
 
         Route::group(['prefix'=>'setting'],function(){

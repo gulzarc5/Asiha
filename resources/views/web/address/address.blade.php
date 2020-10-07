@@ -33,14 +33,19 @@
                                                 <div class="alert alert-danger">{{ Session::get('error') }}</div>
                                             @endif
                                         <div class="row ashia-mb-n30">
-                                            @foreach($user_data as $data)
+                                            @foreach($address as $data)
                                                 @if(!empty($data) && isset($data))
                                                     <div class="col-md-4 col-12 ashia-mb-30">
                                                         <address>                                                        
                                                             <p><strong>{{$data->name}}</strong></p>
                                                             <p>{{$data->address}}</p>
                                                             <p class="mb-0">Mobile: {{$data->mobile}}</p>
+                                                            <p class="mb-0">Email: {{$data->email}}</p>
+                                                            <p class="mb-0">city: {{$data->city}}</p>
+                                                            <p class="mb-0">State: {{$data->state}}</p>
+                                                            <p class="mb-0">Pin: {{$data->pin}}</p>
                                                             <a href="{{route('web.edit_address',['id'=>$data->id])}}" class="edit-link">edit this address</a>
+                                                            <a href="{{route('web.delete_address',['address_id'=>$data->id])}}" class="edit-link">Delete this address</a>
                                                         </address>
                                                     </div>
                                                 @endif

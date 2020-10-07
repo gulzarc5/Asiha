@@ -29,8 +29,8 @@ class AppServiceProvider extends ServiceProvider
         View::composer(['web.include.header','web.include.footer'], function($view){
             $header_data ="";
            $category = Category::where('status',1)->get();
-           if( Auth::guard('web')->user() && !empty(Auth::guard('web')->user()->id)){
-            $user_data = Auth::guard('web')->user();
+           if( Auth::guard('user')->user() && !empty(Auth::guard('user')->user()->id)){
+            $user_data = Auth::guard('user')->user();
            
            $header_data = ['user_data'=>$user_data,'category'=>$category];
            }

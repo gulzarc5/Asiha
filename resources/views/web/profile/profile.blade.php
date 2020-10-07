@@ -26,13 +26,14 @@
                             </div>
                             <div id="faq-accordion-1" class="collapse show" data-parent="#faq-accordion">
                                 <div class="card-body pattern-bg">
+                                    @if (Session::has('message'))
+                                        <div class="alert alert-success">{{ Session::get('message') }}</div>
+                                    @endif @if (Session::has('error'))
+                                        <div class="alert alert-danger">{{ Session::get('error') }}</div>
+                                    @endif
                                     <div class="myaccount-content address" id="selt-add">
                                         <div class="row ashia-mb-n30">
-                                            @if (Session::has('message'))
-                                                <div class="alert alert-success">{{ Session::get('message') }}</div>
-                                            @endif @if (Session::has('error'))
-                                                <div class="alert alert-danger">{{ Session::get('error') }}</div>
-                                            @endif
+                                            
                                             <div class="col-md-4 col-12 ashia-mb-30">
                                                 <label for="inputName4">Name</label>
                                                 <p>{{$user_data->name}}</p>

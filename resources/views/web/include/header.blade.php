@@ -138,16 +138,18 @@
                                     </li>
                                 @endif
                             @endforeach
-                            @guest
-                            <li class="has-children"><a href="#"><span class="menu-text"><i class="fal fa-user"></i> Login/Register</span></a>
-                                <ul class="sub-menu">
-                                    <li><a href="{{route('web.login_form')}}"><span class="ti-unlock" style="padding-right: 10px;"></span><span class="menu-text">Login</span></a></li>
-                                    <li><a href="{{route('web.register_form')}}"><span class="ti-user" style="padding-right: 10px;"></span><span class="menu-text">Register</span></a></li>
-                                </ul>
-                            </li>
-                            @endguest
+                           
+                            
+                           
                             @auth('user')
                                 <li><a href="{{route('web.dashboard')}}"><span class="menu-text"><i class="fa fa-user"></i> Hello, <b>{{$user_data->name}}</b></span></a> </li>
+                            @else
+                                <li class="has-children"><a href="#"><span class="menu-text"><i class="fal fa-user"></i> Login/Register</span></a>
+                                    <ul class="sub-menu">
+                                        <li><a href="{{route('web.login_form')}}"><span class="ti-unlock" style="padding-right: 10px;"></span><span class="menu-text">Login</span></a></li>
+                                        <li><a href="{{route('web.register_form')}}"><span class="ti-user" style="padding-right: 10px;"></span><span class="menu-text">Register</span></a></li>
+                                    </ul>
+                                </li>
                             @endauth
                         </ul>
                     </nav>
@@ -161,7 +163,7 @@
                             <a href="#offcanvas-search" class="offcanvas-toggle"><i class="fal fa-search"></i></a>
                         </div>
                         <div class="header-wishlist">
-                            <a href="{{route('web.wishlist.wishlist')}}"><span class="wishlist-count">3</span><i class="fal fa-heart"></i></a>
+                            <a href="{{route('web.wishlist')}}"><span class="wishlist-count">3</span><i class="fal fa-heart"></i></a>
                         </div>
                         <div class="header-cart">
                             <a href="{{route('web.cart.cart')}}"><span class="cart-count">3</span><i class="fal fa-shopping-cart"></i></a>
@@ -306,16 +308,18 @@
                                 </ul>
                             </li> --}}
 
-                           @guest
-                            <li class="has-children"><a href="#"><span class="menu-text"><i class="fal fa-user"></i> Login/Register</span></a>
-                                <ul class="sub-menu">
-                                    <li><a href="{{route('web.login_form')}}"><span class="ti-unlock" style="padding-right: 10px;"></span><span class="menu-text">Login</span></a></li>
-                                    <li><a href="{{route('web.register_form')}}"><span class="ti-user" style="padding-right: 10px;"></span><span class="menu-text">Register</span></a></li>
-                                </ul>
-                            </li>
-                            @endguest
+                          
+                           
+                            
                             @auth('user')
                                 <li><a href="{{route('web.dashboard')}}"><span class="menu-text"><i class="fa fa-user"></i> Hello, <b>{{$user_data->name}}</b></span></a> </li>
+                            @else
+                                <li class="has-children"><a href="#"><span class="menu-text"><i class="fal fa-user"></i> Login/Register</span></a>
+                                    <ul class="sub-menu">
+                                        <li><a href="{{route('web.login_form')}}"><span class="ti-unlock" style="padding-right: 10px;"></span><span class="menu-text">Login</span></a></li>
+                                        <li><a href="{{route('web.register_form')}}"><span class="ti-user" style="padding-right: 10px;"></span><span class="menu-text">Register</span></a></li>
+                                    </ul>
+                                </li>
                             @endauth
                         </ul>
                     </nav>
@@ -329,7 +333,7 @@
                             <a href="#offcanvas-search" class="offcanvas-toggle"><i class="fal fa-search"></i></a>
                         </div>
                         <div class="header-wishlist d-none d-sm-block">
-                            <a href="{{route('web.wishlist.wishlist')}}" class="offcanvas-toggle"><span class="wishlist-count">3</span><i class="fal fa-heart"></i></a>
+                            <a href="{{route('web.wishlist')}}" class="offcanvas-toggle"><span class="wishlist-count">3</span><i class="fal fa-heart"></i></a>
                         </div>
                         <div class="header-cart">
                             <a href="{{route('web.cart.cart')}}" class="offcanvas-toggle"><span class="cart-count">3</span><i class="fal fa-shopping-cart"></i></a>
@@ -376,7 +380,7 @@
                             <a href="#offcanvas-search" class="offcanvas-toggle"><i class="fal fa-search"></i></a>
                         </div>
                         <div class="header-wishlist d-none d-sm-block">
-                            <a href="{{route('web.wishlist.wishlist')}}"><span class="wishlist-count">3</span><i class="fal fa-heart"></i></a>
+                            <a href="{{route('web.wishlist')}}"><span class="wishlist-count">3</span><i class="fal fa-heart"></i></a>
                         </div>
                         <div class="header-cart">
                             <a href="{{route('web.cart.cart')}}"><span class="cart-count">3</span><i class="fal fa-shopping-cart"></i></a>
@@ -422,7 +426,7 @@
                             <a href="#offcanvas-search" class="offcanvas-toggle"><i class="fal fa-search"></i></a>
                         </div>
                         <div class="header-wishlist d-none d-sm-block">
-                            <a href="{{route('web.wishlist.wishlist')}}"><span class="wishlist-count">3</span><i class="fal fa-heart"></i></a>
+                            <a href="{{route('web.wishlist')}}"><span class="wishlist-count">3</span><i class="fal fa-heart"></i></a>
                         </div>
                         <div class="header-cart">
                             <a href="{{route('web.cart.cart')}}"><span class="cart-count">3</span><i class="fal fa-shopping-cart"></i></a>
@@ -649,7 +653,7 @@
                         <a href="{{route('web.dashboard')}}"><i class="fal fa-user"></i></a>
                     </div>
                     <div class="header-wishlist">
-                        <a href="{{route('web.wishlist.wishlist')}}"><span>3</span><i class="fal fa-heart"></i></a>
+                        <a href="{{route('web.wishlist')}}"><span>3</span><i class="fal fa-heart"></i></a>
                     </div>
                     <div class="header-cart">
                         <a href="{{route('web.cart.cart')}}"><span class="cart-count">3</span><i class="fal fa-shopping-cart"></i></a>

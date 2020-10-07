@@ -30,7 +30,15 @@ Route::group(['namespace'=>'Web'],function(){
             Route::get('address','UserController@address')->name('web.address');
             Route::post('add/new/address','UserController@addNewAddress')->name('web.add_new_address');
             Route::get('edit/address/{id}','UserController@editAddress')->name('web.edit_address');
+            Route::post('update/address/{id}','UserController@updateAddress')->name('web.update_address');
+            Route::get('delete/address/{address_id}','UserController@deleteAddress')->name('web.delete_address');
+            Route::get('wishlist','UserController@wishList')->name('web.wishlist');
+            Route::get('add/wishlist/{product_id}','UserController@addWishlist')->name('web.add_wish_list');
+            Route::get('remove/{product_id}','UserController@removeWishList')->name('web.remove_wishlist');
         });
+
+        Route::post('add/cart/{product_id}', 'UserController@addCart')->name('web.add_cart');
+        Route::get('view/cart','UserController@viewCart')->name('web.view_cart');
     });
 });
 
@@ -101,9 +109,9 @@ Route::get('/Order-Detail', function () {
 })->name('web.order.order-detail');
 
 //========= wishlist =========//
-Route::get('/Wishlist', function () {
-    return view('web.wishlist.wishlist');
-})->name('web.wishlist.wishlist');
+// Route::get('/Wishlist', function () {
+//     return view('web.wishlist.wishlist');
+// })->name('web.wishlist.wishlist');
 
 //========= address =========//
 // Route::get('/Address', function () {

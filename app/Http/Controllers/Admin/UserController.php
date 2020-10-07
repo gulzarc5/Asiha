@@ -44,7 +44,6 @@ class UserController extends Controller
     }
 
     public function userUpdate(Request $request,$id){
-
         $this->validate($request,[
             'name'=>'required',
             'email'=>'required',

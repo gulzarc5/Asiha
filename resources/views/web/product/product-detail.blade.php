@@ -186,7 +186,7 @@
                </div>
                <div class="product-buttons">
                   <a href="#" class="btn btn-icon btn-outline-body btn-hover-dark hintT-top" data-hint="Add to Wishlist"><i class="fal fa-heart"></i></a>
-                  <a href="cart.php" class="btn btn-dark btn-outline-hover-dark"><i class="fal fa-shopping-cart"></i> Add to Cart</a>
+                  <a href="{{route('web.add_cart',['product_id'=>$product->id])}}" class="btn btn-dark btn-outline-hover-dark"><i class="fal fa-shopping-cart"></i> Add to Cart</a>
                </div>
                <b class="size-chart">see size chart</b>
                <div class="szi-cht table-responsive ashia-pt-20">

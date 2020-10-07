@@ -209,9 +209,7 @@ class SliderController extends Controller
             }
             Slider::where('id',$id)
             ->update([
-
                 'image'=>$image_name,
-
             ]);
             return redirect()->back()->with('message','Banner Updated Successfully');
         }

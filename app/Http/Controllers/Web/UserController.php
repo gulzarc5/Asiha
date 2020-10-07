@@ -7,15 +7,17 @@ use Auth;
 use Hash;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Wishlist;
+use App\Models\Product;
 use App\Models\Address;
 class UserController extends Controller
 {
     public function loginForm(){
-        return view('web.login');
+       return view('web.login');         
     }
 
     public function registerForm(){
-        return view('web.register');
+       return view('web.register');
     }
 
     public function register(Request $request){
@@ -25,13 +27,12 @@ class UserController extends Controller
             'mobile'=>'required|numeric|digits:10|unique:users',
             'password'=>'required|confirmed|min:6'
         ]);
-       
-        $user = User::create([
-            'name' => $request['username'],
-            'email' => $request['email'],
-            'mobile' => $request['mobile'],
-            'password' => Hash::make($request['password']),
-        ]);
+        $user = new User;
+        $user->name = $request->input('username');
+        $user->email = $request->input('email');
+        $user->mobile =$request->input('mobile');
+        $user->password = Hash::make($request->input('password'));
+        $user->save();
         
         if($user){
             $login = $this->loginCheck($request->input('email'),$request->input('password'));
@@ -55,8 +56,7 @@ class UserController extends Controller
             return redirect()->intended('/');
         } else {
             return back()->withInput($request->only('email'))->with('login_error',' Mobile / Email or password incorrect');
-        }
-        
+        }        
     }
 
     function loginCheck($email,$password){
@@ -81,7 +81,7 @@ class UserController extends Controller
     
     }
 
-    public function logout(){
+    public function logout(Request $request){
         Auth::guard('user')->logout();        
         $request->session()->invalidate();
         return redirect()->route('web.login_form');
@@ -92,9 +92,8 @@ class UserController extends Controller
     }
 
     public function profile(){
-        $user_data = User::where('id',Auth::user()->id)->first();
-        return view('web.profile.profile',compact('user_data'));
-        
+        $user_data = User::find(Auth::user()->id);
+        return view('web.profile.profile',compact('user_data'));        
     }
 
     public function updateProfile(Request $request){
@@ -104,24 +103,25 @@ class UserController extends Controller
             'email'=>'required|email|unique:users,email,'.$id,
             'mobile'=>'required|numeric|digits:10|unique:users,mobile,'.$id,
         ]);
-        $user = User::where('id',Auth::user()->id)->update([
-            'name'=>$request['username'],
-            'email'=>$request['email'],
-            'mobile'=>$request['mobile'],
-            'gender'=>$request['gender'],
-            'city'=>$request['city'],
-            'state'=>$request['state'],
-            'pin'=>$request['pin'],
-            'address'=>$request['address'],
-            'dob'=>$request['dob']
-
-        ]);
-        return redirect()->back()->with("message");
+        $user = User::find(Auth::user()->id);
+        if ($user) {
+            $user->name = $request->input('username');
+            $user->email = $request->input('email');
+            $user->mobile = $request->input('mobile');
+            $user->gender = $request->input('gender');
+            $user->city = $request->input('city');
+            $user->state = $request->input('state');
+            $user->pin = $request->input('pin');
+            $user->address = $request->input('address');
+            $user->dob = $request->input('dob');
+            $user->save();
+        }
+        return redirect()->back()->with("message",'User Updated Successfully');
     }
 
     public function address(){
-        $user_data = Address::where('user_id',Auth::user()->id)->get();
-        return view('web.address.address',compact('user_data'));
+        $address = Address::where('user_id',Auth::user()->id)->get();
+        return view('web.address.address',compact('address'));
     }
 
     public function addNewAddress(Request $request){
@@ -131,30 +131,79 @@ class UserController extends Controller
             'state'=>'required',
             'city'=>'required',
             'email'=>'required|email',
-            'mobile'=>'required',
+            'mobile'=>'required|digits:10|numeric',
             'pin'=>'required'
         ]);
-        Address::create([
-            'user_id'=>Auth::user()->id,
-            'name'=>$request['name'],
-            'address'=>$request['address'],
-            'state'=>$request['state'],
-            'city'=>$request['city'],
-            'email'=>$request['email'],
-            'mobile'=>$request['mobile'],
-            'pin'=>$request['pin'],
-            
-        ]);
-        return redirect()->back()->with('message');
+        $address = new address();
+        if($address){
+            $address->user_id=Auth::user()->id;
+            $address->name=$request->input('name');
+            $address->address=$request->input('address');
+            $address->state=$request->input('state');
+            $address->city=$request->input('city');
+            $address->email=$request->input('email');
+            $address->mobile=$request->input('mobile');
+            $address->pin=$request->input('pin');
+            $address->save();          
+        }
+        return redirect()->back()->with('message','Address added successfully');
     }
 
     public function editAddress($id){
-        
         $address = Address::where('id',$id)->first();
-        
         return view('web.address.edit-address',compact('address'));
-
     }
 
+    public function updateAddress(Request $request,$id){
+        $this->validate($request,[
+            'name'=>'required',
+            'email'=>'required|email',
+            'mobile'=>'required|numeric|digits:10',
+            'address'=>'required',
+            'city'=>'required',
+            'state'=>'required',
+            'pin'=>'required'
+        ]);
+        $address= Address::find($id);
+        if($address){
+            $address->name=$request->input('name');
+            $address->email=$request->input('email');
+            $address->mobile=$request->input('mobile');
+            $address->address=$request->input('address');
+            $address->city=$request->input('city');
+            $address->state=$request->input('state');
+            $address->pin=$request->input('pin');
+            $address->save();
+        }
+        return redirect()->back()->with("message",'Address updated successfully');
+    }
+
+    public function deleteAddress($address_id){
+        Address::destroy($address_id);
+        return redirect()->back();
+    }
+
+    public function addWishList($product_id){
+        $wishlist_cnt = Wishlist::where('user_id', Auth::user()->id)->where('product_id', $product_id)->count();
+        if($wishlist_cnt < 1){
+            $wishlist = new wishList();
+            if($wishlist){
+                $wishlist->user_id = Auth()->user()->id;
+                $wishlist->product_id = $product_id;
+                $wishlist->save();
+            }
+        }
+        return redirect()->back();
+    }
+
+    public function wishList(){
+       $wishlist = Wishlist::where('user_id',Auth::user()->id)->get();       
+       return view('web.wishlist.wishlist',compact('wishlist'));        
+    }
+
+    public function removeWishList($id){
+        Wishlist::destroy($id);
+        return redirect()->back();
+    }
     
 }

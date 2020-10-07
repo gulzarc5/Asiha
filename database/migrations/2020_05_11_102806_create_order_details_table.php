@@ -19,6 +19,7 @@ class CreateOrderDetailsTable extends Migration
             $table->unsignedBigInteger('order_id');
             $table->unsignedBigInteger('product_id');
             $table->string('size',256)->nullable();
+            $table->string('color',256)->nullable();
             $table->unsignedBigInteger('quantity')->default(1);
             $table->double('price',10,2)->default(0);
             $table->double('mrp',10,2)->default(0);

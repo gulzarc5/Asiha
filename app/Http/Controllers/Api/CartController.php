@@ -31,6 +31,7 @@ class CartController extends Controller
             return response()->json($response, 200);
         }
         $size_id = $request->input('size_id');
+        $color = $request->input('color');
         $count = 0;
         $count = Cart::where('user_id',$request->input('user_id'))->where('product_id',$request->input('product_id'))->where('size_id',$size_id)->count();
 
@@ -39,6 +40,7 @@ class CartController extends Controller
             $cart->user_id = $request->input('user_id');
             $cart->product_id = $request->input('product_id');
             $cart->size_id = $size_id;
+            $cart->color = $color;
             $cart->quantity = $request->input('quantity');
             $cart->save();
         }

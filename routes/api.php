@@ -55,14 +55,17 @@ Route::group(['namespace'=>'Api'], function(){
 
         Route::group(['prefix'=>'order',],function(){
             Route::post('place','OrderController@placeOrder');
+            Route::get('cancel/{order_item_id}','OrderController@orderCancel');
+            Route::post('cancel/refund','OrderController@orderCancelRefund');
+            Route::post('returd/refund','OrderController@orderReturnRefund');
+            Route::get('payment/id/{order_id}/{payment_id}/{status}','OrderController@updatePaymentId');
+            Route::get('history/{user_id}','OrderController@orderHistory');
         });
 
         Route::get('checkout/coupons/{user_id}','OrderController@couponFetch');
         // Route::get('user/update/payment/request/id/{order_id}/{payment_rqst_id}','OrderController@updatePaymentRequestId');
-        // Route::get('user/update/payment/id/{order_id}/{payment_rqst_id}/{payment_id}','OrderController@updatePaymentId');
         // Route::get('user/order/history/{user_id}','OrderController@orderHistory');
 
-        // Route::get('user/order/cancel/{order_id}','OrderController@orderCancel');
     });
 });
 Route::middleware('auth:api')->get('/user', function (Request $request) {

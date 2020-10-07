@@ -8,10 +8,12 @@ use Illuminate\Http\Request;
 use App\Models\Coupon;
 use App\Models\Order;
 use App\Http\Resources\CouponResource;
+use App\Http\Resources\OrderHistoryResource;
 
 use App\Models\Cart;
 use App\Models\Charges;
 use App\Models\OrderDetalis;
+use App\Models\RefundInfo;
 use Validator;
 use DB;
 
@@ -147,6 +149,7 @@ class OrderController extends Controller
         $order_details->order_id = $order_id;
         $order_details->product_id = $cart->product_id;
         $order_details->size = $size_fetch->size->name;
+        $order_details->color = $cart->color;
         $order_details->quantity = $cart->quantity;
         $order_details->price = $size_fetch->price;
         $order_details->mrp = $size_fetch->mrp;
@@ -157,5 +160,184 @@ class OrderController extends Controller
         } else {
             throw new Exception;
         }
+    }
+
+    public function orderCancel($order_item_id)
+    {
+        $order_item = OrderDetalis::find($order_item_id);
+        $order_item->order_status = 5;
+        $order_item->save();
+
+        $all_order = OrderDetalis::where('order_id',$order_item->order_id)->get();
+        $status = 7;
+        foreach ($all_order as $key => $item) {
+            if ($item->order_status < $status) {
+                $status = $item->order_status;
+            }
+        }
+        $order = Order::find($order_item->order_id);
+        $order->order_status = $status;
+        $order->save();
+        $response = [
+            'status' => true,
+            'message' => 'Order Cancelled',
+        ];
+        return response()->json($response, 200);
+    }
+
+    public function orderCancelRefund(Request $request)
+    {
+        $validator =  Validator::make($request->all(),[
+            'order_item_id' => 'required',
+            'name'   => 'required',
+            'bank_name' => 'required',
+            'branch_name' => 'required',
+            'ac_no' => 'required',
+            'ifsc' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            $response = [
+                'status' => false,
+                'message' => 'Required Field Can not be Empty',
+                'error_code' => true,
+                'error_message' => $validator->errors(),
+            ];
+            return response()->json($response, 200);
+        }
+
+        $order_item_id = $request->input('order_item_id');
+        $order_item = OrderDetalis::find($order_item_id);
+        $order_item->order_status = 5;
+        $order_item->refund_request = 2;
+        $order_item->save();
+
+        $all_order = OrderDetalis::where('order_id',$order_item->order_id)->get();
+        $status = 7;
+        foreach ($all_order as $key => $item) {
+            if ($item->order_status < $status) {
+                $status = $item->order_status;
+            }
+        }
+        $order = Order::find($order_item->order_id);
+        $order->order_status = $status;
+        $order->save();
+
+        $amount = $order_item->quantity*$order_item->price;
+        $discount = (($amount*$order_item->discount)/100);
+        if ($status == 5 || $status == 6 || $status == 7 ) {
+            $order_item->refund_amount = (($amount-$discount)+$order_item->order->shipping_charge);
+        }else{
+            $order_item->refund_amount = ($amount-$discount);
+        }
+        $order_item->save();
+
+        $refund_info = new RefundInfo();
+        $refund_info->order_id = $order_item->id;
+        $refund_info->amount =  $order_item->refund_amount;
+        $refund_info->name = $request->input('name');
+        $refund_info->bank_name = $request->input('bank_name');
+        $refund_info->ac_no = $request->input('ac_no');
+        $refund_info->ifsc = $request->input('ifsc');
+        $refund_info->branch_name = $request->input('branch_name');
+        $refund_info->save();
+
+        $response = [
+            'status' => true,
+            'message' => 'Order Cancelled Successfully',
+            'error_code' => false,
+            'error_message' => null,
+        ];
+        return response()->json($response, 200);
+    }
+
+    public function orderReturnRefund(Request $request)
+    {
+        $validator =  Validator::make($request->all(),[
+            'order_item_id' => 'required',
+            'name'   => 'required',
+            'bank_name' => 'required',
+            'branch_name' => 'required',
+            'ac_no' => 'required',
+            'ifsc' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            $response = [
+                'status' => false,
+                'message' => 'Required Field Can not be Empty',
+                'error_code' => true,
+                'error_message' => $validator->errors(),
+            ];
+            return response()->json($response, 200);
+        }
+
+        $order_item_id = $request->input('order_item_id');
+        $order_item = OrderDetalis::find($order_item_id);
+        $order_item->order_status = 6;
+        $order_item->refund_request = 2;
+        $order_item->save();
+
+        $all_order = OrderDetalis::where('order_id',$order_item->order_id)->get();
+        $status = 7;
+        foreach ($all_order as $key => $item) {
+            if ($item->order_status < $status) {
+                $status = $item->order_status;
+            }
+        }
+        $order = Order::find($order_item->order_id);
+        $order->order_status = $status;
+        $order->save();
+
+        $amount = $order_item->quantity*$order_item->price;
+        $discount = (($amount*$order_item->discount)/100);
+        if ($status == 5 || $status == 6 || $status == 7 ) {
+            $order_item->refund_amount = (($amount-$discount)+$order_item->order->shipping_charge);
+        }else{
+            $order_item->refund_amount = ($amount-$discount);
+        }
+        $order_item->save();
+
+        $refund_info = new RefundInfo();
+        $refund_info->order_id = $order_item->id;
+        $refund_info->amount =  $order_item->refund_amount;
+        $refund_info->name = $request->input('name');
+        $refund_info->bank_name = $request->input('bank_name');
+        $refund_info->ac_no = $request->input('ac_no');
+        $refund_info->ifsc = $request->input('ifsc');
+        $refund_info->branch_name = $request->input('branch_name');
+        $refund_info->save();
+
+        $response = [
+            'status' => true,
+            'message' => 'Return Request Sent Successfully',
+            'error_code' => false,
+            'error_message' => null,
+        ];
+        return response()->json($response, 200);
+    }
+
+    public function updatePaymentId($order_id,$payment_id,$status)
+    {
+        $order = Order::find($order_id);
+        $order->payment_id = $payment_id;
+        $order->payment_status = $status; // 2 =paid,3 = failed
+        $order->save();
+        $response = [
+            'status' => true,
+            'message' => 'Payment Status Updated Successfully',
+        ];
+        return response()->json($response, 200);
+    }
+
+    public function orderHistory($user_id)
+    {
+        $orders = Order::where('user_id',$user_id)->get();
+        $response = [
+            'status' => true,
+            'message' => 'Order History',
+            'data' => OrderHistoryResource::collection($orders),
+        ];
+        return response()->json($response, 200);
     }
 }

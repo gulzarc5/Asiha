@@ -9,7 +9,7 @@ class Cart extends Model
     protected $table = 'cart';
     protected $primaryKey = 'id';
     protected $fillable = [
-        'user_id', 'product_id', 'size_id','quantity',
+        'user_id', 'product_id', 'size_id','color','quantity',
     ];
 
     public function sizes()

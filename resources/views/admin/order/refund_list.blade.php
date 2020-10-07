@@ -20,8 +20,6 @@
                                     <th class="column-title">Sl No. </th>
                                     <th class="column-title">Order ID</th>
                                     <th class="column-title">Order By</th>
-                                    <th class="column-title">Amount</th>
-                                    <th class="column-title">Shipping</th>
                                     <th class="column-title">Refund amount</th>
                                     <th class="column-title">Refund Status</th>
                                     <th class="column-title">Date</th>
@@ -40,22 +38,20 @@
                                     <td class=" ">{{ $count++ }}</td>
                                     <td class=" ">{{ $order->id }}</td>
                                     <td>{{ $order->order->user->name }}</td>
-                                    <td>{{ $order->amount }}</td>
-                                    <td>{{ $order->shipping_charge }}</td>
-                                    <td class=" ">{{ $order->amount+$order->shipping_charge }}</td>
+                                    <td>{{ $order->refund->amount }}</td>
                                     <td class=" " id="status{{$count}}">
-                                    	@if($order->is_refund == '2')
+                                    	@if($order->refund_request == '2')
                                            <a href="#" class="btn btn-sm btn-danger" disabled>Not Paid</a>
-                                        @elseif($order->is_refund == '3')
+                                        @elseif($order->refund_request == '3')
                                             <a href="#" class="btn btn-sm btn-success" disabled>Paid</a>
                                         @endif
                                     </td>
                                     <td>{{ $order->created_at }}</td>
                                     <td id="action{{$count}}">
-                                        @if($order->is_refund == '2')
+                                        @if($order->refund_request == '2')
                                            <button class="btn btn-sm btn-primary" onclick="openModal({{$order->id}},{{$count}})">Refunded</button>
                                            <a href="{{route('admin.order_refund_info_view',['order_id'=>$order->id])}}" class="btn btn-sm btn-warning">View Account Info</a>
-                                        @elseif($order->is_refund == '3')
+                                        @elseif($order->refund_request == '3')
                                             <a href="#" class="btn btn-sm btn-success" disabled>Done</a>
                                         @endif
                                     </td>

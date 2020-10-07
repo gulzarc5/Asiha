@@ -14,7 +14,20 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>New Orders</h2>
+                    <div class="col-md-8">
+
+                        <h2>New Orders</h2>
+                    </div>
+                    <div class="col-md-4">
+                        <form action="">
+                            <div class="col-md-10">
+                                <input type="text" name="search_key" id="" class="form-control" placeholder="Search By Order Id">
+                            </div>
+                            <div class="col-md-2" style="margin: 0;padding: 0;">
+                                <button type="submit" class="btn btn-sm btn-success" style="padding: 6px !important;">Search</button>
+                            </div>
+                        </form>
+                    </div>
                     <div class="clearfix"></div>
                 </div>
 
@@ -233,7 +246,7 @@
 						success:function(data){
                             if (status == '2') {
                                 $("#status"+action_id).html('<button class="btn btn-sm btn-info">Packed</button>');
-                                $("#action"+action_id).html(`<button class="btn btn-sm btn-primary" onclick="openModal(${order_item_id},'3',${action_id},'Are You Sure To Shipped ?)">Shipped</button>`);
+                                $("#action"+action_id).html(`<button class="btn btn-sm btn-primary" onclick="openModal(${order_item_id},'3',${action_id},'Are You Sure To Shipped ?')">Shipped</button>`);
                             } else if (status == '3') {
                                 $("#status"+action_id).html('<button class="btn btn-sm btn-primary">Shipped</button>');
                                 $("#action"+action_id).html(`<button class="btn btn-sm btn-success" onclick="openModal(${order_item_id},'3',${action_id},'Are You Sure To Delivered ? ')">Delivered</button>`);

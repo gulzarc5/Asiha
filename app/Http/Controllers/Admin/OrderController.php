@@ -12,9 +12,15 @@ use App\Models\InvoiceSetting;
 
 class OrderController extends Controller
 {
-    public function orderList()
+    public function orderList(Request $request)
     {
-        $orders = Order::paginate(25);
+        if ($request->has('search_key')) {
+            $search_key = $request->input('search_key');
+            $orders = Order::where('id', 'like', '%'.$search_key.'%')->orderBy('id','desc')->paginate(25);
+        }else{
+            $orders = Order::orderBy('id','desc')->paginate(25);
+        }
+        // $orders = Order::paginate(25);
         return view('admin.order.order_list',compact('orders'));
     }
 
@@ -98,15 +104,15 @@ class OrderController extends Controller
         $amount = $order_item->quantity*$order_item->price;
         $discount = (($amount*$order_item->discount)/100);
         if ($status == 5 || $status == 6 || $status == 7 ) {
-            $order_item->refund_amount = ($amount+$discount+$order_item->order->shipping_charge);
+            $order_item->refund_amount = ($amount-$discount+$order_item->order->shipping_charge);
         }else{
-            $order_item->refund_amount = ($amount+$discount);
+            $order_item->refund_amount = ($amount-$discount);
         }
         $order_item->save();
 
         $refund_info = new RefundInfo();
-        $refund_info->order_id = $order->id;
-        $refund_info->amount = $order->amount+$order->shipping_charge;
+        $refund_info->order_id = $order_item->id;
+        $refund_info->amount = $order_item->refund_amount;
         $refund_info->name = $request->input('name');
         $refund_info->bank_name = $request->input('bank_name');
         $refund_info->ac_no = $request->input('ac_no');
@@ -116,10 +122,42 @@ class OrderController extends Controller
         return redirect()->route('admin.order_list');
     }
 
+    public function refundInfoView($order_id)
+    {
+       $refund_info = RefundInfo::where('order_id',$order_id)->first();
+       return view('admin.refund.refund_info_view',compact('refund_info'));
+    }
+
     public function refundList()
     {
         $orders = OrderDetalis::where('refund_request','!=',1)->orderBy('id','desc')->get();
         return view('admin.order.refund_list',compact('orders'));
+    }
+
+    public function refundUpdate($order_list_id)
+    {
+        $status = 7;
+        $order_item = OrderDetalis::find($order_list_id);
+        $order_item->order_status = $status;
+        $order_item->refund_request = 3;
+        $order_item->save();
+
+        $all_order = OrderDetalis::where('order_id',$order_item->order_id)->get();
+        $status = 7;
+        foreach ($all_order as $key => $item) {
+            if ($item->order_status < $status) {
+                $status = $item->order_status;
+            }
+        }
+        // return response()->json($status, 200);
+        $order = Order::find($order_item->order_id);
+        $order->order_status = $status;
+        $order->save();
+
+        $refund_info = RefundInfo::where('order_id',$order_list_id)->first();
+        $refund_info->refund_status = 2;
+        $refund_info->save();
+        return 1;
     }
 
 

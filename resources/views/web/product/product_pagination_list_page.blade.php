@@ -16,7 +16,7 @@
                 </span>
                 <div class="product-buttons">
                     <a href="{{ route('web.add_wish_list',['product_id'=>$product->id]) }}" class="product-button hintT-top" data-hint="Add to wishlist"><i class="far fa-heart"></i></a>
-                    <a href="#" class="product-button hintT-top" data-hint="Add to Cart"><i class="fal fa-shopping-cart"></i></a>
+                    <a href="{{route('web.add_direct_cart',['product_id'=>$product->id])}}" class="product-button hintT-top" data-hint="Add to Cart"><i class="fal fa-shopping-cart"></i></a>
                 </div>
             </div>
         </div>

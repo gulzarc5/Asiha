@@ -13,7 +13,7 @@
                 <!-- My Account Tab List Start -->
                 <div class="col-lg-10 col-12 ashia-mb-30 mx-auto">
                     <div class="dashboard row">
-                        <div class="col-lg-4 col-xs-6"><a href="{{route('web.cart.cart')}}"> <i class="far fa-shopping-cart"></i> Cart</a></div>
+                        <div class="col-lg-4 col-xs-6"><a href="{{route('web.view_cart')}}"> <i class="far fa-shopping-cart"></i> Cart</a></div>
                         <div class="col-lg-4 col-xs-6"><a href="{{route('web.order.order')}}"> <i class="far fa-file-alt"></i> Orders</a></div>
                         <div class="col-lg-4 col-xs-6"><a href="{{route('web.wishlist')}}"> <i class="far fa-heart"></i> Wishlist</a></div>
                         <div class="col-lg-4 col-xs-6"><a href="{{route('web.address')}}"> <i class="far fa-map-marker-alt"></i> Address</a></div>

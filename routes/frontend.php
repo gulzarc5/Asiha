@@ -37,8 +37,9 @@ Route::group(['namespace'=>'Web'],function(){
             Route::get('remove/{product_id}','UserController@removeWishList')->name('web.remove_wishlist');
         });
 
-        Route::post('add/cart/{product_id}', 'UserController@addCart')->name('web.add_cart');
-        Route::get('view/cart','UserController@viewCart')->name('web.view_cart');
+        
+        Route::get('view/cart','CartController@viewCart')->name('web.view_cart');
+        Route::match(['get', 'post'], 'add/cart/{product_id}', 'CartController@addDirectCart')->name('web.add_direct_cart');;
     });
 });
 
@@ -79,9 +80,9 @@ Route::get('/Roadster/Men-Olive-Green-Solid-Bomber-Jacket', function () {
 })->name('web.product.product-detail');
 
 //========= cart =========//
-Route::get('/Cart', function () {
-    return view('web.cart.cart');
-})->name('web.cart.cart');
+// Route::get('/Cart', function () {
+//     return view('web.cart.cart');
+// })->name('web.cart.cart');
 
 //========= checkout =========//
 Route::get('/Checkout', function () {

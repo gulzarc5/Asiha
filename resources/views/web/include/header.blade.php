@@ -155,21 +155,28 @@
                     </nav>
                 </div>
                 <!-- ======================================- Main Header Menu End ================================== -->
-
+                @auth('user')
+                    @php
+                        $wishlist_cnt = $header_data['wishlist_cnt'];
+                        $cart_cnt = $header_data['cart_cnt'];   
+                    @endphp
+                @endauth
                 <!-- Header Tools Start -->
+                @auth('user')
                 <div class="col-auto">
                     <div class="header-tools justify-content-end">
                         <div class="header-search d-none d-sm-block">
                             <a href="#offcanvas-search" class="offcanvas-toggle"><i class="fal fa-search"></i></a>
                         </div>
                         <div class="header-wishlist">
-                            <a href="{{route('web.wishlist')}}"><span class="wishlist-count">3</span><i class="fal fa-heart"></i></a>
+                            <a href="{{route('web.wishlist')}}"><span class="wishlist-count">{{$wishlist_cnt}}</span><i class="fal fa-heart"></i></a>
                         </div>
                         <div class="header-cart">
-                            <a href="{{route('web.cart.cart')}}"><span class="cart-count">3</span><i class="fal fa-shopping-cart"></i></a>
+                            <a href="{{route('web.view_cart')}}"><span class="cart-count">{{$cart_cnt}}</span><i class="fal fa-shopping-cart"></i></a>
                         </div>
                     </div>
                 </div>
+                @endauth
                 <!-- Header Tools End -->
 
             </div>
@@ -327,16 +334,17 @@
                 <!-- ======================================Sticky top Menu End=============================================== -->
 
                 <!-- Header Tools Start -->
+                @auth('user')
                 <div class="col-auto">
                     <div class="header-tools justify-content-end">
                         <div class="header-search d-none d-sm-block">
                             <a href="#offcanvas-search" class="offcanvas-toggle"><i class="fal fa-search"></i></a>
                         </div>
                         <div class="header-wishlist d-none d-sm-block">
-                            <a href="{{route('web.wishlist')}}" class="offcanvas-toggle"><span class="wishlist-count">3</span><i class="fal fa-heart"></i></a>
+                            <a href="{{route('web.wishlist')}}" class="offcanvas-toggle"><span class="wishlist-count">{{$wishlist_cnt}}</span><i class="fal fa-heart"></i></a>
                         </div>
                         <div class="header-cart">
-                            <a href="{{route('web.cart.cart')}}" class="offcanvas-toggle"><span class="cart-count">3</span><i class="fal fa-shopping-cart"></i></a>
+                            <a href="{{route('web.view_cart')}}" class="offcanvas-toggle"><span class="cart-count">{{$cart_cnt}}</span><i class="fal fa-shopping-cart"></i></a>
                         </div>
                         <div class="mobile-menu-toggle d-xl-none">
                             <a href="#" class="offcanvas-toggle">
@@ -349,6 +357,7 @@
                         </div>
                     </div>
                 </div>
+                @endauth
                 <!-- Header Tools End -->
 
             </div>
@@ -383,7 +392,7 @@
                             <a href="{{route('web.wishlist')}}"><span class="wishlist-count">3</span><i class="fal fa-heart"></i></a>
                         </div>
                         <div class="header-cart">
-                            <a href="{{route('web.cart.cart')}}"><span class="cart-count">3</span><i class="fal fa-shopping-cart"></i></a>
+                            <a href="{{route('web.view_cart')}}"><span class="cart-count">3</span><i class="fal fa-shopping-cart"></i></a>
                         </div>
                         <div class="mobile-menu-toggle">
                             <a href="#offcanvas-mobile-menu" class="offcanvas-toggle">
@@ -417,6 +426,7 @@
                 <!-- Header Logo End -->
 
                 <!-- Header Tools Start -->
+                @auth('user')
                 <div class="col-auto">
                     <div class="header-tools justify-content-end">
                         <div class="header-login d-none d-sm-block">
@@ -426,10 +436,10 @@
                             <a href="#offcanvas-search" class="offcanvas-toggle"><i class="fal fa-search"></i></a>
                         </div>
                         <div class="header-wishlist d-none d-sm-block">
-                            <a href="{{route('web.wishlist')}}"><span class="wishlist-count">3</span><i class="fal fa-heart"></i></a>
+                            <a href="{{route('web.wishlist')}}"><span class="wishlist-count">{{$wishlist_cnt}}</span><i class="fal fa-heart"></i></a>
                         </div>
                         <div class="header-cart">
-                            <a href="{{route('web.cart.cart')}}"><span class="cart-count">3</span><i class="fal fa-shopping-cart"></i></a>
+                            <a href="{{route('web.view_cart')}}"><span class="cart-count">{{$cart_cnt}}</span><i class="fal fa-shopping-cart"></i></a>
                         </div>
                         <div class="mobile-menu-toggle">
                             <a href="#offcanvas-mobile-menu" class="offcanvas-toggle">
@@ -442,6 +452,7 @@
                         </div>
                     </div>
                 </div>
+                @endauth
                 <!-- Header Tools End -->
 
             </div>
@@ -647,19 +658,21 @@
                     <li><a href="{{route('web.dashboard')}}"><span class="menu-text"><i class="fa fa-user"></i> Hello, <b>Vishal</b></span></a> </li> --}}
                 </ul>
             </div>
-            <div class="offcanvas-buttons">
-                <div class="header-tools">
-                    <div class="header-login">
-                        <a href="{{route('web.dashboard')}}"><i class="fal fa-user"></i></a>
-                    </div>
-                    <div class="header-wishlist">
-                        <a href="{{route('web.wishlist')}}"><span>3</span><i class="fal fa-heart"></i></a>
-                    </div>
-                    <div class="header-cart">
-                        <a href="{{route('web.cart.cart')}}"><span class="cart-count">3</span><i class="fal fa-shopping-cart"></i></a>
+            @auth('user')
+                <div class="offcanvas-buttons">
+                    <div class="header-tools">
+                        <div class="header-login">
+                            <a href="{{route('web.dashboard')}}"><i class="fal fa-user"></i></a>
+                        </div>
+                        <div class="header-wishlist">
+                            <a href="{{route('web.wishlist')}}"><span>{{$wishlist_cnt}}</span><i class="fal fa-heart"></i></a>
+                        </div>
+                        <div class="header-cart">
+                            <a href="{{route('web.view_cart')}}"><span class="cart-count">{{$cart_cnt}}</span><i class="fal fa-shopping-cart"></i></a>
+                        </div>
                     </div>
                 </div>
-            </div>
+            @endauth
             <div class="offcanvas-social">
                 <a href="#"><i class="fab fa-facebook-f"></i></a>
                 <a href="#"><i class="fab fa-twitter"></i></a>

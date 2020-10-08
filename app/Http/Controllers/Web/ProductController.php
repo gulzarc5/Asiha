@@ -312,6 +312,7 @@ class ProductController extends Controller
             $product_sizes = $product->sizes;
             $min_size = $product->minSize;
         }
+        
         return view('web.product.product-detail',compact('product','product_color','product_sizes','min_size'));
     }
 }

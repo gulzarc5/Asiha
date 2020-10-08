@@ -193,7 +193,7 @@ class UserController extends Controller
                 $wishlist->save();
             }
         }
-        return redirect()->back();
+        return redirect()->route('web.wishlist');
     }
 
     public function wishList(){

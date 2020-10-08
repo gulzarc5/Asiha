@@ -31,7 +31,7 @@
                                 </td>
                                 <td class="remove text-center">
                                     <a href="{{route('web.remove_wishlist',['product_id'=>$item->id])}}" class="btn-light btn-outline-dark btn-sm">Remove</a>
-                                    <a href="{{route('web.cart.cart')}}" class="btn-primary btn-sm">Add to cart</a>
+                                    <a href="{{route('web.view_cart')}}" class="btn-primary btn-sm">Add to cart</a>
                                 </td>
                             </tr>
                         @endforeach

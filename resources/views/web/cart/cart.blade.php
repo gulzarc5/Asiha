@@ -31,10 +31,18 @@
                         </tr>
                     </thead>
                     <tbody class="pattern-bg">
+                        @foreach($cart_data as $values)
                         <tr>
-                            <td class="thumbnail"><a href="{{route('web.product.product-detail')}}"><img src="{{asset('web/images/product/s328/product-1.jpg')}}"></a></td>
-                            <td class="name"> <a href="{{route('web.product.product-detail')}}">Walnut Cutting Board</a></td>
-                            <td class="price"><span>£100.00</span></td>
+                            <td class="thumbnail"><a href="{{route('web.product.product-detail')}}"><img src="{{asset('images/products/'.$values['image'])}}"></a></td>
+                            <td class="name"> <a href="{{route('web.product.product-detail')}}">
+                                {{$values['name']}} 
+                                @if(!empty(($values['color'])))
+                                    <br>
+                                    <div style="background-color:{{$values['color']}};height: 15px;width: 27px;"></div>
+                                @endif
+                                <br><span style="color:red;">Size: </span>{{$values['size']}}
+                            </a></td>
+                            <td class="price"><span>{{$values['price']}}</span></td>
                             <td class="quantity">
                                 <div class="product-quantity">
                                     <span class="qty-btn minus"><i class="ti-minus"></i></span>
@@ -44,35 +52,9 @@
                             </td>
                             <td class="subtotal"><span>£100.00</span></td>
                             <td class="remove"><a href="#" class="btn">×</a></td>
+                        
                         </tr>
-                        <tr>
-                            <td class="thumbnail"><a href="{{route('web.product.product-detail')}}"><img src="{{asset('web/images/product/s328/product-2.jpg')}}"></a></td>
-                            <td class="name"> <a href="{{route('web.product.product-detail')}}">Lucky Wooden Elephant</a></td>
-                            <td class="price"><span>£35.00</span></td>
-                            <td class="quantity">
-                                <div class="product-quantity">
-                                    <span class="qty-btn minus"><i class="ti-minus"></i></span>
-                                    <input type="text" class="input-qty" value="1">
-                                    <span class="qty-btn plus"><i class="ti-plus"></i></span>
-                                </div>
-                            </td>
-                            <td class="subtotal"><span>£35.00</span></td>
-                            <td class="remove"><a href="#" class="btn">×</a></td>
-                        </tr>
-                        <tr>
-                            <td class="thumbnail"><a href="{{route('web.product.product-detail')}}"><img src="{{asset('web/images/product/s328/product-3.jpg')}}"></a></td>
-                            <td class="name"> <a href="{{route('web.product.product-detail')}}">Fish Cut Out Set</a></td>
-                            <td class="price"><span>£9.00</span></td>
-                            <td class="quantity">
-                                <div class="product-quantity">
-                                    <span class="qty-btn minus"><i class="ti-minus"></i></span>
-                                    <input type="text" class="input-qty" value="1">
-                                    <span class="qty-btn plus"><i class="ti-plus"></i></span>
-                                </div>
-                            </td>
-                            <td class="subtotal"><span>£9.00</span></td>
-                            <td class="remove"><a href="#" class="btn">×</a></td>
-                        </tr>
+                        @endforeach
                         <tr>
                             <td><a href="index.php" class="btn btn-sm btn-outline-dark"> countinue Shopping</a></td>
                             <td><a href="checkout.php" class="btn btn-sm btn-primary"> proceed to checkout</a></td>
@@ -82,10 +64,11 @@
                                 <span>Shipping</span>
                             </td>
                             <td class="order-cal">
-                                <span>₹1000</span>
+                                <span>{{$cart_total}}</span>
                                 <span>₹100</span>
-                            </td>
+                             </td>
                         </tr>
+                        
                         <tr class="gnd">
                             <td></td>
                             <td></td>

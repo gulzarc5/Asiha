@@ -10,6 +10,7 @@ use App\Models\ProductColor;
 use App\Models\Cart;
 use App\Models\Color;
 use App\Models\Product;
+use App\Models\Size;
 use Carbon\Carbon;
 
 use Session;
@@ -46,7 +47,7 @@ class CartController extends Controller
         if( Auth::guard('user')->user() && !empty(Auth::guard('user')->user()->id)){
             $user_id = Auth::guard('user')->user()->id;
 
-            $check_cart_product = Cart::where('product_id',$product_id)->where('user_id',$user_id)->where('suze_id',$size_id)->count();
+            $check_cart_product = Cart::where('product_id',$product_id)->where('user_id',$user_id)->where('size_id',$size_id)->count();
  
             if($check_cart_product>0){
                 return redirect()->route('web.view_cart');
@@ -87,28 +88,43 @@ class CartController extends Controller
     public function viewCart(){
         if( Auth::guard('user')->user() && !empty(Auth::guard('user')->user()->id)) {
             $cart_data =[];
-            // $user_id = Auth::guard('user')->user()->id;
-            // $cart = Cart::where('user_id',$user_id)->get();
-            // foreach($cart as $values){
-            // $cartt = Cart::find($values->id);
-            
-            // if (count($cart) > 0) {
-            //     foreach ($values->product() as $key => $item) {                    
-            //         $cart_data[] = [
-            //             'product_id' => $cartt->product->id,
-            //             'name' => $cartt->product->name,
-            //             'image' => $cartt->product->main_image,
-            //             'quantity' => $item->quantity,
-            //             'size' => $cart->sizes->name,
-            //             'price' => $cart->sizes->price,
-            //         ];
-                    
-            //     }
-            // }
-        // }
+            $cart_total = 0;
+            $user_id = Auth::guard('user')->user()->id;
+            $cart = Cart::where('user_id',$user_id)->get();
+            foreach($cart as $values){
+                $cartt = Cart::find($values->id);
+                $size = Size::find($values->size_id);
+                $cart_total = ($cart_total+$cartt->sizes->price);
+                $color = Color::find($values->colors);
+                if(!empty($color)){
+                    $cart_data[] = [
+                                'product_id' => $cartt->product->id,
+                                'name' => $cartt->product->name,
+                                'image' => $cartt->product->main_image,
+                                'quantity' => $cartt->quantity,
+                                'size' => $size->name,
+                                'price' => $cartt->sizes->price,
+                                'color'=>$color->color,
+                                
+                                
+                            ];
+                }else{
+                    $cart_data[] = [
+                        'product_id' => $cartt->product->id,
+                        'name' => $cartt->product->name,
+                        'image' => $cartt->product->main_image,
+                        'quantity' => $cartt->quantity,
+                        'size' => $size->name,
+                        'price' => $cartt->sizes->price,
+                        
+                        
+                    ];
+                }
+                
+        }
         
 
-            return view('web.cart.cart',compact('cart_data'));
+            return view('web.cart.cart',compact('cart_data','cart_total'));
         }else{
             if (Session::has('cart') && !empty(Session::get('cart'))) {
                 $cart = Session::get('cart');

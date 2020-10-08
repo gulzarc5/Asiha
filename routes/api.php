@@ -20,9 +20,9 @@ Route::group(['namespace'=>'Api'], function(){
     Route::post('user/login','UsersController@userLogin');
 
 
-    // Route::get('send/otp/{mobile}','UsersController@sendOtp');
+    Route::get('send/otp/{mobile}','UsersController@sendOtp');
     // Route::get('verify/otp/{mobile}/{otp}','UsersController@varifyOtp');
-    // Route::post('forgot/change/password/','UsersController@forgotChangePass');
+    Route::post('forgot/change/password/','UsersController@forgotChangePass');
 
     Route::group(['middleware'=>'auth:api'],function(){
 

@@ -307,12 +307,19 @@ class ProductController extends Controller
         $product_color = [];
         $product_sizes = [];
         $min_size = [];
+        $related_ptoduct = [];
         if ($product) {
             $product_color = $product->productColors;
             $product_sizes = $product->sizes;
             $min_size = $product->minSize;
+            if (!empty($product->last_category_id)) {
+                $related_ptoduct = Product::where('last_category_id',$product->last_category_id)->where('status',1)->inRandomOrder()->limit(10)->get();
+            } elseif(!empty($product->sub_category_id)) {
+                $related_ptoduct = Product::where('last_category_id',$product->sub_category_id)->where('status',1)->inRandomOrder()->limit(10)->get();
+            }
+
         }
-        
-        return view('web.product.product-detail',compact('product','product_color','product_sizes','min_size'));
+
+        return view('web.product.product-detail',compact('product','product_color','product_sizes','min_size','related_ptoduct'));
     }
 }

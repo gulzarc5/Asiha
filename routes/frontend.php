@@ -35,19 +35,18 @@ Route::group(['namespace'=>'Web'],function(){
             Route::get('wishlist','UserController@wishList')->name('web.wishlist');
             Route::get('add/wishlist/{product_id}','UserController@addWishlist')->name('web.add_wish_list');
             Route::get('remove/{product_id}','UserController@removeWishList')->name('web.remove_wishlist');
-            
+
             //-- Checkout Section --//
             Route::get('show/checkout/form/{shipping_charge}/{cart_total}','CheckoutController@showCheckoutForm')->name('web.show_checkout_form');
         });
 
-        // -- Cart Section --//
         Route::get('view/cart','CartController@viewCart')->name('web.view_cart');
         Route::get('remove/cart/{id}','CartController@removeCart')->name('web.remove_cart');
         Route::get('update/cart/{id}/{cart_id}/{qtty}','CartController@updateCart')->name('web.update_cart');
         Route::get('update/session/cart/{id}/{qtty}','CartController@updateSessionCart')->name('web.update_session_cart');
         Route::match(['get', 'post'], 'add/cart/{product_id}', 'CartController@addDirectCart')->name('web.add_direct_cart');
 
-       
+
 
     });
 });

@@ -46,12 +46,12 @@
                                                             <div class="col">
                                                                 <div class="product">
                                                                     <div class="product-thumb">
-                                                                        <a href="product-list.php" class="image">
+                                                                        <a href="{{route('web.product_list',['cat_slug'=>"$third_cat->slug",'category_id'=>$third_cat->id,'type' => 3])}}" class="image">
                                                                             <img src="{{asset('images/category/third_category/'.$third_cat->image.'')}}" alt="Product Image">
                                                                         </a>
                                                                     </div>
                                                                     <div class="product-info">
-                                                                        <h6 class="title"><a href="product-list.php">{{$third_cat->name}}</a></h6>
+                                                                        <h6 class="title"><a href="{{route('web.product_list',['cat_slug'=>"$third_cat->slug",'category_id'=>$third_cat->id,'type' => 3])}}">{{$third_cat->name}}</a></h6>
                                                                         <span class="number">16 Items</span>
                                                                     </div>
                                                                 </div>
@@ -62,12 +62,12 @@
                                             <div class="col">
                                                 <div class="product">
                                                     <div class="product-thumb">
-                                                        <a href="product-list.php" class="image">
+                                                        <a href="{{route('web.product_list',['cat_slug'=>"$sub_cat->slug",'category_id'=>$sub_cat->id,'type' => 2])}}" class="image">
                                                             <img src="{{asset('images/category/sub_category/'.$sub_cat->image.'')}}" alt="Product Image">
                                                         </a>
                                                     </div>
                                                     <div class="product-info">
-                                                        <h6 class="title"><a href="product-list.php">{{$sub_cat->name}}</a></h6>
+                                                        <h6 class="title"><a href="{{route('web.product_list',['cat_slug'=>"$sub_cat->slug",'category_id'=>$sub_cat->id,'type' => 2])}}">{{$sub_cat->name}}</a></h6>
                                                         <span class="number">16 Items</span>
                                                     </div>
                                                 </div>

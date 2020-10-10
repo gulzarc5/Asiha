@@ -13,8 +13,11 @@
             <ul>
                 <li class="navi d"><i class="ti-check"></i>Cart</li>
                 <li>></li>
-                <li class="navi d"><i class="ti-check"></i>Login</li>
-                <li>></li>
+                @auth('user')
+                @else
+                    <li class="navi d"><i class="ti-check"></i>Login</li>
+                    <li>></li>
+                @endauth
                 <li class="navi current">Checkout</li>
                 <li>></li>
                 <li class="navi">Order Placed</li>
@@ -133,17 +136,17 @@
                                                         <tbody>
                                                             <tr>
                                                                 <td class="name" style="border-top: 0;">Subtotal</td>
-                                                                <td class="total" style="border-top: 0;"><span>₹242.00</span></td>
+                                                                <td class="total" style="border-top: 0;"><span>{{$cart_total}}</span></td>
                                                             </tr>
                                                             <tr style="border-bottom: 1px solid #fe6c62;">
                                                                 <td class="name">Shipping</td>
-                                                                <td class="total"><span>₹50.00</span></td>
+                                                                <td class="total"><span>{{$shipping_charge}}</span></td>
                                                             </tr>
                                                         </tbody>
                                                         <tfoot>
                                                             <tr class="total">
                                                                 <td style="text-align: left;"><span>Grand Total</span></td>
-                                                                <td><strong><span>₹242.00</span></strong></td>
+                                                                <td><strong><span>{{$cart_total + $shipping_charge}}</span></strong></td>
                                                             </tr>
                                                         </tfoot>
                                                     </table>

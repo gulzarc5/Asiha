@@ -8,10 +8,10 @@ use App\Models\Address;
 use Auth;
 class CheckoutController extends Controller
 {
-    public function showCheckoutForm(){
+    public function showCheckoutForm($shipping_charge,$cart_total){
         $shipping_address = Address::where('user_id',Auth::user()->id)->get(); 
         
-        return view('web.checkout.checkout',compact('shipping_address'));
+        return view('web.checkout.checkout',compact('shipping_address','shipping_charge','cart_total'));
     }
 
 

@@ -66,7 +66,7 @@
                         
                             <tr>
                                 <td><a href="{{route('web.index')}}" class="btn btn-sm btn-outline-dark"> countinue Shopping</a></td>
-                                <td><a href="{{route('web.show_checkout_form')}}" class="btn btn-sm btn-primary"> proceed to checkout</a></td>
+                                <td><a href="{{route('web.show_checkout_form',['shipping_charge'=>$shipping_charge,'cart_total'=>$cart_total])}}" class="btn btn-sm btn-primary"> proceed to checkout</a></td>
                                 <td colspan="2"></td>
                                 <td class="order-cal" style="border-left: 1px dashed #ff6c62!important;">
                                     <span>Subtotal</span>

@@ -169,49 +169,51 @@
 <!-- Single Products Infomation Section End -->
 
 <!-- Shop By top product Start -->
+@if (isset($related_ptoduct) && !empty($related_ptoduct) && (count($related_ptoduct)>0))
+    <div class="section section-fluid section-padding bg-white border-top-dashed border-bottom-dashed">
+    <div class="container">
+            <div class="section-title text-center">
+                <h2 class="title title-icon-both">Related items</h2>
+            </div>
 
-<div class="section section-fluid section-padding bg-white border-top-dashed border-bottom-dashed">
-   <div class="container">
-      <!-- Section Title Start -->
-      <div class="section-title text-center">
-         <h2 class="title title-icon-both">Related items</h2>
-      </div>
-      <!-- Section Title End -->
-      <!-- Products Start -->
-      <div class="product-carousel popular-item">
-        <div class="col">
-            <div class="product">
-               <div class="product-thumb">
-                  <a href="{{route('web.product.product-detail')}}" class="image">
-                  <img src="{{asset('web/images/product/s328/product-11.jpg')}}" alt="Product Image">
-                  </a>
-               </div>
-               <div class="product-info">
-                  <h6 class="title"><a href="{{route('web.product.product-detail')}}">Boho Beard Mug</a></h6>
-                  <span class="price">
-                  <span class="old">$45.00</span>
-                  <span class="new">$39.00</span>
-                  </span>
-                  <div class="product-buttons">
-                     <a href="#" class="product-button hintT-top" data-hint="Add to wishlist"><i class="far fa-heart"></i></a>
-                     <a href="#" class="product-button hintT-top" data-hint="Add to Cart"><i class="fal fa-shopping-cart"></i></a>
-                  </div>
-               </div>
+            <!-- Products Start -->
+            <div class="product-carousel popular-item">
+                @foreach ($related_ptoduct as $item)
+                    <div class="col">
+                        <div class="product">
+                        <div class="product-thumb">
+                            <a href="{{route('web.product_detail',['slug'=>$item->slug,'product_id'=>$item->id])}}" class="image">
+                            <img src="{{asset('images/products/thumb/'.$item->main_image.'')}}" alt="Product Image">
+                            </a>
+                        </div>
+                        <div class="product-info">
+                            <h6 class="title"><a href="{{route('web.product_detail',['slug'=>$item->slug,'product_id'=>$item->id])}}">{{$item->name}}</a></h6>
+                            <span class="price">
+                            <span class="old">₹{{$item->mrp}}</span>
+                            <span class="new">₹{{$item->min_price}}</span>
+                            </span>
+                            <div class="product-buttons">
+                                <a href="#" class="product-button hintT-top" data-hint="Add to wishlist"><i class="far fa-heart"></i></a>
+                                <a href="#" class="product-button hintT-top" data-hint="Add to Cart"><i class="fal fa-shopping-cart"></i></a>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                @endforeach
+                {{-- <div class="col">
+                    <div class="product">
+                    <div class="product-thumb">
+                        <a href="{{route('web.product.product-detail')}}" class="image">
+                        <img src="{{asset('web/images/product/s328/more.jpg')}}" alt="Product Image">
+                        </a>
+                    </div>
+                    </div>
+                </div> --}}
             </div>
-        </div>
-         {{-- <div class="col">
-            <div class="product">
-               <div class="product-thumb">
-                  <a href="{{route('web.product.product-detail')}}" class="image">
-                  <img src="{{asset('web/images/product/s328/more.jpg')}}" alt="Product Image">
-                  </a>
-               </div>
-            </div>
-         </div> --}}
-      </div>
-      <!-- Products End -->
-   </div>
-</div>
+        <!-- Products End -->
+    </div>
+    </div>
+@endif
 <!-- Shop By top product End -->
 <!-- Root element of PhotoSwipe. Must have class pswp. -->
 <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">

@@ -44,7 +44,7 @@
                                                             <p class="mb-0">city: {{$data->city}}</p>
                                                             <p class="mb-0">State: {{$data->state}}</p>
                                                             <p class="mb-0">Pin: {{$data->pin}}</p>
-                                                            <a href="{{route('web.edit_address',['id'=>$data->id])}}" class="edit-link">edit this address</a>
+                                                            <a href="{{route('web.edit_address',['id'=>$data->id,'status'=>2])}}" class="edit-link">edit this address</a>
                                                             <a href="{{route('web.delete_address',['address_id'=>$data->id])}}" class="edit-link">Delete this address</a>
                                                         </address>
                                                     </div>
@@ -87,7 +87,7 @@
                                                 <label for="inputAddress">Address</label>
                                                 <textarea id="inputAddress" name="address" ></textarea>
                                                 @if($errors->has('address'))
-                                                        <strong style="color:red" >{{ $errors->first('address') }}</strong>
+                                                    <strong style="color:red" >{{ $errors->first('address') }}</strong>
                                                 @enderror
                                             </div>
                                             <div class="form-row">

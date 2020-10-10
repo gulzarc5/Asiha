@@ -13,10 +13,12 @@ use App\Models\Address;
 class UserController extends Controller
 {
     public function loginForm(){
+        
        return view('web.login');         
     }
 
     public function registerForm(){
+    
        return view('web.register');
     }
 
@@ -149,9 +151,12 @@ class UserController extends Controller
         return redirect()->back()->with('message','Address added successfully');
     }
 
-    public function editAddress($id){
+    public function editAddress($id,$status){
         $address = Address::where('id',$id)->first();
-        return view('web.address.edit-address',compact('address'));
+        if($status==2){
+            return view('web.address.edit-address',compact('address'));
+        }
+            return view('web.checkout.checkout-edit-address',compact('address'));
     }
 
     public function updateAddress(Request $request,$id){

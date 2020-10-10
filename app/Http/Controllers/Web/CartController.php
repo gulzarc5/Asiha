@@ -10,6 +10,7 @@ use App\Models\ProductColor;
 use App\Models\Cart;
 use App\Models\Color;
 use App\Models\Product;
+use App\Models\Charges;
 use App\Models\Size;
 use Carbon\Carbon;
 
@@ -56,7 +57,7 @@ class CartController extends Controller
             $cart = new Cart;
             $cart->product_id = $product_id;
             $cart->user_id = Auth::guard('user')->user()->id;
-            $cart->colors = $color;
+            $cart->color = $color;
             $cart->quantity =$quantity;
             $cart->size_id =$size_id;
             $cart->save();
@@ -78,96 +79,113 @@ class CartController extends Controller
                     ],
                 ];
             }
+            
             Session::put('cart', $cart);
             Session::save();
             return redirect()->route('web.view_cart');
         }
-
     }
 
     public function viewCart(){
+        $cart_total = 0;
+        $shipping_charge = 0;
+        $cart_data =[];
+        $charge_boundary = Charges::where('id',1)->first();
+        $ship_charge = Charges::where('id',2)->first();
+
         if( Auth::guard('user')->user() && !empty(Auth::guard('user')->user()->id)) {
-            $cart_data =[];
-            $cart_total = 0;
+           
             $user_id = Auth::guard('user')->user()->id;
             $cart = Cart::where('user_id',$user_id)->get();
-            foreach($cart as $values){
-                $cartt = Cart::find($values->id);
-                $size = Size::find($values->size_id);
-                $cart_total = ($cart_total+$cartt->sizes->price);
-                $color = Color::find($values->colors);
-                if(!empty($color)){
-                    $cart_data[] = [
-                                'product_id' => $cartt->product->id,
-                                'name' => $cartt->product->name,
-                                'image' => $cartt->product->main_image,
-                                'quantity' => $cartt->quantity,
-                                'size' => $size->name,
-                                'price' => $cartt->sizes->price,
-                                'color'=>$color->color,
-                                
-                                
-                            ];
-                }else{
-                    $cart_data[] = [
-                        'product_id' => $cartt->product->id,
-                        'name' => $cartt->product->name,
-                        'image' => $cartt->product->main_image,
-                        'quantity' => $cartt->quantity,
-                        'size' => $size->name,
-                        'price' => $cartt->sizes->price,
-                        
-                        
-                    ];
-                }
+            foreach($cart as $cart_item){
+
+                $size = $cart_item->sizes;                  
+                $cart_total += $cart_item->quantity*($size->price);
                 
-        }
-        
-
-            return view('web.cart.cart',compact('cart_data','cart_total'));
-        }else{
-            if (Session::has('cart') && !empty(Session::get('cart'))) {
-                $cart = Session::get('cart');
-                $cart_data =[];
-
-                if (count($cart) > 0) {
-                    foreach ($cart as $product_id => $value) {
-                        $product = DB::table('products')->where('id',$product_id)
-                       ->where('status',1)
-                        ->first();
-                        // $size = DB::table('product_sizes')
-                        //     ->select('product_sizes.*','sizes.name as size_name')
-                        //     ->join('sizes','sizes.id','=','product_sizes.size_id')
-                        //     ->where('size_id',$value['size_id'])
-                        //     ->where('product_id',$product_id)
-                        //     ->first();
-                        
-                        $color = DB::table('color')
-                            ->where('id',$value['color'])
-                            ->first();
-                        
-                       $cart_data[] = [
-                        'product_id' => $product->id,
-                        'title' => $product->name,
-                        'image' => $product->main_image,
-                        'quantity' => $value['quantity'],
-                        'color_name' => $color->name,
-                        'color_value' => $color->value,
-                        'size' => $cart->size->name,
-                        'price' => $cart->size->price,
-                       ];
-                    }
-                }else{
-                    $cart_data = false;
-                }
-            }else{
-                $cart_data = false;
+                $color = !empty($cart_item->colors) ? $cart_item->colors->color : null ;
+                $cart_data[] = [
+                    'cart_id'=>$cart_item->id,
+                    'product_id' => $cart_item->product->id,
+                    'name' => $cart_item->product->name,
+                    'image' => $cart_item->product->main_image,
+                    'quantity' => $cart_item->quantity,
+                    'color'=>$color,
+                    'size' => $size->size->name,
+                    'price' => $size->price,
+                    'product_total'=> $size->price*$cart_item->quantity,
+                ];
             }
-            // dd($cart_data);
-            return view('web.cart',compact('cart_data'));
+            if($cart_total < $charge_boundary->amount){
+                $shipping_charge = $ship_charge->amount;
+            }
+
+            return view('web.cart.cart',compact('cart_data','cart_total','shipping_charge'));
+            
+        }else{
+            if (Session::has('cart') && !empty(Session::get('cart'))){
+                $cart = Session::get('cart');
+
+                if (!empty($cart) && (count($cart) > 0)) {
+                    foreach ($cart as $product_id => $cart_item) {
+                        $product =Product::find($product_id);
+                        $color = !empty($cart_item['color']) ? Color::where('id',$cart_item['color'])->first() : null;
+                        $color = !empty($color) ? $color->color : null;
+                        $product_size = ProductSize::where('size_id',$cart_item['size_id'])->first();                       
+                        $cart_total += $cart_item['quantity']*$product_size->price;
+
+                        $cart_data[] = [
+                            
+                            'product_id' => $product_id,
+                            'name' => $product->name,
+                            'image' => $product->main_image,
+                            'quantity' => $cart_item['quantity'],
+                            'size' => $product_size->size->name,
+                            'price' => $product_size->price,
+                            'color'=> $color,
+                            'product_total'=>$product_size->price * $cart_item['quantity']
+                        ];   
+                        
+                    }
+                    
+                    if($cart_total < $charge_boundary->amount){
+                        $shipping_charge = $ship_charge->amount;
+                    }   
+                    return view('web.cart.cart',compact('cart_data','cart_total','shipping_charge'));
+                }
+            }
+           
         }
-        return view('web.cart.cart');
+       
     }
+
+    public function removeCart($id){
+        if( Auth::guard('user')->user() && !empty(Auth::guard('user')->user()->id)){
+        Cart::where('product_id',$id)->delete();
+        return redirect()->back();
+        }
+        elseif(Session::has('cart') && !empty(Session::get('cart'))){
+            Session::forget('cart.'.$id);
+            return redirect()->back();
+        }
+        return redirect()->route('web.view_cart');
+    }
+
+    public function updateCart($id,$cart_id,$qtty){
+       $cart = Cart::find($cart_id);
+       $cart->quantity = $qtty;
+       $cart->save();
+       return redirect()->back();
+    }
+
+    public function updateSessionCart($id,$qtty){
+        $cart = Session::get('cart');
+        $cart[$id]['quantity']=$qtty;
+        Session::put('cart',$cart);
+        Session::save();
+        return redirect()->back();
+     }
+
+    
    
 }
 

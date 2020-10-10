@@ -29,17 +29,26 @@ Route::group(['namespace'=>'Web'],function(){
             Route::post('profile/update','UserController@updateProfile')->name('web.update_profile');
             Route::get('address','UserController@address')->name('web.address');
             Route::post('add/new/address','UserController@addNewAddress')->name('web.add_new_address');
-            Route::get('edit/address/{id}','UserController@editAddress')->name('web.edit_address');
+            Route::get('edit/address/{id}/{status}','UserController@editAddress')->name('web.edit_address');
             Route::post('update/address/{id}','UserController@updateAddress')->name('web.update_address');
             Route::get('delete/address/{address_id}','UserController@deleteAddress')->name('web.delete_address');
             Route::get('wishlist','UserController@wishList')->name('web.wishlist');
             Route::get('add/wishlist/{product_id}','UserController@addWishlist')->name('web.add_wish_list');
             Route::get('remove/{product_id}','UserController@removeWishList')->name('web.remove_wishlist');
+            
+            //-- Checkout Section --//
+            Route::get('show/checkout/form','CheckoutController@showCheckoutForm')->name('web.show_checkout_form');
         });
 
-        
+        // -- Cart Section --//
         Route::get('view/cart','CartController@viewCart')->name('web.view_cart');
-        Route::match(['get', 'post'], 'add/cart/{product_id}', 'CartController@addDirectCart')->name('web.add_direct_cart');;
+        Route::get('remove/cart/{id}','CartController@removeCart')->name('web.remove_cart');
+        Route::get('update/cart/{id}/{cart_id}/{qtty}','CartController@updateCart')->name('web.update_cart');
+        Route::get('update/session/cart/{id}/{qtty}','CartController@updateSessionCart')->name('web.update_session_cart');
+        Route::match(['get', 'post'], 'add/cart/{product_id}', 'CartController@addDirectCart')->name('web.add_direct_cart');
+
+       
+
     });
 });
 
@@ -85,14 +94,14 @@ Route::get('/Roadster/Men-Olive-Green-Solid-Bomber-Jacket', function () {
 // })->name('web.cart.cart');
 
 //========= checkout =========//
-Route::get('/Checkout', function () {
-    return view('web.checkout.checkout');
-})->name('web.checkout.checkout');
+// Route::get('/Checkout', function () {
+//     return view('web.checkout.checkout');
+// })->name('web.checkout.checkout');
 
 //========= checkout-address =========//
-Route::get('/Checkout/edit', function () {
-    return view('web.checkout.checkout-edit-address');
-})->name('web.checkout.checkout-edit-address');
+// Route::get('/Checkout/edit', function () {
+//     return view('web.checkout.checkout-edit-address');
+// })->name('web.checkout.checkout-edit-address');
 
 //========= confirm-order =========//
 Route::get('/Confitm-Thanks', function () {

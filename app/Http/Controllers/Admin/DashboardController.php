@@ -32,9 +32,9 @@ class DashboardController extends Controller
 
         $total = ($returned_order_pie+$cancelled_order_pie+$delivered_order_pie);
         $pie = [
-            'delivered_order_pie' => round(($delivered_order_pie*100)/$total),
-            'cancelled_order_pie' => round(($cancelled_order_pie*100)/$total),
-            'returned_order_pie' => round(($returned_order_pie*100)/$total),
+            'delivered_order_pie' => $total == 0 ? 0 : round(($delivered_order_pie*100)/$total),
+            'cancelled_order_pie' => $total == 0 ? 0 : round(($cancelled_order_pie*100)/$total),
+            'returned_order_pie' => $total == 0 ? 0 : round(($returned_order_pie*100)/$total),
         ];
 
         $chart = $this->chartData();

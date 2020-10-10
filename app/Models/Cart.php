@@ -17,6 +17,11 @@ class Cart extends Model
         return $this->belongsTo('App\Models\ProductSize','size_id',$this->primaryKey);
     }
 
+    public function colors()
+    {
+        return $this->belongsTo('App\Models\Color','color',$this->primaryKey);
+    }
+
     public function product()
     {
         return $this->belongsTo('App\Models\Product','product_id',$this->primaryKey);

@@ -26,12 +26,24 @@
                             </div>
                             <div id="faq-accordion-1" class="collapse show" data-parent="#faq-accordion">
                                 <div class="card-body pattern-bg">
+                                    @php
+                                        $address_error_status = false;
+                                    @endphp
+                                    @if ($errors->has('name') || $errors->has('email') || $errors->has('address') || $errors->has('city') || $errors->has('state') || $errors->has('pin') || $errors->has('mobile') || $errors->has('address'))
+                                        @php
+                                            $address_error_status=true;
+                                        @endphp                                            
+                                    @endif
+                                    @if($address_error_status == true)
+                                    <div class="myaccount-content address" id="selt-add" style="display:none" >
+                                    @else
                                     <div class="myaccount-content address" id="selt-add">
+                                    @endif
                                         @if (Session::has('message'))
-                                                <div class="alert alert-success">{{ Session::get('message') }}</div>
-                                            @endif @if (Session::has('error'))
-                                                <div class="alert alert-danger">{{ Session::get('error') }}</div>
-                                            @endif
+                                            <div class="alert alert-success">{{ Session::get('message') }}</div>
+                                        @endif @if (Session::has('error'))
+                                            <div class="alert alert-danger">{{ Session::get('error') }}</div>
+                                        @endif
                                         <div class="row ashia-mb-n30">
                                             @foreach($address as $data)
                                                 @if(!empty($data) && isset($data))
@@ -56,7 +68,11 @@
                                             </div>
                                         </div>
                                     </div>
+                                    @if($address_error_status == false)
                                     <div class="myaccount-content address" id="add-addr" style="display:none">
+                                    @else
+                                    <div class="myaccount-content address" id="add-addr" >
+                                    @endif
                                         <h3>Add New Address</h3>
                                         <form method="POST" action="{{route('web.add_new_address')}}">
                                             @csrf

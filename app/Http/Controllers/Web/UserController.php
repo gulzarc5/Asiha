@@ -5,6 +5,8 @@ namespace App\Http\Controllers\web;
 use App\Http\Controllers\Controller;
 use Auth;
 use Hash;
+use Session;
+use App\Models\Cart;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Wishlist;
@@ -39,6 +41,18 @@ class UserController extends Controller
         if($user){
             $login = $this->loginCheck($request->input('email'),$request->input('password'));
             if ($login) {
+                if (Session::has('cart') && !empty(Session::get('cart'))){
+                    $cartt = Session::get('cart');
+                    $cart = new Cart;
+                    $product_id= key($cartt);
+                    $cart->product_id = $product_id;
+                    $cart->user_id = Auth::guard('user')->user()->id;
+                    $cart->color = $cartt[$product_id]['color'];
+                    $cart->quantity =$cartt[$product_id]['quantity'];
+                    $cart->size_id =$cartt[$product_id]['size_id'];
+                    $cart->save();
+                    Session::forget('cart.'.$product_id);
+                   }
                 return redirect()->intended('/');
             } else {
                 return back()->withInput($request->only('email'))->with('login_error',' Mobile / Email or password incorrect');
@@ -49,12 +63,25 @@ class UserController extends Controller
     }
 
     public function login(Request $request){
+       
         $this->validate($request, [
             'email'   => 'required',
             'password' => 'required'
         ]);
         $login = $this->loginCheck($request->input('email'),$request->input('password'));
         if ($login) {
+            if (Session::has('cart') && !empty(Session::get('cart'))){
+                $cartt = Session::get('cart');
+                $cart = new Cart;
+                $product_id= key($cartt);
+                $cart->product_id = $product_id;
+                $cart->user_id = Auth::guard('user')->user()->id;
+                $cart->color = $cartt[$product_id]['color'];
+                $cart->quantity =$cartt[$product_id]['quantity'];
+                $cart->size_id =$cartt[$product_id]['size_id'];
+                $cart->save();
+                Session::forget('cart.'.$product_id);
+               }
             return redirect()->intended('/');
         } else {
             return back()->withInput($request->only('email'))->with('login_error',' Mobile / Email or password incorrect');

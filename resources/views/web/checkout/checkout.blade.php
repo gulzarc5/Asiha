@@ -99,19 +99,31 @@
                                                 <div class="form-group">
                                                     <label for="address">Address</label>
                                                     <textarea id="inputAddress" name="address" ></textarea>
+                                                    @if($errors->has('address'))
+                                                        <strong style="color:red" >{{ $errors->first('address') }}</strong>
+                                                    @enderror
                                                 </div>
                                                 <div class="form-row">
                                                     <div class="form-group col-md-6">
                                                         <label for="city">City</label>
                                                         <input type="text" name="city" class="form-control" id="inputCity">
+                                                        @if($errors->has('city'))
+                                                            <strong style="color:red" >{{ $errors->first('city') }}</strong>
+                                                        @enderror
                                                     </div>
                                                     <div class="form-group col-md-4">
                                                         <label for="state">State</label>
                                                         <input type="text" name="state" class="form-control" id="inputState">
+                                                        @if($errors->has('state'))
+                                                            <strong style="color:red" >{{ $errors->first('state') }}</strong>
+                                                        @enderror
                                                     </div>
                                                     <div class="form-group col-md-2">
                                                         <label for="pin">Pincode</label>
                                                         <input type="text" name="pin" class="form-control" id="inputPincode">
+                                                        @if($errors->has('pin'))
+                                                            <strong style="color:red" >{{ $errors->first('pin') }}</strong>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                                 <div class="form-group mb-0">

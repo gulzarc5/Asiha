@@ -37,7 +37,10 @@ Route::group(['namespace'=>'Web'],function(){
             Route::get('remove/{product_id}','UserController@removeWishList')->name('web.remove_wishlist');
 
             //-- Checkout Section --//
-            Route::get('show/checkout/form/{shipping_charge}/{cart_total}','CheckoutController@showCheckoutForm')->name('web.show_checkout_form');
+            Route::get('show/checkout/form','CheckoutController@showCheckoutForm')->name('web.show_checkout_form');
+            Route::post('add/checkout/address','CheckoutController@addCheckoutAddress')->name('web.add_checkout_address');
+            Route::get('order/place','CheckoutController@orderPlace')->name('web.order_place');
+
         });
 
         Route::get('view/cart','CartController@viewCart')->name('web.view_cart');

@@ -36,7 +36,7 @@
                                 <tr>
                                     <td class="thumbnail"><a href="{{route('web.product.product-detail')}}"><img src="{{asset('images/products/'.$values['image'])}}"></a></td>
                                     <td class="name"> <a href="{{route('web.product.product-detail')}}">
-                                        {{$values['name']}} 
+                                        {{$values['name']}}
                                         @if(!empty(($values['color'])))
                                             <br>
                                             <div style="background-color:{{$values['color']}};height: 15px;width: 27px;"></div>
@@ -47,7 +47,7 @@
                                     <td class="quantity">
                                        <div class="product-quantity">
                                            @if(!empty($values['cart_id']))
-                                           
+
                                                 <span class="qty-btn minus" onclick="loadCart({{$values['product_id']}},{{$values['cart_id']}},1)"><i class="ti-minus"></i></span>
                                                 <input type="text"  class="input-qty" value="{{$values['quantity']}}" id="qtty{{$values['product_id']}}"/>
                                                 <span class="qty-btn plus" onclick="loadCart({{$values['product_id']}},{{$values['cart_id']}},2)"><i class="ti-plus"></i></span>
@@ -57,28 +57,28 @@
                                                 <span class="qty-btn plus" onclick="loadSessionCart({{$values['product_id']}},2)"><i class="ti-plus"></i></span>
                                             @endif
                                         </div>
-                                       
+
                                     </td>
                                     <td class="subtotal"><span>{{$values['product_total']}}</span></td>
                                     <td class="remove" id="rel"><a href="{{route('web.remove_cart',['id'=>$values['product_id']])}}" class="btn">×</a></td>
                                 </tr>
                             @endforeach
-                        
+
                             <tr>
                                 <td><a href="{{route('web.index')}}" class="btn btn-sm btn-outline-dark"> countinue Shopping</a></td>
-                                <td><a href="{{route('web.show_checkout_form',['shipping_charge'=>$shipping_charge,'cart_total'=>$cart_total])}}" class="btn btn-sm btn-primary"> proceed to checkout</a></td>
+                                <td><a href="{{route('web.show_checkout_form')}}" class="btn btn-sm btn-primary"> proceed to checkout</a></td>
                                 <td colspan="2"></td>
                                 <td class="order-cal" style="border-left: 1px dashed #ff6c62!important;">
                                     <span>Subtotal</span>
                                     <span>Shipping</span>
                                 </td>
                                 <td class="order-cal">
-                                    
+
                                     <span>{{$cart_total}}</span>
                                     <span>{{$shipping_charge}}</span>
                                 </td>
                             </tr>
-                            
+
                             <tr class="gnd">
                                 <td></td>
                                 <td></td>
@@ -111,7 +111,7 @@
             }
             var url = "{{ url('user/update/cart')}}"+"/"+id+"/"+cart_id+"/"+qtty;
             document.location.href=url;
-            
+
         }
         function loadSessionCart(id,status) {
             var qtty = parseInt($("#qtty"+id).val());
@@ -122,7 +122,7 @@
             }
             var url = "{{ url('user/update/session/cart')}}"+"/"+id+"/"+qtty;
             document.location.href=url;
-            
+
         }
     </script>
 @endsection

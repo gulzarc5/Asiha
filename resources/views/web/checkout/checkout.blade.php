@@ -34,24 +34,12 @@
                                 </div>
                                 <div id="faq-accordion-1" class="collapse show" data-parent="#faq-accordion">
                                     <div class="card-body pattern-bg">
-                                        @php
-                                            $address_error_status = false;
-                                        @endphp
-                                        @if ($errors->has('name') || $errors->has('email') || $errors->has('address') || $errors->has('city') || $errors->has('state') || $errors->has('pin') || $errors->has('mobile') || $errors->has('address'))
-                                            @php
-                                                $address_error_status=true;
-                                            @endphp                                            
-                                        @endif
-                                        @if($address_error_status == true)
-                                        <div class="myaccount-content address" id="selt-add" style="display:none" >
-                                        @else
                                         <div class="myaccount-content address" id="selt-add">
-                                        @endif
                                             <h3>Select Address</h3>
-                                            <div class="row ashia-mb-n30">
+                                            <div class="row ashia-mb-n30" id="address_div">
                                                 @foreach($shipping_address as $address)
                                                     <div class="col-md-4 col-12 ashia-mb-30">
-                                                        <address>                                                        
+                                                        <address>
                                                             <p><input type="radio" name="select-address" checked> <strong>{{$address->name}}</strong></p>
                                                             <p>{{$address->address}}</p>
                                                             <p class="mb-0">Mobile: {{$address->mobile}}</p>
@@ -59,78 +47,61 @@
                                                         </address>
                                                     </div>
                                                 @endforeach
-                                                <div class="col-12 mb-4">                                                         
-                                                    <button class="btn btn-sm btn-primary text-white" data-toggle="collapse" data-target="#faq-accordion-2">Proceed</button> &nbsp; &nbsp; 
-                                                    <p class="add-address" style="display: inline;cursor:pointer">Or, <span style="color: #ff6c62;">Add New Address<span></p>   
+                                                <div class="col-12 mb-4">
+                                                    <button class="btn btn-sm btn-primary text-white" data-toggle="collapse" data-target="#faq-accordion-2">Proceed</button> &nbsp; &nbsp;
+                                                    <p class="add-address" style="display: inline;cursor:pointer">Or, <span style="color: #ff6c62;">Add New Address<span></p>
                                                 </div>
                                             </div>
                                         </div>
-                                        @if($address_error_status == false)
-                                            <div class="myaccount-content address" id="add-addr" style="display:none">
-                                        @else
-                                            <div class="myaccount-content address" id="add-addr" >
-                                        @endif
+
+
+                                        <div class="myaccount-content address" id="add-addr" style="display:none">
+
                                             <h3>Add New Address</h3>
-                                            <form method="POST" action="{{route('web.add_new_address')}}">
-                                                @csrf
                                                 <div class="form-row">
                                                     <div class="form-group col-md-6">
                                                         <label for="name">Name</label>
                                                         <input type="text" name="name" class="form-control" id="inputName4" >
-                                                        @if($errors->has('name'))
-                                                            <strong style="color:red" >{{ $errors->first('name') }}</strong>
-                                                        @enderror
+                                                        <span id="name_error"></span>
                                                     </div>
                                                     <div class="form-group col-md-3">
                                                         <label for="email">Email</label>
                                                         <input type="email" name="email" class="form-control" id="inputEmail4" >
-                                                        @if($errors->has('email'))
-                                                            <strong style="color:red" >{{ $errors->first('email') }}</strong>
-                                                        @enderror
+                                                        <span id="email_error"></span>
                                                     </div>
                                                     <div class="form-group col-md-3">
                                                         <label for="mobile">Phone</label>
                                                         <input type="text" name="mobile" class="form-control" id="inputPhone4" >
-                                                        @if($errors->has('mobile'))
-                                                            <strong style="color:red" >{{ $errors->first('mobile') }}</strong>
-                                                        @enderror
+                                                        <span id="mobile_error"></span>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="address">Address</label>
                                                     <textarea id="inputAddress" name="address" ></textarea>
-                                                    @if($errors->has('address'))
-                                                        <strong style="color:red" >{{ $errors->first('address') }}</strong>
-                                                    @enderror
+                                                    <span id="address_error"></span>
                                                 </div>
                                                 <div class="form-row">
                                                     <div class="form-group col-md-6">
                                                         <label for="city">City</label>
                                                         <input type="text" name="city" class="form-control" id="inputCity">
-                                                        @if($errors->has('city'))
-                                                            <strong style="color:red" >{{ $errors->first('city') }}</strong>
-                                                        @enderror
+                                                        <span id="city_error"></span>
                                                     </div>
                                                     <div class="form-group col-md-4">
                                                         <label for="state">State</label>
                                                         <input type="text" name="state" class="form-control" id="inputState">
-                                                        @if($errors->has('state'))
-                                                            <strong style="color:red" >{{ $errors->first('state') }}</strong>
-                                                        @enderror
+                                                        <span id="state_error"></span>
                                                     </div>
                                                     <div class="form-group col-md-2">
                                                         <label for="pin">Pincode</label>
                                                         <input type="text" name="pin" class="form-control" id="inputPincode">
-                                                        @if($errors->has('pin'))
-                                                            <strong style="color:red" >{{ $errors->first('pin') }}</strong>
-                                                        @enderror
+                                                        <span id="pin_error"></span>
                                                     </div>
                                                 </div>
                                                 <div class="form-group mb-0">
                                                     <a class="btn btn-sm btn-outline-dark mr-3 bck-selt">Cancel</a>
-                                                    <button class="btn btn-sm btn-primary text-white">Save</button>  
+                                                    <button type="button" onclick="address_save()" class="btn btn-sm btn-primary text-white">Save</button>
                                                 </div>
-                                            </form>
+                                            {{-- </form> --}}
                                         </div>
                                     </div>
                                 </div>
@@ -193,7 +164,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-12 order-lg-2 mb-4">
-                                                <button class="btn btn-sm btn-outline-dark" data-toggle="collapse" data-target="#faq-accordion-1">< Back</button> &nbsp; &nbsp; 
+                                                <button class="btn btn-sm btn-outline-dark" data-toggle="collapse" data-target="#faq-accordion-1">< Back</button> &nbsp; &nbsp;
                                                 <a href="{{route('web.checkout.confirm-order')}}" class="btn btn-sm btn-primary">Place Order</a>
                                             </div>
                                         </div>
@@ -211,5 +182,85 @@
 @endsection
 
 @section('script')
+    <script>
+        function address_save(){
+            var name = $("input[name=name]").val();
+            var email = $("input[name=email]").val();
+            var mobile = $("input[name=mobile]").val();
+            var address = $("textarea[name=address]").val();
+            var city = $("input[name=city]").val();
+            var state = $("input[name=state]").val();
+            var pin = $("input[name=pin]").val();
+            var validation = true;
+            $("#name_error").html('');
+            $("#email_error").html('');
+            $("#mobile_error").html('');
+            $("#address_error").html('');
+            $("#city_error").html('');
+            $("#state_error").html('');
+            $("#pin_error").html('');
 
+            if (validation) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type:"POST",
+                    url:"{{ route('web.add_checkout_address')}}",
+                    data:{
+                        "_token": "{{ csrf_token() }}",
+                        name:name,
+                        address:address,
+                        state:state,
+                        city:city,
+                        email:email,
+                        mobile:mobile,
+                        pin:pin,
+                    },
+                    // beforeSend:function() {
+                    //     $('#myModal').modal('show');
+                    //     $("#myModal").removeClass("mfp-hide");
+                    // },
+                    // complete:function() {
+                    //     $('#myModal').modal('hide');
+                    //     $("#myModal").addClass("mfp-hide");
+                    // },
+                    success:function(response){
+                        if (response.status == false) {
+                            var error = response.error_message;
+                            $.each(error, function (key, val) {
+                                console.log(key + "   = "+val);
+                                $("#"+key+"_error").html(`<p style="color:red">${val}</p>`);
+                            });
+                            console.log(error);
+                        } else {
+                            var address_data = response.data;
+                            $("#address_div").html("");
+                            $.each(address_data, function (key, val) {
+                                var edit_route = '{{route('web.edit_address',['id' =>':id','status' =>'1'])}}';
+                                edit_route = edit_route.replace(':id', val.id);
+                                $("#address_div").append(`
+                                <div class="col-md-4 col-12 ashia-mb-30">
+                                    <address>
+                                        <p><input type="radio" name="select-address" checked> <strong>${val.name}</strong></p>
+                                        <p>${val.address},${val.city},${val.state}</p>
+                                        <p class="mb-0">Mobile: ${val.email}</p>
+                                        <p class="mb-0">Mobile: ${val.mobile}</p>
+                                        <a href="${edit_route}" class="edit-link">edit this address</a>
+                                    </address>
+                                </div>
+                                `);
+                            });
+                            $("#selt-add").show();
+                            $("#add-addr").hide();
+                        }
+                        // console.log(response);
+                    }
+                });
+            }
+        }
+    </script>
 @endsection

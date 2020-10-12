@@ -19,13 +19,13 @@ use Session;
 class CartController extends Controller
 {
     public function addDirectCart(Request $request,$product_id){
-       
+
         $color = $request->input('color');
         $size_id = $request->input('size_id');
         $quantity = $request->input('quantity');
         if (empty($quantity)) {
             $quantity = 1;
-        }else{            
+        }else{
             $quantity = $quantity;
         }
         $product = Product::find($product_id);
@@ -33,12 +33,12 @@ class CartController extends Controller
             $size = $product->minSize;
             if (!empty($size) && count($size) > 0) {
                 $size_id = $size[0]->size_id;
-            }            
-        }else{           
+            }
+        }else{
             $size_id= $size_id;
         }
 
-        
+
         if (empty($color)) {
             $colors = ProductColor::where('product_id',$product_id)->first();
             if ($colors) {
@@ -49,11 +49,11 @@ class CartController extends Controller
             $user_id = Auth::guard('user')->user()->id;
 
             $check_cart_product = Cart::where('product_id',$product_id)->where('user_id',$user_id)->where('size_id',$size_id)->count();
- 
+
             if($check_cart_product>0){
                 return redirect()->route('web.view_cart');
             }
-            
+
             $cart = new Cart;
             $cart->product_id = $product_id;
             $cart->user_id = Auth::guard('user')->user()->id;
@@ -79,7 +79,7 @@ class CartController extends Controller
                     ],
                 ];
             }
-            
+
             Session::put('cart', $cart);
             Session::save();
             return redirect()->route('web.view_cart');
@@ -94,14 +94,14 @@ class CartController extends Controller
         $ship_charge = Charges::where('id',2)->first();
 
         if( Auth::guard('user')->user() && !empty(Auth::guard('user')->user()->id)) {
-           
+
             $user_id = Auth::guard('user')->user()->id;
             $cart = Cart::where('user_id',$user_id)->get();
             foreach($cart as $cart_item){
 
-                $size = $cart_item->sizes;                  
+                $size = $cart_item->sizes;
                 $cart_total += $cart_item->quantity*($size->price);
-                
+
                 $color = !empty($cart_item->colors) ? $cart_item->colors->color : null ;
                 $cart_data[] = [
                     'cart_id'=>$cart_item->id,
@@ -120,7 +120,7 @@ class CartController extends Controller
             }
 
             return view('web.cart.cart',compact('cart_data','cart_total','shipping_charge'));
-            
+
         }else{
             if (Session::has('cart') && !empty(Session::get('cart'))){
                 $cart = Session::get('cart');
@@ -130,11 +130,11 @@ class CartController extends Controller
                         $product =Product::find($product_id);
                         $color = !empty($cart_item['color']) ? Color::where('id',$cart_item['color'])->first() : null;
                         $color = !empty($color) ? $color->color : null;
-                        $product_size = ProductSize::where('size_id',$cart_item['size_id'])->first();                       
+                        $product_size = ProductSize::where('size_id',$cart_item['size_id'])->first();
                         $cart_total += $cart_item['quantity']*$product_size->price;
 
                         $cart_data[] = [
-                            
+
                             'product_id' => $product_id,
                             'name' => $product->name,
                             'image' => $product->main_image,
@@ -143,19 +143,17 @@ class CartController extends Controller
                             'price' => $product_size->price,
                             'color'=> $color,
                             'product_total'=>$product_size->price * $cart_item['quantity']
-                        ];   
-                        
+                        ];
+
                     }
-                    
+
                     if($cart_total < $charge_boundary->amount){
                         $shipping_charge = $ship_charge->amount;
-                    }   
+                    }
                     return view('web.cart.cart',compact('cart_data','cart_total','shipping_charge'));
                 }
             }
-           
         }
-       
     }
 
     public function removeCart($id){
@@ -185,11 +183,11 @@ class CartController extends Controller
         return redirect()->back();
      }
 
-    
-   
+
+
 }
 
 
 
-        
+
 

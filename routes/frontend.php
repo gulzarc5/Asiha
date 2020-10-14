@@ -39,7 +39,9 @@ Route::group(['namespace'=>'Web'],function(){
             //-- Checkout Section --//
             Route::get('show/checkout/form','CheckoutController@showCheckoutForm')->name('web.show_checkout_form');
             Route::post('add/checkout/address','CheckoutController@addCheckoutAddress')->name('web.add_checkout_address');
-            Route::get('order/place','CheckoutController@orderPlace')->name('web.order_place');
+            Route::post('order/place','CheckoutController@orderPlace')->name('web.order_place');
+            Route::post('coupon/apply','CheckoutController@couponApply')->name('web.coupon_apply');
+            Route::post('rpay/success','CheckoutController@paySuccess')->name('web.pay_success');
 
         });
 
@@ -54,6 +56,9 @@ Route::group(['namespace'=>'Web'],function(){
     });
 });
 
+Route::get('/Confitm-Thanks/{status}', function () {
+    return view('web.checkout.confirm-order');
+})->name('web.checkout.confirm-order');
 
 //========= index =========//
 // Route::get('/', function () {
@@ -86,9 +91,9 @@ Route::get('/New_Password', function () {
 // })->name('web.product.product-list');
 
 //========= product-detail =========//
-Route::get('/Roadster/Men-Olive-Green-Solid-Bomber-Jacket', function () {
-    return view('web.product.product-detail');
-})->name('web.product.product-detail');
+// Route::get('/Roadster/Men-Olive-Green-Solid-Bomber-Jacket', function () {
+//     return view('web.product.product-detail');
+// })->name('web.product.product-detail');
 
 //========= cart =========//
 // Route::get('/Cart', function () {
@@ -106,9 +111,7 @@ Route::get('/Roadster/Men-Olive-Green-Solid-Bomber-Jacket', function () {
 // })->name('web.checkout.checkout-edit-address');
 
 //========= confirm-order =========//
-Route::get('/Confitm-Thanks', function () {
-    return view('web.checkout.confirm-order');
-})->name('web.checkout.confirm-order');
+
 
 //========= order =========//
 Route::get('/Order', function () {

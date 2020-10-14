@@ -34,8 +34,8 @@
                         @if(!empty($cart_data) && count($cart_data)>0)
                             @foreach($cart_data as $values)
                                 <tr>
-                                    <td class="thumbnail"><a href="{{route('web.product.product-detail')}}"><img src="{{asset('images/products/'.$values['image'])}}"></a></td>
-                                    <td class="name"> <a href="{{route('web.product.product-detail')}}">
+                                    <td class="thumbnail"><a href="{{route('web.product_detail',['slug'=>$values['slug'],'product_id'=>$values['product_id']])}}"><img src="{{asset('images/products/'.$values['image'])}}"></a></td>
+                                    <td class="name"> <a href="{{route('web.product_detail',['slug'=>$values['slug'],'product_id'=>$values['product_id']])}}">
                                         {{$values['name']}}
                                         @if(!empty(($values['color'])))
                                             <br>

@@ -106,6 +106,7 @@ class CartController extends Controller
                 $cart_data[] = [
                     'cart_id'=>$cart_item->id,
                     'product_id' => $cart_item->product->id,
+                    'slug' => $cart_item->product->slug,
                     'name' => $cart_item->product->name,
                     'image' => $cart_item->product->main_image,
                     'quantity' => $cart_item->quantity,
@@ -118,7 +119,6 @@ class CartController extends Controller
             if($cart_total < $charge_boundary->amount){
                 $shipping_charge = $ship_charge->amount;
             }
-
             return view('web.cart.cart',compact('cart_data','cart_total','shipping_charge'));
 
         }else{
@@ -134,9 +134,9 @@ class CartController extends Controller
                         $cart_total += $cart_item['quantity']*$product_size->price;
 
                         $cart_data[] = [
-
                             'product_id' => $product_id,
                             'name' => $product->name,
+                            'slug' => $product->slug,
                             'image' => $product->main_image,
                             'quantity' => $cart_item['quantity'],
                             'size' => $product_size->size->name,
@@ -150,9 +150,9 @@ class CartController extends Controller
                     if($cart_total < $charge_boundary->amount){
                         $shipping_charge = $ship_charge->amount;
                     }
-                    return view('web.cart.cart',compact('cart_data','cart_total','shipping_charge'));
                 }
             }
+            return view('web.cart.cart',compact('cart_data','cart_total','shipping_charge'));
         }
     }
 

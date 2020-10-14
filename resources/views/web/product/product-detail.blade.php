@@ -94,21 +94,16 @@
                                     <td class="label"><span>Size</span></td>
                                     <td class="value">
                                         <div class="product-sizes">
-                                        @php
-                                            $size_count = true;
-                                        @endphp
+
                                             @foreach ($product_sizes as $item)
-                                                @if ($size_count)
+                                                @if ($item->id == $min_size->id)
                                                 <label class="size-container">
-                                                    <input type="radio"  value="{{$item->size_id}}" name="size_id" checked>
+                                                    <input type="radio"  value="{{$item->id}}" name="size_id" checked>
                                                     <span class="size-checkmark">{{$item->size->name}}</span>
                                                 </label>
-                                                @php
-                                                    $size_count = false;
-                                                @endphp
                                                 @else
                                                 <label class="size-container">
-                                                    <input type="radio"   value="{{$item->size_id}}" name="size_id">
+                                                    <input type="radio"   value="{{$item->id}}" name="size_id">
                                                     <span class="size-checkmark">{{$item->size->name}}</span>
                                                 </label>
                                                 @endif
@@ -200,15 +195,6 @@
                         </div>
                     </div>
                 @endforeach
-                {{-- <div class="col">
-                    <div class="product">
-                    <div class="product-thumb">
-                        <a href="{{route('web.product.product-detail')}}" class="image">
-                        <img src="{{asset('web/images/product/s328/more.jpg')}}" alt="Product Image">
-                        </a>
-                    </div>
-                    </div>
-                </div> --}}
             </div>
         <!-- Products End -->
     </div>
@@ -263,5 +249,7 @@
 </div>
 @endif
 @endsection
+
 @section('script')
+
 @endsection

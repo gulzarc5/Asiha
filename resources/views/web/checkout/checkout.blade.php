@@ -28,27 +28,30 @@
                 <div class="row">
                     <div class="col">
                         <div class="accordion" id="faq-accordion">
+                            {{ Form::open(['method' => 'post','route'=>'web.order_place']) }}
                             <div class="card active">
                                 <div class="card-header">
-                                    <button class="btn btn-link">Shipping Address</button>
+                                    <button type="button" class="btn btn-link">Shipping Address</button>
                                 </div>
                                 <div id="faq-accordion-1" class="collapse show" data-parent="#faq-accordion">
                                     <div class="card-body pattern-bg">
                                         <div class="myaccount-content address" id="selt-add">
                                             <h3>Select Address</h3>
-                                            <div class="row ashia-mb-n30" id="address_div">
+                                            <div class="row" id="address_div">
                                                 @foreach($shipping_address as $address)
                                                     <div class="col-md-4 col-12 ashia-mb-30">
                                                         <address>
-                                                            <p><input type="radio" name="select-address" checked> <strong>{{$address->name}}</strong></p>
+                                                            <p><input type="radio" name="address_id" value="{{$address->id}}" checked> <strong>{{$address->name}}</strong></p>
                                                             <p>{{$address->address}}</p>
                                                             <p class="mb-0">Mobile: {{$address->mobile}}</p>
                                                             <a href="{{route('web.edit_address',['id'=>$address->id,'status'=>1])}}" class="edit-link">edit this address</a>
                                                         </address>
                                                     </div>
                                                 @endforeach
-                                                <div class="col-12 mb-4">
-                                                    <button class="btn btn-sm btn-primary text-white" data-toggle="collapse" data-target="#faq-accordion-2">Proceed</button> &nbsp; &nbsp;
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <button type="button" class="btn btn-sm btn-primary text-white" data-toggle="collapse" data-target="#faq-accordion-2">Proceed</button> &nbsp; &nbsp;
                                                     <p class="add-address" style="display: inline;cursor:pointer">Or, <span style="color: #ff6c62;">Add New Address<span></p>
                                                 </div>
                                             </div>
@@ -108,15 +111,21 @@
                             </div>
                             <div class="card">
                                 <div class="card-header">
-                                    <button class="btn btn-link collapsed">Payment</button>
+                                    <button type="button" class="btn btn-link collapsed">Payment</button>
                                 </div>
                                 <div id="faq-accordion-2" class="collapse" data-parent="#faq-accordion">
                                     <div class="card-body pattern-bg">
                                         <div class="row ashia-mb-n30">
                                             <div class="col-lg-6 order-lg-1">
                                                 <div class="order-review">
+                                                    <div class="coupan">
+                                                        <input type="text" name="coupon_code" class="" id="coupon_code">
+                                                        <input type="hidden" name="coupon_id" class="" id="coupon_id">
+                                                        <button type="button" onclick="couponApply()" id="coupon_apply_btn">apply</button>
+                                                        <small class="response" id="coupon_err"></small>
+                                                    </div>
                                                     <table class="table">
-                                                        <tbody>
+                                                        <tbody id="grand_body">
                                                             <tr>
                                                                 <td class="name" style="border-top: 0;">Subtotal</td>
                                                                 <td class="total" style="border-top: 0;"><span>{{$cart_total}}</span></td>
@@ -129,7 +138,15 @@
                                                         <tfoot>
                                                             <tr class="total">
                                                                 <td style="text-align: left;"><span>Grand Total</span></td>
-                                                                <td><strong><span>{{$cart_total + $shipping_charge}}</span></strong></td>
+                                                                <td>
+                                                                    <strong>
+                                                                        <span id="grand_total_show">
+                                                                            {{$cart_total + $shipping_charge}}
+                                                                        </span>
+                                                                    </strong>
+                                                                    <input type="hidden" name="grand_total" id="grand_total" value="{{$cart_total}}">
+                                                                    <input type="hidden" name="shipping_charge" id="shipping_charge" value="{{$shipping_charge}}">
+                                                            </td>
                                                             </tr>
                                                         </tfoot>
                                                     </table>
@@ -141,6 +158,7 @@
                                                         <div class="accordion" id="paymentMethod">
                                                             <div class="card active">
                                                                 <div class="card-header">
+                                                                    <input type="radio" name="payment_type" value="1" id="" checked>
                                                                     <button data-toggle="collapse" data-target="#cashkPayments">Cash on delivery </button>
                                                                 </div>
                                                                 <div id="cashkPayments" class="collapse show" data-parent="#paymentMethod">
@@ -151,6 +169,7 @@
                                                             </div>
                                                             <div class="card">
                                                                 <div class="card-header">
+                                                                    <input type="radio" name="payment_type" value="2" id="">
                                                                     <button data-toggle="collapse" data-target="#payPalPayments">instamojo <img src="assets/images/others/pay.png" alt=""></button>
                                                                 </div>
                                                                 <div id="payPalPayments" class="collapse" data-parent="#paymentMethod">
@@ -164,13 +183,14 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-12 order-lg-2 mb-4">
-                                                <button class="btn btn-sm btn-outline-dark" data-toggle="collapse" data-target="#faq-accordion-1">< Back</button> &nbsp; &nbsp;
-                                                <a href="{{route('web.checkout.confirm-order')}}" class="btn btn-sm btn-primary">Place Order</a>
+                                                <button type="button" class="btn btn-sm btn-outline-dark" data-toggle="collapse" data-target="#faq-accordion-1">< Back</button> &nbsp; &nbsp;
+                                                <button type="submit" class="btn btn-sm btn-primary">Place Order</a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            {{Form::close()}}
                         </div>
                     </div>
                 </div>
@@ -261,6 +281,52 @@
                     }
                 });
             }
+        }
+
+        function couponApply(){
+            var coupon = $("#coupon_code").val();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                    type:"POST",
+                    url:"{{ route('web.coupon_apply')}}",
+                    data:{
+                        "_token": "{{ csrf_token() }}",
+                        coupon:coupon,
+                    },
+                    // beforeSend:function() {
+                    //     $('#myModal').modal('show');
+                    //     $("#myModal").removeClass("mfp-hide");
+                    // },
+                    // complete:function() {
+                    //     $('#myModal').modal('hide');
+                    //     $("#myModal").addClass("mfp-hide");
+                    // },
+                    success:function(response){
+                        if (response.status) {
+                            var data = response.data;
+                            console.log(data);
+                            $("#coupon_apply_btn").prop('disabled', true);
+                            $("#coupon_code").prop('disabled', true);
+                            $("#coupon_apply_btn").html('Coupon Applied');
+                            $("#coupon_apply_btn").css({"background-color": "#007780","color": "white"});
+                            $("#coupon_id").val(data.id);
+                            var grand_total = parseFloat($("#grand_total").val());
+                            var ship_charge = parseFloat($("#shipping_charge").val());
+
+                            $("#grand_total_show").html((grand_total+ship_charge)-((grand_total*parseFloat(data.discount))/100));
+                            $("#grand_body").append(`<tr style="border-bottom: 1px solid #fe6c62;">
+                                <td class="name">Discount</td>
+                                <td class="total"><span>${(grand_total*parseFloat(data.discount))/100}</span></td>
+                            </tr>`);
+                        } else {
+                           $("#coupon_err").html('<p style="color:red">Sorry The Coupon is Invalid</p>')
+                        }
+                    }
+                });
         }
     </script>
 @endsection

@@ -35,23 +35,30 @@ Route::group(['namespace'=>'Web'],function(){
             Route::get('wishlist','UserController@wishList')->name('web.wishlist');
             Route::get('add/wishlist/{product_id}','UserController@addWishlist')->name('web.add_wish_list');
             Route::get('remove/{product_id}','UserController@removeWishList')->name('web.remove_wishlist');
-            
+
             //-- Checkout Section --//
-            Route::get('show/checkout/form/{shipping_charge}/{cart_total}','CheckoutController@showCheckoutForm')->name('web.show_checkout_form');
+            Route::get('show/checkout/form','CheckoutController@showCheckoutForm')->name('web.show_checkout_form');
+            Route::post('add/checkout/address','CheckoutController@addCheckoutAddress')->name('web.add_checkout_address');
+            Route::post('order/place','CheckoutController@orderPlace')->name('web.order_place');
+            Route::post('coupon/apply','CheckoutController@couponApply')->name('web.coupon_apply');
+            Route::post('rpay/success','CheckoutController@paySuccess')->name('web.pay_success');
+
         });
 
-        // -- Cart Section --//
         Route::get('view/cart','CartController@viewCart')->name('web.view_cart');
         Route::get('remove/cart/{id}','CartController@removeCart')->name('web.remove_cart');
         Route::get('update/cart/{id}/{cart_id}/{qtty}','CartController@updateCart')->name('web.update_cart');
         Route::get('update/session/cart/{id}/{qtty}','CartController@updateSessionCart')->name('web.update_session_cart');
         Route::match(['get', 'post'], 'add/cart/{product_id}', 'CartController@addDirectCart')->name('web.add_direct_cart');
 
-       
+
 
     });
 });
 
+Route::get('/Confitm-Thanks/{status}', function () {
+    return view('web.checkout.confirm-order');
+})->name('web.checkout.confirm-order');
 
 //========= index =========//
 // Route::get('/', function () {
@@ -84,9 +91,9 @@ Route::get('/New_Password', function () {
 // })->name('web.product.product-list');
 
 //========= product-detail =========//
-Route::get('/Roadster/Men-Olive-Green-Solid-Bomber-Jacket', function () {
-    return view('web.product.product-detail');
-})->name('web.product.product-detail');
+// Route::get('/Roadster/Men-Olive-Green-Solid-Bomber-Jacket', function () {
+//     return view('web.product.product-detail');
+// })->name('web.product.product-detail');
 
 //========= cart =========//
 // Route::get('/Cart', function () {
@@ -104,9 +111,7 @@ Route::get('/Roadster/Men-Olive-Green-Solid-Bomber-Jacket', function () {
 // })->name('web.checkout.checkout-edit-address');
 
 //========= confirm-order =========//
-Route::get('/Confitm-Thanks', function () {
-    return view('web.checkout.confirm-order');
-})->name('web.checkout.confirm-order');
+
 
 //========= order =========//
 Route::get('/Order', function () {

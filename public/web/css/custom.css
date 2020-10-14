@@ -188,3 +188,17 @@
 	width: 8px;
 	height: 8px;
 }
+.coupan input[type="text"]{
+    width: 80%!important;
+    float: left;
+}
+.coupan button {
+    width: 20%;
+    float: left;
+}
+.order-payment input[type="radio"] {
+    position: absolute;
+    top: 35.4px;
+    left: 21.6px;
+    z-index: 99;
+}

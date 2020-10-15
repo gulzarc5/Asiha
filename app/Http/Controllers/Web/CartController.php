@@ -32,12 +32,12 @@ class CartController extends Controller
         if(empty($size_id)) {
             $size = $product->minSize;
             if (!empty($size) && count($size) > 0) {
-                $size_id = $size[0]->size_id;
+                $size_id = $size[0]->id;
             }
         }else{
             $size_id= $size_id;
         }
-
+// dd($size_id);
 
         if (empty($color)) {
             $colors = ProductColor::where('product_id',$product_id)->first();
@@ -100,6 +100,7 @@ class CartController extends Controller
             foreach($cart as $cart_item){
 
                 $size = $cart_item->sizes;
+               
                 $cart_total += $cart_item->quantity*($size->price);
 
                 $color = !empty($cart_item->colors) ? $cart_item->colors->color : null ;

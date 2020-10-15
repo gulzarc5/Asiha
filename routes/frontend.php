@@ -36,13 +36,19 @@ Route::group(['namespace'=>'Web'],function(){
             Route::get('add/wishlist/{product_id}','UserController@addWishlist')->name('web.add_wish_list');
             Route::get('remove/{product_id}','UserController@removeWishList')->name('web.remove_wishlist');
 
-            //-- Checkout Section --//
+             //--Order Section --//
+             Route::get('order/history','UserController@myOrderHistory')->name('web.order_history');
+             Route::get('order/details/{id}','UserController@orderDetails')->name('web.order_details');
+             Route::get('order/cancel/{id}','UserController@orderCancel')->name('web.order_cancel');
+            
+             //-- Checkout Section --//
             Route::get('show/checkout/form','CheckoutController@showCheckoutForm')->name('web.show_checkout_form');
             Route::post('add/checkout/address','CheckoutController@addCheckoutAddress')->name('web.add_checkout_address');
             Route::post('order/place','CheckoutController@orderPlace')->name('web.order_place');
             Route::post('coupon/apply','CheckoutController@couponApply')->name('web.coupon_apply');
             Route::post('rpay/success','CheckoutController@paySuccess')->name('web.pay_success');
 
+            
         });
 
         Route::get('view/cart','CartController@viewCart')->name('web.view_cart');
@@ -56,7 +62,7 @@ Route::group(['namespace'=>'Web'],function(){
     });
 });
 
-Route::get('/Confitm-Thanks/{status}', function () {
+Route::get('/Confitm-Thanks/{status?}', function () {
     return view('web.checkout.confirm-order');
 })->name('web.checkout.confirm-order');
 
@@ -114,14 +120,14 @@ Route::get('/New_Password', function () {
 
 
 //========= order =========//
-Route::get('/Order', function () {
-    return view('web.order.order');
-})->name('web.order.order');
+// Route::get('/Order', function () {
+//     return view('web.order.order');
+// })->name('web.order.order');
 
 //========= order-detail =========//
-Route::get('/Order-Detail', function () {
-    return view('web.order.order-detail');
-})->name('web.order.order-detail');
+// Route::get('/Order-Detail', function () {
+//     return view('web.order.order-detail');
+// })->name('web.order.order-detail');
 
 //========= wishlist =========//
 // Route::get('/Wishlist', function () {

@@ -38,53 +38,84 @@
                                         <th class="name" colspan="2">Product</th>
                                         <th class="quantity">Quantity</th>
                                         <th class="price">Price</th>
+                                        <th class="status">Status</th>
+                                        <th class="action">Action</th>
+
                                     </tr>
                                 </thead>
                                 <tbody class="pattern-bg">
-                                    <tr>
+                                   <tr>
                                         <td class="order-d" colspan="4">
-                                            <b>Order Id: <span>AD1452GHY</span></b>
-                                            <b>Order Date: <span>02/11/20</span></b>
+                                            <b>Order Id: <span>{{$orders->id}}</span></b>
+                                            <b>Order Date: <span>{{$orders->created_at->format('d M Y')}}</span></b>
                                         </td>
                                     </tr>
+                                    @foreach($order_details as $details)
                                     <tr>
-                                        <td class="thumbnail"><a href="product-details.html"><img src="{{asset('web/images/product/s328/product-1.jpg')}}"></a></td>
-                                        <td class="name"> <a href="product-details.html">Walnut Cutting Board</a></td>
-                                        <td class="quantity"><b>1</b></td>
-                                        <td class="price"><span>£100.00</span></td>
+                                        <td class="thumbnail"><a href="product-details.html"><img src="{{asset('images/products/'.$details->product->main_image.'')}}"></a></td>
+                                        <td class="name"> <a href="product-details.html">{{$details->product->name}}</a></td>
+                                        <td class="quantity"><b>{{$details->quantity}}</b></td>
+                                        <td class="price"><span>{{$details->quantity * $details->price}}</span></td>
+                                        @if($details->order_status==1)
+                                            <td class="price"><span>New Order</span></td>
+                                        @elseif($details->order_status==2)
+                                            <td class="price"><span>Packed</span></td>
+                                        @elseif($details->order_status==3)
+                                            <td class="price"><span>Shipped</span></td>
+                                        @elseif($details->order_status==4)
+                                            <td class="price"><span>Delivered</span></td>
+                                        @elseif($details->order_status==5)    
+                                            <td class="price"><span>Cancelled</span></td>
+                                        @elseif($details->order_status==6)
+                                            <td class="price"><span>Return Request</span></td>
+                                        @else
+                                            <td class="price"><span>Returned</span></td>
+                                        @endif
+                                        @if($details->payment_type==1)
+                                            <td class="action"><a href="{{route('web.order_cancel',['id'=>$details->id])}}" class="btn btn-sm btn-primary"> Cancel order</a></td>
+                                        @else
+                                            <td class="action"><a href="#" class="btn btn-sm btn-primary"> Cancel order</a></td>
+                                        @endif
                                     </tr>
+                                    @endforeach
                                     <tr>
-                                        <td class="thumbnail"><a href="product-details.html"><img src="{{asset('web/images/product/s328/product-2.jpg')}}"></a></td>
-                                        <td class="name"> <a href="product-details.html">Lucky Wooden Elephant</a></td>
-                                        <td class="quantity"><b>1</b></td>
-                                        <td class="price"><span>£35.00</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="thumbnail"><a href="product-details.html"><img src="{{asset('web/images/product/s328/product-3.jpg')}}"></a></td>
-                                        <td class="name"> <a href="product-details.html">Fish Cut Out Set</a></td>
-                                        <td class="quantity"><b>1</b></td>
-                                        <td class="price"><span>£9.00</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="{{route('web.order.order')}}" class="btn btn-sm btn-outline-dark"> Back to orders</a></td>
-                                        <td><a href="#" class="btn btn-sm btn-primary"> Cancel order</a></td>
+                                        <td><a href="{{route('web.order_history')}}" class="btn btn-sm btn-outline-dark"> Back to orders</a></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
                                         <td class="order-cal" style="border-left: 1px dashed #ff6c62!important;">
                                             <span>Subtotal</span>
+                                            @if(!empty($orders->discount))
+                                                <span>Discount</span>
+                                            @endif
                                             <span>Shipping</span>
                                         </td>
                                         <td class="order-cal">
-                                            <span>₹1000</span>
-                                            <span>₹100</span>
+                                            <span>{{$orders->amount}}</span>
+                                            @if(!empty($orders->discount))
+                                                <span>{{$orders->discount}}</span>
+                                            @endif
+                                            @if($orders->shipping_charge>0)
+                                                <span>{{$orders->shipping_charge}}</span>
+                                            @else
+                                                <span>Free</span>
+                                            @endif
                                         </td>
                                     </tr>
                                     <tr class="gnd">
+                                        <td></td>
+                                        <td></td>
                                         <td></td>
                                         <td></td>
                                         <td class="order-grand" style="border-left: 1px dashed #ff6c62!important;">
                                             <span class="grand">Grand Total</span>
                                         </td>
                                         <td class="order-grand">
-                                            <span class="grand">₹1100</span>
+                                            @if(!empty($orders->discount))
+                                                <span class="grand">{{($orders->discount/100*$orders->amount)+ $orders->shipping_charge}}</span>
+                                            @else
+                                                <span class="grand">{{$orders->amount+ $orders->shipping_charge}}</span>
+                                            @endif
                                         </td>
                                     </tr>
                                 </tbody>

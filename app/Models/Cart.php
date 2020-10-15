@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\ProductSize;
 
 class Cart extends Model
 {
@@ -14,7 +15,7 @@ class Cart extends Model
 
     public function sizes()
     {
-        return $this->belongsTo('App\Models\ProductSize','size_id',$this->primaryKey);
+        return $this->belongsTo('App\Models\ProductSize','size_id','id');
     }
 
     public function colors()

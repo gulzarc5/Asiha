@@ -9,8 +9,12 @@ use Session;
 use App\Models\Cart;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Order;
+use App\Models\OrderDetalis;
 use App\Models\Wishlist;
 use App\Models\Product;
+use App\Models\Size;
+use App\Models\ProductSize;
 use App\Models\Address;
 class UserController extends Controller
 {
@@ -207,6 +211,7 @@ class UserController extends Controller
             $address->pin=$request->input('pin');
             $address->save();
         }
+       
         return redirect()->back()->with("message",'Address updated successfully');
     }
 
@@ -237,5 +242,51 @@ class UserController extends Controller
         Wishlist::destroy($id);
         return redirect()->back();
     }
-    
+
+    public function myOrderHistory(Request $request){
+        $orders = Order::where('user_id',Auth::user()->id)->paginate(30);
+        return view('web.order.order',compact('orders'));
+    }
+
+    public function orderDetails($id){
+        $order_details = OrderDetalis::where('order_id',$id)->get();
+        $orders = Order::find($id);
+        return view('web.order.order-detail',compact('order_details','orders'));
+    }
+
+    public function orderCancel($order_item_id){
+       
+        $order_item = OrderDetalis::find($order_item_id);
+        $order_item->order_status = 5;
+        $order_item->save();
+        $all_order = OrderDetalis::where('order_id',$order_item->order_id)->get();
+        $status = 7;
+        foreach ($all_order as $key => $item) {
+            if ($item->order_status < $status) {
+                $status = $item->order_status;
+            }
+        }
+        $order = Order::find($order_item->order_id);
+        $order->order_status = $status;
+        $order->save();
+        $stock_update = $this->stockUpdate($order_item->product_id,$order_item->quantity,$order_item->size);
+       
+        return redirect()->back();
+    }
+
+    private function stockUpdate($product_id,$quantity,$size_name){
+        // $sizes = Size::where('name',$size_name)->get();
+
+        $size = ProductSize::where('product_sizes.product_id',$product_id)
+                ->join('sizes','sizes.id','=','product_sizes.size_id')
+                ->where('sizes.name',$size_name)
+                ->select('product_sizes.id as id','product_sizes.stock as stock')
+                ->first();
+        if ($size) {
+            $stock_update = ProductSize::find($size->id);
+            $stock_update->stock = $stock_update->stock+$quantity;
+            $stock_update->save();
+        } 
+        return 1;
+    }
 }

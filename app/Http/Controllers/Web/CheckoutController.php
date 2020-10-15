@@ -124,10 +124,10 @@ class CheckoutController extends Controller
             'address_id'=>'required',
             'payment_type'=>'required',
         ]);
-
         $address_id = $request->input('address_id');
         $payment_type = $request->input('payment_type');
         $coupon_id = $request->input('coupon_id');
+    
 
 
         $total_amount = 0;
@@ -188,6 +188,7 @@ class CheckoutController extends Controller
                 $order_update->save();
 
                 $response = [
+                    'key_id' => config('services.razorpay.id'),
                     'amount' => $total_amount*100,
                     'order_id' => $order['id'],
                     'name' => $order_update->user->name,

@@ -18,6 +18,7 @@ class CreateSliderTable extends Migration
             $table->char('variant_type')->comment('1=App ,2=Web');
             $table->char('slider_type')->comment('1=banner, 2=slider');
             $table->string('image');
+            $table->bigIncrements('third_category_id');
             $table->char('status',1)->default(1)->comment('1=Enable,2=Disable');
             $table->timestamps();
         });

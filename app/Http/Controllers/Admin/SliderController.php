@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use File;
 use Image;
 use App\Models\Slider;
+use App\Models\Category;
 class SliderController extends Controller
 {
     public function appSliderList(){
@@ -19,19 +20,21 @@ class SliderController extends Controller
     }
 
     public function appSliderAddForm(){
-        return view('admin.slider.app.new_app_slider_form');
+        $category = Category::get();
+        return view('admin.slider.app.new_app_slider_form',compact('category'));
     }
 
     public function webSliderAddForm(){
-
-        return view('admin.slider.web.new_web_slider_form');
+        $category = Category::get();
+        return view('admin.slider.web.new_web_slider_form',compact('category'));
     }
 
     public function insertWebSlider(Request $request){
         $this->validate($request, [
+            'third_category'=>'required',
             'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-
+       
         $image_name = null;
         if($request->hasfile('images')){
             $path = base_path().'/public/images/slider/web/thumb/';
@@ -55,17 +58,20 @@ class SliderController extends Controller
                     $constraint->aspectRatio();
                 })->save($destination.'/'.$image_name);
 
-                $sliders = Slider::create([
-                    'variant_type'=>2,
-                    'slider_type'=>2,
-                    'image'=>$image_name,
-                ]);
+                $sliders = new Slider;
+                $sliders->third_category_id = $request->input('third_category');
+                $sliders->variant_type=2;
+                $sliders->slider_type=2;
+                $sliders->image=$image_name;
+                $sliders->save();
+                
             }
         }
         return redirect()->back()->with('message','Slider Added Successfull');
     }
     public function insertAppSlider(Request $request){
         $this->validate($request, [
+            'third_category'=>'required',
             'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
@@ -93,11 +99,12 @@ class SliderController extends Controller
                     $constraint->aspectRatio();
                 })->save($destination.'/'.$image_name);
 
-                $sliders = Slider::create([
-                    'variant_type'=>1,
-                    'slider_type'=>2,
-                    'image'=>$image_name,
-                ]);
+                $sliders = new Slider;
+                $sliders->variant_type=1;
+                $sliders->slider_type=2;
+                $sliders->image=$image_name;
+                $sliders->save();
+            
             }
         }
 
@@ -112,6 +119,7 @@ class SliderController extends Controller
         }catch(DecryptException $e) {
             return redirect()->back();
         }
+        
         $category = Slider::where('id',$id)
         ->update([
             'status'=>$status,
@@ -126,6 +134,7 @@ class SliderController extends Controller
         }catch(DecryptException $e) {
             return redirect()->back();
         }
+        
             $prev_image = Slider::where('id',$id)->first();
             if($prev_image->variant_type==1){
             $prev_img_delete_path = base_path().'/public/images/slider/app/'.$prev_image->image;

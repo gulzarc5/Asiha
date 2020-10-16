@@ -10,7 +10,7 @@
             <div class="swiper-wrapper">
                 @if (isset($slider) && !empty($slider))
                     @foreach ($slider as $item)
-                        <a href="#" class="home1-slide-item swiper-slide" data-swiper-autoplay="5000" data-bg-image="{{asset('images/slider/web/'.$item->image.'')}}"></a>
+                        <a href="{{route('web.product_list',['cat_slug'=>"slug",'category_id'=>$item->third_category_id,'type' => 3])}}" class="home1-slide-item swiper-slide" data-swiper-autoplay="5000" data-bg-image="{{asset('images/slider/web/'.$item->image.'')}}"></a>
                     @endforeach
                 @endif
             </div>
@@ -179,185 +179,30 @@
 
                 <!-- Products Start -->
                 <div class="product-carousel popular-item">
-
-                    <div class="col">
-                        <div class="product">
-                            <div class="product-thumb">
-                                <a href="#" class="image">
-                                    <img src="{{asset('web/images/product/s328/product-11.jpg')}}" alt="Product Image">
-                                </a>
-                            </div>
-                            <div class="product-info">
-                                <h6 class="title"><a href="#">Boho Beard Mug</a></h6>
-                                <span class="price">
-                                    <span class="old">$45.00</span>
-                                <span class="new">$39.00</span>
-                                </span>
-                                <div class="product-buttons">
-                                    <a href="#" class="product-button hintT-top" data-hint="Add to wishlist"><i class="far fa-heart"></i></a>
-                                    <a href="#" class="product-button hintT-top" data-hint="Add to Cart"><i class="fal fa-shopping-cart"></i></a>
+                    @foreach($popular_products as $products)
+                        @if($products->is_popular ==2)
+                            <div class="col">
+                                <div class="product">
+                                    <div class="product-thumb">
+                                        <a href="{{route('web.product_detail',['slug'=>$products->slug,'product_id'=>$products->id])}}" class="image">
+                                            <img src="{{asset('images/products/'.$products->main_image).''}}" alt="Product Image">
+                                        </a>
+                                    </div>
+                                    <div class="product-info">
+                                        <h6 class="title"><a href="#">{{$products->name}}</a></h6>
+                                        <span class="price">
+                                            <span class="old">{{$products->mrp}}</span>
+                                        <span class="new">{{$products->min_price}}</span>
+                                        </span>
+                                        <div class="product-buttons">
+                                            <a href="{{route('web.add_wish_list',['product_id'=>$products->id])}}" class="product-button hintT-top" data-hint="Add to wishlist"><i class="far fa-heart"></i></a>
+                                            <a href="{{route('web.add_direct_cart',['product_id'=>$products->id])}}" class="product-button hintT-top" data-hint="Add to Cart"><i class="fal fa-shopping-cart"></i></a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <div class="product">
-                            <div class="product-thumb">
-                                <a href="#" class="image">
-                                    <img src="{{asset('web/images/product/s328/product-4.jpg')}}" alt="Product Image">
-                                </a>
-                            </div>
-                            <div class="product-info">
-                                <h6 class="title"><a href="#">Boho Beard Mug</a></h6>
-                                <span class="price">
-                                    <span class="old">$45.00</span>
-                                <span class="new">$39.00</span>
-                                </span>
-                                <div class="product-buttons">
-                                    <a href="#" class="product-button hintT-top" data-hint="Add to wishlist"><i class="far fa-heart"></i></a>
-                                    <a href="#" class="product-button hintT-top" data-hint="Add to Cart"><i class="fal fa-shopping-cart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <div class="product">
-                            <div class="product-thumb">
-                                <a href="#" class="image">
-                                    <img src="{{asset('web/images/product/s328/product-8.jpg')}}" alt="Product Image">
-                                </a>
-                            </div>
-                            <div class="product-info">
-                                <h6 class="title"><a href="#">Boho Beard Mug</a></h6>
-                                <span class="price">
-                                    <span class="old">$45.00</span>
-                                <span class="new">$39.00</span>
-                                </span>
-                                <div class="product-buttons">
-                                    <a href="#" class="product-button hintT-top" data-hint="Add to wishlist"><i class="far fa-heart"></i></a>
-                                    <a href="#" class="product-button hintT-top" data-hint="Add to Cart"><i class="fal fa-shopping-cart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <div class="product">
-                            <div class="product-thumb">
-                                <a href="#" class="image">
-                                    <img src="{{asset('web/images/product/s328/product-2.jpg')}}" alt="Product Image">
-                                </a>
-                            </div>
-                            <div class="product-info">
-                                <h6 class="title"><a href="#">Boho Beard Mug</a></h6>
-                                <span class="price">
-                                    <span class="old">$45.00</span>
-                                <span class="new">$39.00</span>
-                                </span>
-                                <div class="product-buttons">
-                                    <a href="#" class="product-button hintT-top" data-hint="Add to wishlist"><i class="far fa-heart"></i></a>
-                                    <a href="#" class="product-button hintT-top" data-hint="Add to Cart"><i class="fal fa-shopping-cart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <div class="product">
-                            <div class="product-thumb">
-                                <a href="#" class="image">
-                                    <img src="{{asset('web/images/product/s328/product-15.jpg')}}" alt="Product Image">
-                                </a>
-                            </div>
-                            <div class="product-info">
-                                <h6 class="title"><a href="#">Boho Beard Mug</a></h6>
-                                <span class="price">
-                                    <span class="old">$45.00</span>
-                                <span class="new">$39.00</span>
-                                </span>
-                                <div class="product-buttons">
-                                    <a href="#" class="product-button hintT-top" data-hint="Add to wishlist"><i class="far fa-heart"></i></a>
-                                    <a href="#" class="product-button hintT-top" data-hint="Add to Cart"><i class="fal fa-shopping-cart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <div class="product">
-                            <div class="product-thumb">
-                                <a href="#" class="image">
-                                    <img src="{{asset('web/images/product/s328/product-13.jpg')}}" alt="Product Image">
-                                </a>
-                            </div>
-                            <div class="product-info">
-                                <h6 class="title"><a href="#">Boho Beard Mug</a></h6>
-                                <span class="price">
-                                    <span class="old">$45.00</span>
-                                <span class="new">$39.00</span>
-                                </span>
-                                <div class="product-buttons">
-                                    <a href="#" class="product-button hintT-top" data-hint="Add to wishlist"><i class="far fa-heart"></i></a>
-                                    <a href="#" class="product-button hintT-top" data-hint="Add to Cart"><i class="fal fa-shopping-cart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <div class="product">
-                            <div class="product-thumb">
-                                <a href="#" class="image">
-                                    <img src="{{asset('web/images/product/s328/product-7.jpg')}}" alt="Product Image">
-                                </a>
-                            </div>
-                            <div class="product-info">
-                                <h6 class="title"><a href="#">Boho Beard Mug</a></h6>
-                                <span class="price">
-                                    <span class="old">$45.00</span>
-                                <span class="new">$39.00</span>
-                                </span>
-                                <div class="product-buttons">
-                                    <a href="#" class="product-button hintT-top" data-hint="Add to wishlist"><i class="far fa-heart"></i></a>
-                                    <a href="#" class="product-button hintT-top" data-hint="Add to Cart"><i class="fal fa-shopping-cart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <div class="product">
-                            <div class="product-thumb">
-                                <a href="#" class="image">
-                                    <img src="{{asset('web/images/product/s328/product-5.jpg')}}" alt="Product Image">
-                                </a>
-                            </div>
-                            <div class="product-info">
-                                <h6 class="title"><a href="#">Boho Beard Mug</a></h6>
-                                <span class="price">
-                                    <span class="old">$45.00</span>
-                                <span class="new">$39.00</span>
-                                </span>
-                                <div class="product-buttons">
-                                    <a href="#" class="product-button hintT-top" data-hint="Add to wishlist"><i class="far fa-heart"></i></a>
-                                    <a href="#" class="product-button hintT-top" data-hint="Add to Cart"><i class="fal fa-shopping-cart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <div class="product">
-                            <div class="product-thumb">
-                                <a href="#" class="image">
-                                    <img src="{{asset('web/images/product/s328/more.jpg')}}" alt="Product Image">
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
+                        @endif
+                    @endforeach
                 </div>
                 <!-- Products End -->
 

@@ -45,8 +45,10 @@ class ProductController extends Controller
                 <a href="' . route('admin.product_edit_colors', ['id' => $row->id]) . '" class="btn btn-warning btn-sm" target="_blank">Edit Colors</a>';
 
                 $btn .=  '<a href="' . route('admin.product_edit_images', ['product_id' => $row->id]) . '" class="btn btn-warning btn-sm" target="_blank">Edit Images</a>';
-
-
+                if($row->is_popular==1){
+                    $btn .=  '<a href="' . route('admin.make_product_popular', ['product_id' => $row->id]) . '" class="btn btn-info btn-sm">Make Product Popular</a>';
+                }
+                
                 if ($row->status == '1') {
                     $btn .= '<a href="' . route('admin.product_status_update', ['id' => $row->id, 'status' => 2]) . '" class="btn btn-danger btn-sm" >Disable</a>';
                 } else {
@@ -514,5 +516,23 @@ class ProductController extends Controller
             }
         }
         return redirect()->back();
+    }
+
+    public function makeProductPopular($product_id){
+        $product = Product::find($product_id);
+        if($product->is_popular == 1){
+            $product->is_popular = 2;
+            $product->save();
+        }
+        else{
+            $product->is_popular = 1;
+            $product->save();
+        }
+        return redirect()->back();
+    }
+
+    public function popularList(){
+        $product_list = Product::where('is_popular',2)->get();
+        return view('admin.product.popular_products_list',compact('product_list'));
     }
 }

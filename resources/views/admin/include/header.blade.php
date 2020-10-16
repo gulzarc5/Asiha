@@ -96,6 +96,7 @@
                     <ul class="nav child_menu">
                       <li class="sub_menu"><a href="{{route('admin.product_add_form')}}">Add New Product</a></li>
                       <li class="sub_menu"><a href="{{route('admin.list_product')}}">Product List</a></li>
+                      <li class="sub_menu"><a href="{{route('admin.popular_product_list')}}">Popular Product List</a></li>
                     </ul>
                   </li>
 

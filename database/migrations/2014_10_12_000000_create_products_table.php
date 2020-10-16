@@ -27,6 +27,7 @@ class CreateProductsTable extends Migration
             $table->longText('description')->nullable();             
             $table->double('min_price', 10, 2)->default(0);
             $table->double('mrp', 10, 2)->default(0);
+            $table->char('status',1)->default(1)->comment("1= Not Popular,2 = Popular");
             $table->char('status',1)->default(1)->comment("1= Enable,2 = Disable");
             $table->timestamps();
         });

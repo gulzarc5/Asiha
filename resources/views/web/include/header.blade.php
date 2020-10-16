@@ -140,10 +140,13 @@
                                     </li>
                                 @endif
                             @endforeach
-
+                            
 
                             @auth('user')
-                                <li><a href="{{route('web.dashboard')}}"><span class="menu-text"><i class="fa fa-user"></i> Hello, <b>{{$user_data->name}}</b></span></a> </li>
+                                @php
+                                    $first_name = explode(" ",$user_data->name);
+                                @endphp
+                                <li><a href="{{route('web.dashboard')}}"><span class="menu-text"><i class="fa fa-user"></i> Hello, <b>{{$first_name[0]}}</b></span></a> </li>
                             @else
                                 <li class="has-children"><a href="#"><span class="menu-text"><i class="fal fa-user"></i> Login/Register</span></a>
                                     <ul class="sub-menu">
@@ -208,7 +211,7 @@
                 <div class="col-auto mr-auto d-none d-xl-block">
                     <nav class="site-main-menu site-main-menu-left justify-content-center">
                         <ul>
-                            <li><a href="{{route('web.index')}}"><span class="menu-text">Homess</span></a></li>
+                            <li><a href="{{route('web.index')}}"><span class="menu-text">Home</span></a></li>
                             @foreach($category as $items)
                                 @if($items->status==1)
                                     <li class="has-children"><a href="#"><span class="menu-text">{{$items->name}}</span></a>
@@ -249,7 +252,7 @@
                             @endforeach
 
                             @auth('user')
-                                <li><a href="{{route('web.dashboard')}}"><span class="menu-text"><i class="fa fa-user"></i> Hello, <b>{{$user_data->name}}</b></span></a> </li>
+                                <li><a href="{{route('web.dashboard')}}"><span class="menu-text"><i class="fa fa-user"></i> Hello, <b>{{$first_name[0]}}</b></span></a> </li>
                             @else
                                 <li class="has-children"><a href="#"><span class="menu-text"><i class="fal fa-user"></i> Login/Register</span></a>
                                     <ul class="sub-menu">
@@ -474,7 +477,7 @@
                         @endif
                     @endforeach
                     @auth('user')
-                        <li><a href="{{route('web.dashboard')}}"><span class="menu-text"><i class="fa fa-user"></i> Hello, <b>{{$user_data->name}}</b></span></a> </li>
+                        <li><a href="{{route('web.dashboard')}}"><span class="menu-text"><i class="fa fa-user"></i> Hello, <b>{{$first_name[0]}}</b></span></a> </li>
                         @auth('user')
                             <li><a href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();"><span class="menu-text"><i class="fal fa-user"></i> Logout</span></a>
                             </li>

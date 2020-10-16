@@ -39,7 +39,9 @@
                                         <th class="quantity">Quantity</th>
                                         <th class="price">Price</th>
                                         <th class="status">Status</th>
-                                        <th class="action">Action</th>
+                                        @if($orders->order_status !=5)
+                                            <th class="action">Action</th>
+                                        @endif
 
                                     </tr>
                                 </thead>
@@ -71,10 +73,12 @@
                                         @else
                                             <td class="price"><span>Returned</span></td>
                                         @endif
-                                        @if($details->payment_type==1)
-                                            <td class="action"><a href="{{route('web.order_cancel',['id'=>$details->id])}}" class="btn btn-sm btn-primary"> Cancel order</a></td>
-                                        @else
-                                            <td class="action"><a href="{{route('web.order.refund')}}" class="btn btn-sm btn-primary"> Cancel order</a></td>
+                                        @if($details->order_status!=5)
+                                            @if($details->payment_type==1)
+                                                <td class="action"><a href="{{route('web.order_cancel',['id'=>$details->id])}}" class="btn btn-sm btn-primary"> Cancel order</a></td>
+                                            @else
+                                                <td class="action"><a href="{{route('web.order.refund')}}" class="btn btn-sm btn-primary"> Cancel order</a></td>
+                                            @endif
                                         @endif
                                     </tr>
                                     @endforeach

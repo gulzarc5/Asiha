@@ -18,7 +18,7 @@ class CreateThirdCategoryTable extends Migration
             $table->unsignedBigInteger('sub_category_id');
             $table->string('name');
             $table->string('slug',256)->nullable();
-            $table->string('image',256);
+            $table->string('image',256)->nullable();
             $table->char('status',1)->default(1)->comment("1= Enable,2 = Disable");
             $table->timestamps();
         });

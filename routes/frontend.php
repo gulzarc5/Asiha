@@ -154,3 +154,8 @@ Route::get('/New_Password', function () {
 //     return view('web.profile.dashboard');
 // })->name('web.profile.dashboard');
 
+//========= refund =========//
+Route::get('/order/rufund', function () {
+    return view('web.order.refund');
+})->name('web.order.refund');
+

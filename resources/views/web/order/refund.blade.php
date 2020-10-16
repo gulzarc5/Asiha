@@ -20,8 +20,8 @@
                                 <div id="faq-accordion-1" class="collapse show" data-parent="#faq-accordion">
                                     <div class="card-body pattern-bg">
                                         <div class="myaccount-content address">
-                                            <h3>Refund Amount</h3><div class="product-price">₹467.00 </div>
-                                            <form method="POST" action="">
+                                            <h3>Refund Amount</h3><div class="product-price">{{$order->total_amount}}/- </div>
+                                            <form method="POST" action="{{route('web.order_refund',['order_id'=>$order->id])}}">
                                                 @csrf
                                                 <div class="form-row">
                                                     <div class="form-group col-md-6">
@@ -49,16 +49,16 @@
                                                     </div>
                                                     <div class="form-group col-md-4">
                                                         <label for="inputCity">IFSC Code</label>
-                                                        <input type="text" name="city" class="form-control" value="">
-                                                        @if($errors->has('city'))
-                                                            <strong style="color:red" >{{ $errors->first('city') }}</strong>
+                                                        <input type="text" name="ifsc" class="form-control" value="">
+                                                        @if($errors->has('ifsc'))
+                                                            <strong style="color:red" >{{ $errors->first('ifsc') }}</strong>
                                                         @enderror
                                                     </div>
                                                     <div class="form-group col-md-4">
                                                         <label for="inputState">Branch Name</label>
-                                                        <input type="text" name="state" class="form-control" value="">
-                                                        @if($errors->has('state'))
-                                                            <strong style="color:red" >{{ $errors->first('state') }}</strong>
+                                                        <input type="text" name="branch_name" class="form-control" value="">
+                                                        @if($errors->has('branch_name'))
+                                                            <strong style="color:red" >{{ $errors->first('branch_name') }}</strong>
                                                         @enderror
                                                     </div>
                                                 </div>

@@ -6,12 +6,14 @@ use App\Http\Controllers\Controller;
 use Auth;
 use Hash;
 use Session;
+use Validator;
 use App\Models\Cart;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\OrderDetalis;
 use App\Models\Wishlist;
+use App\Models\RefundInfo;
 use App\Models\Product;
 use App\Models\Size;
 use App\Models\ProductSize;
@@ -288,5 +290,71 @@ class UserController extends Controller
             $stock_update->save();
         } 
         return 1;
+    }
+
+    public function orderCancelRefundForm(Request $request,$order_id){
+        $order = Order::where('id',$order_id)->first();
+        
+        return view('web.order.refund',compact('order'));
+
+    }
+    public function orderCancelRefund(Request $request,$order_item_id){
+        $validator =  Validator::make($request->all(),[
+            
+            'name'   => 'required',
+            'b-name' => 'required',
+            'branch_name' => 'required',
+            'acc-number' => 'required',
+            'ifsc' => 'required'
+        ]);
+        
+
+        if ($validator->fails()){
+            return redirect()->back()->with('message','Error with details');
+        }
+        else{
+            
+            $order_item = OrderDetalis::find($order_item_id);
+            $order_item->order_status = 5;
+            $order_item->refund_request = 2;
+            $order_item->save();
+            $all_order = OrderDetalis::where('order_id',$order_item->order_id)->get();
+        $status = 7;
+        foreach ($all_order as $key => $item) {
+            if ($item->order_status < $status) {
+                $status = $item->order_status;
+            }
+        }
+        $order = Order::find($order_item->order_id);
+        $order->order_status = $status;
+        $order->save();
+
+        $amount = $order_item->quantity*$order_item->price;
+        $discount = (($amount*$order_item->discount)/100);
+        if ($status == 5 || $status == 6 || $status == 7 ) {
+            $order_item->refund_amount = (($amount-$discount)+$order_item->order->shipping_charge);
+        }else{
+            $order_item->refund_amount = ($amount-$discount);
+        }
+        $order_item->save();
+
+        $refund_info = new RefundInfo();
+        $refund_info->order_id = $order_item->id;
+        $refund_info->amount =  $order_item->refund_amount;
+        $refund_info->name = $request->input('name');
+        $refund_info->bank_name = $request->input('b-name');
+        $refund_info->ac_no = $request->input('acc-number');
+        $refund_info->ifsc = $request->input('ifsc');
+        $refund_info->branch_name = $request->input('branch_name');
+        $refund_info->save();
+        if($refund_info){
+            $this->stockUpdate($order_item->product_id,$order_item->quantity,$order_item->size);
+
+        }
+        return redirect()->route('web.order_history');
+
+        }
+
+
     }
 }

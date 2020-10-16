@@ -41,6 +41,8 @@ Route::group(['namespace'=>'Web'],function(){
              Route::get('order/history','UserController@myOrderHistory')->name('web.order_history');
              Route::get('order/details/{id}','UserController@orderDetails')->name('web.order_details');
              Route::get('order/cancel/{id}','UserController@orderCancel')->name('web.order_cancel');
+             Route::get('order/cancel/refund/form/{order_id}','UserController@orderCancelRefundForm')->name('web.order_refund_form');
+             Route::post('order/cancel/refund/{order_id}','UserController@orderCancelRefund')->name('web.order_refund');
             
              //-- Checkout Section --//
             Route::get('show/checkout/form','CheckoutController@showCheckoutForm')->name('web.show_checkout_form');
@@ -156,7 +158,7 @@ Route::get('/New_Password', function () {
 // })->name('web.profile.dashboard');
 
 //========= refund =========//
-Route::get('/order/rufund', function () {
-    return view('web.order.refund');
-})->name('web.order.refund');
+// Route::get('/order/rufund', function () {
+//     return view('web.order.refund');
+// })->name('web.order.refund');
 

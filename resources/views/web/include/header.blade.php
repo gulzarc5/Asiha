@@ -208,7 +208,7 @@
                 <div class="col-auto mr-auto d-none d-xl-block">
                     <nav class="site-main-menu site-main-menu-left justify-content-center">
                         <ul>
-                            <li><a href="{{route('web.index')}}"><span class="menu-text">Homess</span></a></li>
+                            <li><a href="{{route('web.index')}}"><span class="menu-text">Home</span></a></li>
                             @foreach($category as $items)
                                 @if($items->status==1)
                                     <li class="has-children"><a href="#"><span class="menu-text">{{$items->name}}</span></a>

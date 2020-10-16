@@ -137,6 +137,9 @@ Route::group(['namespace' => 'Admin'],function(){
             Route::put('add/new/colors/{product_id}','ProductController@addNewColor')->name('admin.product_add_new_colors');
             Route::get('delete/color/{product_color_id}','ProductController@productDeleteColor')->name('admin.delete_product_color');
 
+            Route::get('popular/{product_id}','ProductController@makeProductPopular')->name('admin.make_product_popular');
+            Route::get('list/popular','ProductController@popularList')->name('admin.popular_product_list');
+
             // Route::get('edit/specifications/{product_id}','ProductController@editSpecifications')->name('admin.product_edit_specifications');
             // Route::post('add/new/specofication/','ProductController@addNewSpecification')->name('admin.product_add_new_specofication');
             // Route::post('update/specofication/','ProductController@updateSpecification')->name('admin.product_update_specofication');

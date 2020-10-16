@@ -12,6 +12,7 @@
 */
 Route::group(['namespace'=>'Web'],function(){
     Route::get('/','HomePageController@index')->name('web.index');
+    
     Route::group(['prefix'=>'product'],function(){
         Route::get('list/{cat_slug}/{category_id}/{type}','ProductController@productlist')->name('web.product_list');
         Route::post('filter/list','ProductController@productListWithFilter')->name('web.product_list_filter');

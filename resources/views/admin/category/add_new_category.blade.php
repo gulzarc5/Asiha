@@ -47,9 +47,9 @@
                         <div class="form-group">
                            {{ Form::label('image', 'Image')}} 
                             <input type="file" class="form-control" name="images[]" multiple>
-                            @if($errors->has('image'))
+                            @if($errors->has('images'))
                                 <span class="invalid-feedback" role="alert" style="color:red">
-                                    <strong>{{ $errors->first('image') }}</strong>
+                                    <strong>{{ $errors->first('images') }}</strong>
                                 </span> 
                             @enderror
                         </div>

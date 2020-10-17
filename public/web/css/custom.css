@@ -138,8 +138,8 @@
 .product-sizes .size-container {
   display: block;
   position: relative;
-  padding-left: 35px;
-  margin-bottom: 12px;
+  padding-left: 20px;
+  margin-top: 12px;
   cursor: pointer;
   font-size: 18px;
   -webkit-user-select: none;
@@ -155,18 +155,18 @@
 }
 
 .product-sizes .size-checkmark {
-  position: absolute;
+  position: relative;
   top: -3px;
   left: 0;
   height: 25px;
   width: 30px;
-  border: 1px solid gray;
+  border: 0;
   padding: 3px 0px 0px 6px;
-  color: gray;
+  color: #a9a8a8;
 }
 
 .product-sizes .size-container input:checked ~ .size-checkmark {
-  border:1px solid;
+  border-bottom: 1px solid;
   padding: 3px 0px 0px 6px;
   color: #000;
 }

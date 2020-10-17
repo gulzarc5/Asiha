@@ -77,7 +77,7 @@
                                             @if($details->payment_type==1)
                                                 <td class="action"><a href="{{route('web.order_cancel',['id'=>$details->id])}}" class="btn btn-sm btn-primary"> Cancel order</a></td>
                                             @else
-                                                <td class="action"><a href="#" class="btn btn-sm btn-primary"> Cancel order</a></td>
+                                                <td class="action"><a href="{{route('web.order_refund_form',['order_id'=>$orders->id])}}" class="btn btn-sm btn-primary"> Cancel order</a></td>
                                             @endif
                                         @endif
                                     </tr>

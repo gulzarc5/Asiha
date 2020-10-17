@@ -249,7 +249,7 @@
                                 $("#action"+action_id).html(`<button class="btn btn-sm btn-primary" onclick="openModal(${order_item_id},'3',${action_id},'Are You Sure To Shipped ?')">Shipped</button>`);
                             } else if (status == '3') {
                                 $("#status"+action_id).html('<button class="btn btn-sm btn-primary">Shipped</button>');
-                                $("#action"+action_id).html(`<button class="btn btn-sm btn-success" onclick="openModal(${order_item_id},'3',${action_id},'Are You Sure To Delivered ? ')">Delivered</button>`);
+                                $("#action"+action_id).html(`<button class="btn btn-sm btn-success" onclick="openModal(${order_item_id},'4',${action_id},'Are You Sure To Delivered ? ')">Delivered</button>`);
                             }else if(status == '4'){
                                 $("#status"+action_id).html('<button class="btn btn-sm btn-success">Delivered</button>');
                                 $("#action"+action_id).html('---');

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Validator;
 use App\Models\Product;
 use App\Http\Resources\ProductResource;
+use App\Http\Resources\ProductDetailResource;
 use App\Models\Brands;
 use App\Http\Resources\BrandResource;
 use App\Models\Color;
@@ -310,11 +311,23 @@ class ProductController extends Controller
 
     public function singleProductView($product_id)
     {
-        $product = Product::with('category','subCategory','thirdCategory','brand','sizes','productColors')->find($product_id);
+        $product = Product::find($product_id);
+        $related_product = [];
+        if ($product) {
+            if (!empty($product->last_category_id)) {
+                $related_product = Product::where('last_category_id',$product->last_category_id)->inRandomOrder()->limit(10)->get();
+            } else {
+                $related_product = Product::where('sub_category_id',$product->sub_category_id)->inRandomOrder()->limit(10)->get();
+            }
+
+        }
         $response = [
             'status' => true,
             'message' => 'product details',
-            'data' => $product,
+            'data' =>[
+                'product' => new ProductDetailResource($product),
+                'related_products' => ProductResource::collection($related_product),
+            ],
         ];
         return response()->json($response, 200);
     }

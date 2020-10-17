@@ -16,7 +16,7 @@ class OrderItemResource extends JsonResource
     {
         return [
             'order_item_id' => $this->id,
-            'product_name' => $this->product->name,
+            'product_name' => isset($this->product->name) ? $this->product->name : null,
             'size' => $this->size,
             'color' => $this->color,
             'quantity' => $this->quantity,

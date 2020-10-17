@@ -21,7 +21,7 @@ class ProductResource extends JsonResource
             'min_price' => $this->min_price,
             'mrp' => $this->mrp,
             'status' => $this->status,
-            'brand_name' => $this->brand->name,
+            'brand_name' => isset($this->brand->name) ? $this->brand->name : null,
         ];
     }
 }

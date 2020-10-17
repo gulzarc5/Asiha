@@ -19,12 +19,12 @@ use App\Models\Address;
 class UserController extends Controller
 {
     public function loginForm(){
-        
-       return view('web.login');         
+
+       return view('web.login');
     }
 
     public function registerForm(){
-    
+
        return view('web.register');
     }
 
@@ -41,7 +41,7 @@ class UserController extends Controller
         $user->mobile =$request->input('mobile');
         $user->password = Hash::make($request->input('password'));
         $user->save();
-        
+
         if($user){
             $login = $this->loginCheck($request->input('email'),$request->input('password'));
             if ($login) {
@@ -67,7 +67,7 @@ class UserController extends Controller
     }
 
     public function login(Request $request){
-       
+
         $this->validate($request, [
             'email'   => 'required',
             'password' => 'required'
@@ -89,11 +89,11 @@ class UserController extends Controller
             return redirect()->intended('/');
         } else {
             return back()->withInput($request->only('email'))->with('login_error',' Mobile / Email or password incorrect');
-        }        
+        }
     }
 
     function loginCheck($email,$password){
-        
+
         $credentials = array(
             'email' => $email,
             'password'  => $password,
@@ -111,11 +111,11 @@ class UserController extends Controller
         }else{
             return false;
         }
-    
+
     }
 
     public function logout(Request $request){
-        Auth::guard('user')->logout();        
+        Auth::guard('user')->logout();
         $request->session()->invalidate();
         return redirect()->route('web.login_form');
     }
@@ -126,7 +126,7 @@ class UserController extends Controller
 
     public function profile(){
         $user_data = User::find(Auth::user()->id);
-        return view('web.profile.profile',compact('user_data'));        
+        return view('web.profile.profile',compact('user_data'));
     }
 
     public function updateProfile(Request $request){
@@ -177,7 +177,7 @@ class UserController extends Controller
             $address->email=$request->input('email');
             $address->mobile=$request->input('mobile');
             $address->pin=$request->input('pin');
-            $address->save();          
+            $address->save();
         }
         return redirect()->back()->with('message','Address added successfully');
     }
@@ -211,7 +211,7 @@ class UserController extends Controller
             $address->pin=$request->input('pin');
             $address->save();
         }
-       
+
         return redirect()->back()->with("message",'Address updated successfully');
     }
 
@@ -234,8 +234,8 @@ class UserController extends Controller
     }
 
     public function wishList(){
-       $wishlist = Wishlist::where('user_id',Auth::user()->id)->get();       
-       return view('web.wishlist.wishlist',compact('wishlist'));        
+       $wishlist = Wishlist::where('user_id',Auth::user()->id)->get();
+       return view('web.wishlist.wishlist',compact('wishlist'));
     }
 
     public function removeWishList($id){
@@ -244,7 +244,7 @@ class UserController extends Controller
     }
 
     public function myOrderHistory(Request $request){
-        $orders = Order::where('user_id',Auth::user()->id)->paginate(30);
+        $orders = Order::where('user_id',Auth::user()->id)->orderBy('id','desc')->limit(30)->get();
         return view('web.order.order',compact('orders'));
     }
 
@@ -255,7 +255,7 @@ class UserController extends Controller
     }
 
     public function orderCancel($order_item_id){
-       
+
         $order_item = OrderDetalis::find($order_item_id);
         $order_item->order_status = 5;
         $order_item->save();
@@ -270,7 +270,7 @@ class UserController extends Controller
         $order->order_status = $status;
         $order->save();
         $stock_update = $this->stockUpdate($order_item->product_id,$order_item->quantity,$order_item->size);
-       
+
         return redirect()->back();
     }
 
@@ -286,7 +286,7 @@ class UserController extends Controller
             $stock_update = ProductSize::find($size->id);
             $stock_update->stock = $stock_update->stock+$quantity;
             $stock_update->save();
-        } 
+        }
         return 1;
     }
 }

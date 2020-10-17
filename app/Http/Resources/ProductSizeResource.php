@@ -16,7 +16,7 @@ class ProductSizeResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->size->name,
+            'name' => isset($this->size->name) ? $this->size->name : null,
             'mrp' => $this->mrp,
             'price' => $this->price,
             'stock' => $this->stock,

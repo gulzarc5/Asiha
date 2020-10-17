@@ -19,7 +19,7 @@ class CartProductResource extends JsonResource
             'name' => $this->name,
             'main_image' => $this->main_image,
             'status' => $this->status,
-            'brand_name' => $this->brand->name,
+            'brand_name' => isset($this->brand->name) ? $this->brand->name : null,
         ];
     }
 }

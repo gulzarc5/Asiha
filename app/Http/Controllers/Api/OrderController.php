@@ -19,8 +19,7 @@ use DB;
 
 class OrderController extends Controller
 {
-    public function couponFetch($user_id)
-    {
+    public function couponFetch($user_id){
         $coupons = Coupon::where('id',1)->where('status',1)->first();
         $check_user = Order::where('user_id',$user_id)->where('order_status',4)->count();
         if ($check_user > 0) {
@@ -35,8 +34,7 @@ class OrderController extends Controller
 
     }
 
-    public function placeOrder(Request $request)
-    {
+    public function placeOrder(Request $request){
         $validator =  Validator::make($request->all(),[
             'user_id' => 'required',
             'payment_type' => 'required', // 1 = cod, 2 = online
@@ -156,10 +154,31 @@ class OrderController extends Controller
         $order_details->discount = $coupon_percentage;
 
         if ($order_details->save()) {
+            $this->stockUpdate($order_details->product_id,$order_details->quantity,$order_details->size,1);
             return true;
         } else {
             throw new Exception;
         }
+    }
+
+    private function stockUpdate($product_id,$quantity,$size_name,$type){
+        // $sizes = Size::where('name',$size_name)->get();
+        $size = ProductSize::where('product_sizes.product_id',$product_id)
+                ->join('sizes','sizes.id','=','product_sizes.size_id')
+                ->where('sizes.name',$size_name)
+                ->select('product_sizes.id as id','product_sizes.stock as stock')
+                ->first();
+        if ($size) {
+            $stock_update = ProductSize::find($size->id);
+            if ($type == '1') {
+                $stock_update->stock = $stock_update->stock-$quantity;
+            } else {
+                $stock_update->stock = $stock_update->stock+$quantity;
+            }
+
+            $stock_update->save();
+        }
+        return 1;
     }
 
     public function orderCancel($order_item_id)
@@ -167,6 +186,8 @@ class OrderController extends Controller
         $order_item = OrderDetalis::find($order_item_id);
         $order_item->order_status = 5;
         $order_item->save();
+
+        $this->stockUpdate($order_item->product_id,$order_item->quantity,$order_item->size,2);
 
         $all_order = OrderDetalis::where('order_id',$order_item->order_id)->get();
         $status = 7;
@@ -211,6 +232,8 @@ class OrderController extends Controller
         $order_item->order_status = 5;
         $order_item->refund_request = 2;
         $order_item->save();
+
+        $this->stockUpdate($order_item->product_id,$order_item->quantity,$order_item->size,2);
 
         $all_order = OrderDetalis::where('order_id',$order_item->order_id)->get();
         $status = 7;

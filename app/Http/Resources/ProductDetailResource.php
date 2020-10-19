@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 use App\Http\Resources\ProductSizeResource;
+use App\Http\Resources\ProductColorResource;
 
 class ProductDetailResource extends JsonResource
 {
@@ -30,7 +31,7 @@ class ProductDetailResource extends JsonResource
             'size_chart' => $this->size_chart,
             'status' => $this->status,
             'sizes' => !empty($this->sizes) ? ProductSizeResource::collection($this->sizes) : [],
-            'productColors' => $this->productColors,
+            'productColors' => !empty($this->productColors) ? ProductColorResource::collection($this->productColors) : [],
 
         ];
     }

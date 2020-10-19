@@ -37,6 +37,9 @@ class OrderController extends Controller
         $order_item = OrderDetalis::find($order_list_id);
         $order_item->order_status = $status;
         $order_item->save();
+        if ($status == 5) {
+            $this->stockUpdate($order_item->product_id,$order_item->quantity,$order_item->size);
+        }
 
         $all_order = OrderDetalis::where('order_id',$order_item->order_id)->get();
         $status = 7;
@@ -49,6 +52,21 @@ class OrderController extends Controller
         $order = Order::find($order_item->order_id);
         $order->order_status = $status;
         $order->save();
+        return 1;
+    }
+
+    private function stockUpdate($product_id,$quantity,$size_name){
+        // $sizes = Size::where('name',$size_name)->get();
+        $size = ProductSize::where('product_sizes.product_id',$product_id)
+                ->join('sizes','sizes.id','=','product_sizes.size_id')
+                ->where('sizes.name',$size_name)
+                ->select('product_sizes.id as id','product_sizes.stock as stock')
+                ->first();
+        if ($size) {
+            $stock_update = ProductSize::find($size->id);
+            $stock_update->stock = $stock_update->stock+$quantity;
+            $stock_update->save();
+        }
         return 1;
     }
 

@@ -369,7 +369,9 @@ class UserController extends Controller
         $refund_info->branch_name = $request->input('branch_name');
         $refund_info->save();
         if($refund_info){
-            $this->stockUpdate($order_item->product_id,$order_item->quantity,$order_item->size);
+            if ($form_type == '1') {
+                $this->stockUpdate($order_item->product_id,$order_item->quantity,$order_item->size);
+            }
         }
         return redirect()->route('web.order_history');
     }

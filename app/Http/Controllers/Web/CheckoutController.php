@@ -288,9 +288,25 @@ class CheckoutController extends Controller
         $order_details->mrp = $size->mrp;
         $order_details->discount = $discount_percent;
         if ($order_details->save()) {
+            $this->stockUpdate($order_details->product_id,$order_details->quantity, $order_details->size);
             return true;
         } else {
             throw new Exception;
         }
+    }
+
+    private function stockUpdate($product_id,$quantity,$size_name){
+        // $sizes = Size::where('name',$size_name)->get();
+        $size = ProductSize::where('product_sizes.product_id',$product_id)
+                ->join('sizes','sizes.id','=','product_sizes.size_id')
+                ->where('sizes.name',$size_name)
+                ->select('product_sizes.id as id','product_sizes.stock as stock')
+                ->first();
+        if ($size) {
+            $stock_update = ProductSize::find($size->id);
+            $stock_update->stock = $stock_update->stock-$quantity;
+            $stock_update->save();
+        }
+        return 1;
     }
 }

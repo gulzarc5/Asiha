@@ -48,7 +48,7 @@ class ProductController extends Controller
                 if($row->is_popular==1){
                     $btn .=  '<a href="' . route('admin.make_product_popular', ['product_id' => $row->id]) . '" class="btn btn-info btn-sm">Make Product Popular</a>';
                 }
-                
+
                 if ($row->status == '1') {
                     $btn .= '<a href="' . route('admin.product_status_update', ['id' => $row->id, 'status' => 2]) . '" class="btn btn-danger btn-sm" >Disable</a>';
                 } else {

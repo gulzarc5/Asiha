@@ -53,7 +53,7 @@
                @csrf
                 <div class="product-summery">
                     <h3 class="product-title">{{$product->name}}</h3>
-                    <div class="product-price"><span class="old">₹{{number_format($min_size->mrp,2,".",'')}}</span>₹{{number_format($min_size->price,2,".",'')}} </div>
+                    <div class="product-price"><span class="old" id="product_mrp">₹{{number_format($min_size->mrp,2,".",'')}}</span id="product_price">₹{{number_format($min_size->price,2,".",'')}} </div>
                     <div class="product-description">
                         <p>{{$product->short_description}}</p>
                     </div>
@@ -99,12 +99,12 @@
                                                 @if ($item->id == $min_size->id)
                                                 <label class="size-container">
                                                     <input type="radio"  value="{{$item->id}}" name="size_id" checked>
-                                                    <span class="size-checkmark">{{$item->size->name}}</span>
+                                                    <span class="size-checkmark"  onclick="priceFetch({{$item->id}})">{{$item->size->name}}</span>
                                                 </label>
                                                 @else
-                                                <label class="size-container">
+                                                <label class="size-container" >
                                                     <input type="radio"   value="{{$item->id}}" name="size_id">
-                                                    <span class="size-checkmark">{{$item->size->name}}</span>
+                                                    <span class="size-checkmark" onclick="priceFetch({{$item->id}})">{{$item->size->name}}</span>
                                                 </label>
                                                 @endif
                                             @endforeach
@@ -127,7 +127,13 @@
                     </div>
                     <div class="product-buttons">
                         <a href="{{route('web.add_wish_list',['product_id'=>$product->id])}}" class="btn btn-icon btn-outline-body btn-hover-dark hintT-top" data-hint="Add to Wishlist"><i class="fal fa-heart"></i></a>
-                        <button class="btn btn-dark btn-outline-hover-dark"><i class="fal fa-shopping-cart"></i> Add to Cart</button>
+                        <span id="detail_btn">
+                            @if ($min_size->stock > 0)
+                                <button class="btn btn-dark btn-outline-hover-dark"><i class="fal fa-shopping-cart"></i> Add to Cart</button>
+                            @else
+                                <button type="button" disabled class="btn btn-danger"> Out Of Stock</button>
+                            @endif
+                        </span>
                     </div>
                     <b class="size-chart">see size chart</b>
                     <div class="szi-cht table-responsive ashia-pt-20">
@@ -251,5 +257,38 @@
 @endsection
 
 @section('script')
+    <script>
+        function priceFetch(size_id) {
+            if (size_id) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
 
+                $.ajax({
+                    type:"GET",
+                    url:"{{ url('product/fetch/size/')}}"+"/"+size_id,
+                    beforeSend:function() {
+                        $("#detail_btn").html(`<i class="fa fa-spinner fa-spin" style="font-size:51px"></i>`);
+                    },
+                    // complete:function() {
+                    //     $('#myModal').modal('hide');
+                    //     $("#myModal").addClass("mfp-hide");
+                    // },
+                    success:function(data){
+                        if (data) {
+                            if (data.stock > 0) {
+                                $("#detail_btn").html(`<button class="btn btn-dark btn-outline-hover-dark"><i class="fal fa-shopping-cart"></i> Add to Cart</button>`);
+                            }else{
+                                $("#detail_btn").html(`<button type="button" disabled class="btn btn-danger"> Out Of Stock</button>`);
+                            }
+                            $("#product_mrp").html(data.mrp);
+                            $("#product_price").html(data.price);
+                        }
+                    }
+                });
+            }
+        }
+    </script>
 @endsection

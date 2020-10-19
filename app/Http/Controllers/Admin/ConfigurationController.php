@@ -145,6 +145,4 @@ class ConfigurationController extends Controller
         $invoice->save();
         return redirect()->back()->with('message','invoice Data Updated Successfully');
     }
-
-
 }

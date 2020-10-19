@@ -170,12 +170,22 @@
                                     @endphp
                                     @if (!empty($order_items) && (count($order_items) > 0))
                                         @foreach ($order_items as $item)
+
                                         <tr>
-                                            <td>{{$item->product->name}}</td>
-                                            <td>{{$item->product->name}}</td>
-                                            <td>12</td>
-                                            <td>15.00</td>
-                                            <td>15.000</td>
+                                            <td>
+                                                {{$item->product->name}}
+                                                @if ($item->order_status == '5')
+                                                    <button disabled type="button" class="btn btn-sm btn-danger"> Cancelled </button>
+                                                    @php
+                                                        $discount_item = (($item->quantity*$item->price)*$item->discount)/100;
+                                                        $cancellation_amount += ($item->quantity*$item->price) - $discount_item;
+                                                    @endphp
+                                                @endif
+                                            </td>
+                                            <td>{{$item->size}}</td>
+                                            <td>{{$item->quantity}}</td>
+                                            <td>{{$item->price}}</td>
+                                            <td>{{$item->quantity*$item->price}}</td>
                                         </tr>
                                         @endforeach
                                     @endif
@@ -199,9 +209,15 @@
                                         <td>Free</td>
                                     @endif
                                 </tr>
+                                @if ($cancellation_amount > 0)
+                                <tr>
+                                    <td colspan='4' align='right' >Cancellation Amount : (-)</td>
+                                    <td>{{ number_format($cancellation_amount,2,".",'') }}</td>
+                                </tr>
+                                @endif
                                 <tr>
                                     <td colspan='4' align='right' >Net Payable Amount : </td>
-                                    <td>{{ number_format($order->total_amount,2,".",'') }}</td>
+                                    <td>{{ number_format(($order->total_amount - $cancellation_amount),2,".",'') }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -249,7 +265,7 @@
 
                         <div class="col-md-12 col-xs-12 col-sm-12">
                         <button class="btn btn-info" id="print-btn" onclick="printDiv()">Print</button>
-                            <a class="btn btn-warning" href="order_list.php" id="backprint">Back</a>
+                            <a class="btn btn-danger" onclick="window.close()" id="backprint">Close</a>
                         </div>
                     </div>
                     <div id="thanks_msg"></div>

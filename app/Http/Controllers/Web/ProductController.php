@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 
 use App\Models\Size;
+use App\Models\ProductSize;
 use App\Models\Brands;
 use App\Models\ThirdCategory;
 use App\Models\SubCategory;
@@ -317,9 +318,14 @@ class ProductController extends Controller
             } elseif(!empty($product->sub_category_id)) {
                 $related_ptoduct = Product::where('last_category_id',$product->sub_category_id)->where('status',1)->inRandomOrder()->limit(10)->get();
             }
-
         }
 
         return view('web.product.product-detail',compact('product','product_color','product_sizes','min_size','related_ptoduct'));
+    }
+
+    public function fetchSizePrice($size_id)
+    {
+        $size = ProductSize::find($size_id);
+        return $size;
     }
 }

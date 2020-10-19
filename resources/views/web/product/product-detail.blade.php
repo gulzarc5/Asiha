@@ -53,7 +53,9 @@
                @csrf
                 <div class="product-summery">
                     <h3 class="product-title">{{$product->name}}</h3>
-                    <div class="product-price"><span class="old" id="product_mrp">₹{{number_format($min_size->mrp,2,".",'')}}</span id="product_price">₹{{number_format($min_size->price,2,".",'')}} </div>
+                    <div class="product-price">
+                        <span class="old" id="product_mrp">₹{{number_format($min_size->mrp,2,".",'')}}</span>
+                        <b id="product_price">₹{{number_format($min_size->price,2,".",'')}} </b> </div>
                     <div class="product-description">
                         <p>{{$product->short_description}}</p>
                     </div>

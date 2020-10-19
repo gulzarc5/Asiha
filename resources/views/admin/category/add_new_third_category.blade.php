@@ -35,17 +35,17 @@
                         @endif
 
                         <div class="form-group">
-                            {{ Form::label('name', 'Category Name')}} 
+                            {{ Form::label('name', 'Category Name')}}
                             {{ Form::text('name',null,array('class' => 'form-control','placeholder'=>'Enter Category name')) }}
                             @if($errors->has('name'))
                                 <span class="invalid-feedback" role="alert" style="color:red">
                                     <strong>{{ $errors->first('name') }}</strong>
-                                </span> 
+                                </span>
                             @enderror
                         </div>
 
                         <div class="form-group">
-                            {{ Form::label('category', 'Select Category')}} 
+                            {{ Form::label('category', 'Select Category')}}
                             @if (isset($third_category))
                                 {!! Form::select('category', $category, $third_category->subCategory->category_id,['class' => 'form-control','placeholder'=>'Please Select Category','id'=>'category']); !!}
                             @else
@@ -55,12 +55,12 @@
                             @if($errors->has('category'))
                                 <span class="invalid-feedback" role="alert" style="color:red">
                                     <strong>{{ $errors->first('category') }}</strong>
-                                </span> 
+                                </span>
                             @enderror
                         </div>
 
                         <div class="form-group">
-                            {{ Form::label('sub_category', 'Select Sub Category')}} 
+                            {{ Form::label('sub_category', 'Select Sub Category')}}
                             @if (isset($third_category))
                                 {!! Form::select('sub_category', $sub_category, $third_category->sub_category_id,['class' => 'form-control','placeholder'=>'Please Select Category','id'=>'sub_category']); !!}
                             @else
@@ -72,31 +72,33 @@
                             @if($errors->has('category'))
                                 <span class="invalid-feedback" role="alert" style="color:red">
                                     <strong>{{ $errors->first('category') }}</strong>
-                                </span> 
+                                </span>
                             @enderror
                         </div>
-
+                        @if(!isset($third_category))
                         <div class="form-group">
-                            {{ Form::label('image', 'Image')}} 
+                            {{ Form::label('image', 'Image')}}
+                            <span style="color:red;"> ( Dimension Should Be (800X1000) )</span>
                             <input type="file" class="form-control" name="images[]" multiple>
                             @if($errors->has('image'))
                                 <span class="invalid-feedback" role="alert" style="color:red">
                                     <strong>{{ $errors->first('image') }}</strong>
-                                </span> 
+                                </span>
                             @enderror
                         </div>
+                        @endif
 
                         <div class="form-group">
-                            @if(isset($sub_category) && !empty($sub_category))
+                            @if(isset($third_category) && !empty($third_category))
                                 {{ Form::submit('Save', array('class'=>'btn btn-success')) }}
                             @else
                                 {{ Form::submit('Submit', array('class'=>'btn btn-success')) }}
                             @endif
                             <a href="{{route('admin.third_category_list')}}" class="btn btn-warning">Back</a>
-                            
+
                         </div>
                         {{ Form::close() }}
-                       
+
                     </div>
                 </div>
             </div>

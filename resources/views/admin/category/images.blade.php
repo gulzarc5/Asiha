@@ -35,7 +35,7 @@
             <div>
               @if($category->image == $image->image)
                 <a href="" class="btn btn-sm btn-primary">Thumb Image</a>
-              @else 
+              @else
                   <a href="{{ route('admin.category_make_cover_image',['category_id'=>$category->id,'image_id' =>$image->id ])}}" class="btn btn-sm btn-success">Set As Main Image</a>
 
                 <a href="{{ route('admin.category_delete_image',['image_id' =>$image->id])}}" class="btn btn-sm btn-danger" >Delete</a>
@@ -54,14 +54,14 @@
               <div>
                 @if($sub_category->image == $image->image)
                   <a href="" class="btn btn-sm btn-primary">Thumb Image</a>
-                @else 
+                @else
                     <a href="{{ route('admin.sub_category_make_cover_image',['sub_category_id'=>$sub_category->id,'image_id' =>$image->id ])}}" class="btn btn-sm btn-success">Set As Main Image</a>
                     <a href="{{ route('admin.sub_cat_delete_image',['image_id' =>$image->id])}}" class="btn btn-sm btn-danger" >Delete</a>
                 @endif
               </div>
             </div>
           @endforeach
-        @else 
+        @else
           @if(isset($third_level_category) && isset($third_level_images) && !empty($third_level_category) && !empty($third_level_images))
             @foreach($third_level_images as $image)
               <div class="col-md-4">
@@ -72,9 +72,9 @@
                 </div>
                 <div>
                   @if($third_level_category->image == $image->image)
-                  
+
                     <a href="" class="btn btn-sm btn-primary">Thumb Image</a>
-                  @else 
+                  @else
                       <a href="{{route('admin.third_category_make_cover_image',['third_category_id'=>$third_level_category->id,'image_id' =>$image->id ])}}" class="btn btn-sm btn-success">Set As Main Image</a>
                       <a href="{{ route('admin.third_cat_delete_image',['image_id' =>$image->id])}}" class="btn btn-sm btn-danger" >Delete</a>
                   @endif
@@ -109,12 +109,12 @@
                <div class="well" style="overflow: auto" id="image_div">
                   <div class="form-row mb-10">
                       <div class="col-md-8 col-sm-12 col-xs-12 mb-3">
-                          <label for="size">Image</label>
+                          <label for="size">Image <span style="color:red;"> ( Dimension Should Be (800X1000) )</span></label>
                           <input type="file" name="image[]" class="form-control" multiple>
                       </div>
                       <div class="col-md-4 col-sm-12 col-xs-12 mb-3">
-                          <a class="btn btn-sm btn-primary" style="margin-top: 25px;" onclick="add_more_image()">Add More</a>                                 
-                      </div>  
+                          <a class="btn btn-sm btn-primary" style="margin-top: 25px;" onclick="add_more_image()">Add More</a>
+                      </div>
                   </div>
                   @if($errors->has('image'))
                     <span class="invalid-feedback" role="alert" style="color:red">
@@ -139,7 +139,7 @@
  @endsection
 
 @section('script')
-     
+
 <script type="text/javascript">
   var more_image_count = 1;
 
@@ -149,9 +149,9 @@ function add_more_image(){
         '<label for="size">Image</label>'+
         '<input type="file" name="image[]" class="form-control">'+
     '</div>'+
-    
+
     '<div class="col-md-4 col-sm-12 col-xs-12 mb-3">'+
-        
+
     '</div>'+
     '<div class="col-md-4 col-sm-12 col-xs-12 mb-3">'+
        '<a class="btn btn-sm btn-danger" style="margin-top: 25px;" onclick="remove_more_image('+more_image_count+')">Remove</a>'+
@@ -166,5 +166,5 @@ function remove_more_image(id) {
     $("#img_id"+id).remove();
 }
 </script>
-    
+
  @endsection

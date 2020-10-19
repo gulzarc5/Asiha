@@ -35,22 +35,22 @@
                         @endif
 
                         <div class="form-group">
-                            {{ Form::label('name', 'Category Name')}} 
+                            {{ Form::label('name', 'Category Name')}}
                             {{ Form::text('name',null,array('class' => 'form-control','placeholder'=>'Enter Category name')) }}
                             @if($errors->has('name'))
                                 <span class="invalid-feedback" role="alert" style="color:red">
                                     <strong>{{ $errors->first('name') }}</strong>
-                                </span> 
+                                </span>
                             @enderror
                         </div>
                         @if(empty($category) && !isset($category))
                         <div class="form-group">
-                           {{ Form::label('image', 'Image')}} 
+                           {{ Form::label('image', 'Image')}} <span style="color:red;"> ( Dimension Should Be (800X1000) )</span>
                             <input type="file" class="form-control" name="images[]" multiple>
                             @if($errors->has('images'))
                                 <span class="invalid-feedback" role="alert" style="color:red">
                                     <strong>{{ $errors->first('images') }}</strong>
-                                </span> 
+                                </span>
                             @enderror
                         </div>
                         @endif
@@ -61,10 +61,10 @@
                                 {{ Form::submit('Submit', array('class'=>'btn btn-success')) }}
                             @endif
                             <a href="{{route('admin.category_list')}}" class="btn btn-warning">Back</a>
-                            
+
                         </div>
                         {{ Form::close() }}
-                       
+
                     </div>
                 </div>
             </div>

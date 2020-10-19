@@ -39,8 +39,8 @@
                                 </div>
 
                                 <div class="col-md-12 col-sm-12 col-xs-12 mb-3">
-                                    <label for="gst">GST<span><b style="color: red"> * </b></span></label>
-                                    <input type="text" class="form-control" name="gst"  placeholder="Enter GST Number" required value="{{$invoice->gst}}">
+                                    <label for="gst">GST</label>
+                                    <input type="text" class="form-control" name="gst"  placeholder="Enter GST Number"  value="{{$invoice->gst}}">
                                 </div>
 
                                 <div class="col-md-12 col-sm-12 col-xs-12 mb-3">

@@ -251,34 +251,35 @@ class UserController extends Controller
     }
 
     public function orderDetails($id){
-        $order_details = OrderDetalis::where('order_id',$id)->get();
-        $orders = Order::find($id);
-        return view('web.order.order-detail',compact('order_details','orders'));
+        $order = Order::find($id);
+        return view('web.order.order-detail',compact('order'));
     }
 
     public function orderCancel($order_item_id){
 
         $order_item = OrderDetalis::find($order_item_id);
         $order_item->order_status = 5;
-        $order_item->save();
-        $all_order = OrderDetalis::where('order_id',$order_item->order_id)->get();
-        $status = 7;
-        foreach ($all_order as $key => $item) {
-            if ($item->order_status < $status) {
-                $status = $item->order_status;
+
+        if ($order_item->save()) {
+            $all_order = OrderDetalis::where('order_id',$order_item->order_id)->get();
+            $status = 7;
+            foreach ($all_order as $key => $item) {
+                if ($item->order_status < $status) {
+                    $status = $item->order_status;
+                }
             }
         }
+
         $order = Order::find($order_item->order_id);
         $order->order_status = $status;
         $order->save();
-        $stock_update = $this->stockUpdate($order_item->product_id,$order_item->quantity,$order_item->size);
+        $this->stockUpdate($order_item->product_id,$order_item->quantity,$order_item->size);
 
         return redirect()->back();
     }
 
     private function stockUpdate($product_id,$quantity,$size_name){
         // $sizes = Size::where('name',$size_name)->get();
-
         $size = ProductSize::where('product_sizes.product_id',$product_id)
                 ->join('sizes','sizes.id','=','product_sizes.size_id')
                 ->where('sizes.name',$size_name)
@@ -292,34 +293,54 @@ class UserController extends Controller
         return 1;
     }
 
-    public function orderCancelRefundForm(Request $request,$order_id){
-        $order = Order::where('id',$order_id)->first();
-        
-        return view('web.order.refund',compact('order'));
+    public function orderCancelRefundForm(Request $request,$order_item_id,$form_type =null){
+        $order_item = OrderDetalis::where('id',$order_item_id)->first();
+        $refund_amount = 0;
+        if($order_item){
+            $amount = $order_item->quantity*$order_item->price;
+            $discount = (($amount*$order_item->discount)/100);
+
+            $all_order = OrderDetalis::where('order_id',$order_item->order_id)->get();
+            $status = 7;
+            foreach ($all_order as $key => $item) {
+                if ($item->order_status < $status) {
+                    $status = $item->order_status;
+                }
+            }
+
+            if ($status == 5 || $status == 6 || $status == 7 ) {
+               $refund_amount = (($amount-$discount)+$order_item->order->shipping_charge);
+            }else{
+               $refund_amount = ($amount-$discount);
+            }
+        }
+        return view('web.order.refund',compact('order_item','refund_amount','form_type'));
 
     }
     public function orderCancelRefund(Request $request,$order_item_id){
-        $validator =  Validator::make($request->all(),[
-            
+
+        $this->validate($request,[
             'name'   => 'required',
+            'form_type'   => 'required',
             'b-name' => 'required',
             'branch_name' => 'required',
             'acc-number' => 'required',
             'ifsc' => 'required'
         ]);
-        
 
-        if ($validator->fails()){
-            return redirect()->back()->with('message','Error with details');
+        $form_type = $request->input('form_type');
+        $order_item = OrderDetalis::find($order_item_id);
+        $order_item->order_status = ($form_type == '1') ? 5 : 6;
+        $order_item->refund_request = 2;
+        // $order_item->save();
+
+        if($order_item->save()){
+            $amount = $order_item->quantity*$order_item->price;
+            $discount = (($amount*$order_item->discount)/100);
         }
-        else{
-            
-            $order_item = OrderDetalis::find($order_item_id);
-            $order_item->order_status = 5;
-            $order_item->refund_request = 2;
-            $order_item->save();
-            $all_order = OrderDetalis::where('order_id',$order_item->order_id)->get();
+        $all_order = OrderDetalis::where('order_id',$order_item->order_id)->get();
         $status = 7;
+        $shipping_charge = 0;
         foreach ($all_order as $key => $item) {
             if ($item->order_status < $status) {
                 $status = $item->order_status;
@@ -349,12 +370,7 @@ class UserController extends Controller
         $refund_info->save();
         if($refund_info){
             $this->stockUpdate($order_item->product_id,$order_item->quantity,$order_item->size);
-
         }
         return redirect()->route('web.order_history');
-
-        }
-
-
     }
 }

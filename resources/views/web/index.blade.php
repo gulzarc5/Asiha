@@ -52,7 +52,7 @@
                                                                     </div>
                                                                     <div class="product-info">
                                                                         <h6 class="title"><a href="{{route('web.product_list',['cat_slug'=>"$third_cat->slug",'category_id'=>$third_cat->id,'type' => 3])}}">{{$third_cat->name}}</a></h6>
-                                                                        <span class="number">16 Items</span>
+                                                                        <span class="number">{{$third_cat->productCount->count()}} Items</span>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -68,7 +68,7 @@
                                                     </div>
                                                     <div class="product-info">
                                                         <h6 class="title"><a href="{{route('web.product_list',['cat_slug'=>"$sub_cat->slug",'category_id'=>$sub_cat->id,'type' => 2])}}">{{$sub_cat->name}}</a></h6>
-                                                        <span class="number">16 Items</span>
+                                                        <span class="number">{{$sub_cat->productCount->count()}} Items</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -101,7 +101,7 @@
                         <!-- Section Title End -->
                     </div>
                     <div class="col-md-auto d-none d-md-block mt-4 mt-md-0">
-                        <a href="#" class="btn btn-primary btn-hover-black">view all</a>
+                        {{-- <a href="#" class="btn btn-primary btn-hover-black">view all</a> --}}
                     </div>
                 </div>
 

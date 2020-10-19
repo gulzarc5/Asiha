@@ -9,7 +9,7 @@
         <div class="section section-padding bg-white border-bottom-dashed">
             <div class="container">
                 <div class="row ashia-mb-n30">
-    
+
                     <!-- My Account Tab Content Start -->
                     <div class="col-lg-10 col-12 ashia-mb-30 mx-auto">
                         <div class="accordion" id="faq-accordion">
@@ -20,8 +20,15 @@
                                 <div id="faq-accordion-1" class="collapse show" data-parent="#faq-accordion">
                                     <div class="card-body pattern-bg">
                                         <div class="myaccount-content address">
-                                            <h3>Refund Amount</h3><div class="product-price">{{$order->total_amount}}/- </div>
-                                            <form method="POST" action="{{route('web.order_refund',['order_id'=>$order->id])}}">
+                                            @if (isset($form_type) && $form_type == '2')
+                                                <h3>Return Refund Amount</h3><div class="product-price">{{$refund_amount}}/- </div>
+                                                <form method="POST" action="{{route('web.order_refund',['order_id'=>$order_item->id])}}">
+                                                <input type="hidden" name="form_type" value="2">
+                                            @else
+                                                <h3>Cancellation Refund Amount</h3><div class="product-price">{{$refund_amount}}/- </div>
+                                                <form method="POST" action="{{route('web.order_refund',['order_id'=>$order_item->id])}}">
+                                                <input type="hidden" name="form_type" value="1">
+                                            @endif
                                                 @csrf
                                                 <div class="form-row">
                                                     <div class="form-group col-md-6">
@@ -64,7 +71,7 @@
                                                 </div>
                                                 <div class="form-group mb-0">
                                                     <a href="{{route('web.order_history')}}" class="btn btn-sm btn-outline-dark"> Back to orders</a>
-                                                    <button class="btn btn-sm btn-primary text-white">Request Refund</button>  
+                                                    <button class="btn btn-sm btn-primary text-white">Request Refund</button>
                                                 </div>
                                             </form>
                                         </div>

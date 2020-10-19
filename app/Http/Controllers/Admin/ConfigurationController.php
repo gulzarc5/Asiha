@@ -108,7 +108,6 @@ class ConfigurationController extends Controller
         $this->validate($request, [
             'address' => 'required',
             'phone' => 'required',
-            'gst' => 'required',
             'email' => 'required',
             'note1' => 'required',
             'note2' => 'required',

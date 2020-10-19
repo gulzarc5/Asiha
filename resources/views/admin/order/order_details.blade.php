@@ -31,10 +31,12 @@
                                 <th>Phone : </th>
                                     <td>{{$invoice_setting->phone}}</td>
                                 </tr>
-                                <tr>
-                                <th>GST No : </th>
-                                    <td>{{$invoice_setting->gst}}</td>
-                                </tr>
+                                @if (!empty($invoice_setting->gst))
+                                    <tr>
+                                        <th>GST No : </th>
+                                        <td>{{$invoice_setting->gst}}</td>
+                                    </tr>
+                                @endif
                                 <tr>
                                 <th>Email Id : </th>
                                     <td>{{$invoice_setting->email}}</td>
@@ -47,17 +49,16 @@
                             <span style="font-size: 38px;color: black;font-weight: bold;">INVOICE</span>
                             <table>
                                 <tr>
-                                <th>Invoice No : </th>
-                                <td>{{$order->id}}</td>
-                                </tr>
-
-                                <tr>
-                                <th>Invoice Date : </th>
-                                <td>{{$order->created_at}}</td>
+                                    <th>Invoice No : </th>
+                                    <td>{{$order->id}}</td>
                                 </tr>
                                 <tr>
-                                <th>Invoice Amount : </th>
-                                <td> Rs.{{ number_format($order->total_amount,2,".",'') }}</td>
+                                    <th>Invoice Date : </th>
+                                    <td>{{$order->created_at}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Invoice Amount : </th>
+                                    <td> Rs.{{ number_format($order->total_amount,2,".",'') }}</td>
                                 </tr>
 
                             </table>
@@ -163,13 +164,23 @@
                             </thead>
                             <tbody>
 
-                                <tr>
-                                    <td>dfgfdgdfg</td>
-                                    <td>dfgfdgdfg</td>
-                                    <td>12</td>
-                                    <td>15.00</td>
-                                    <td>15.000</td>
-                                </tr>
+                                    @php
+                                        $order_items = $order->orderDetails;
+                                        $cancellation_amount = 0;
+                                    @endphp
+                                    @if (!empty($order_items) && (count($order_items) > 0))
+                                        @foreach ($order_items as $item)
+                                        <tr>
+                                            <td>{{$item->product->name}}</td>
+                                            <td>{{$item->product->name}}</td>
+                                            <td>12</td>
+                                            <td>15.00</td>
+                                            <td>15.000</td>
+                                        </tr>
+                                        @endforeach
+                                    @endif
+
+
                                 <tr>
                                     <td colspan='4' align='right'>Sub Total : </td>
                                     <td>{{ number_format($order->amount,2,".",'') }}</td>

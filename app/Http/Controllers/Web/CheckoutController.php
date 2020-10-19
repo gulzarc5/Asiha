@@ -127,7 +127,7 @@ class CheckoutController extends Controller
         $address_id = $request->input('address_id');
         $payment_type = $request->input('payment_type');
         $coupon_id = $request->input('coupon_id');
-    
+
 
 
         $total_amount = 0;
@@ -149,6 +149,10 @@ class CheckoutController extends Controller
                 $order = new Order();
                 $order->user_id = $user_id;
                 $order->shipping_address_id = $address_id;
+                $order->payment_type = $payment_type;
+                if ($payment_type == '2') {
+                    $order->payment_status = 3;
+                }
                 $order->save();
                 if ($order) {
                     $order_id = $order->id;

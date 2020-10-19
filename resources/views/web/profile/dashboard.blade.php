@@ -18,7 +18,10 @@
                         <div class="col-lg-4 col-xs-6"><a href="{{route('web.wishlist')}}"> <i class="far fa-heart"></i> Wishlist</a></div>
                         <div class="col-lg-4 col-xs-6"><a href="{{route('web.address')}}"> <i class="far fa-map-marker-alt"></i> Address</a></div>
                         <div class="col-lg-4 col-xs-6"><a href="{{route('web.profile')}}"> <i class="far fa-user"></i> Profile</a></div>
-                        <div class="col-lg-4 col-xs-6"><a href="{{route('web.index')}}"> <i class="far fa-sign-out-alt"></i> Logout</a></div>
+                        <div class="col-lg-4 col-xs-6"><a onclick="event.preventDefault();document.getElementById('logout-form').submit();"> <i class="far fa-sign-out-alt"></i> Logout</a></div>
+                        <form id="logout-form" action="{{ route('web.logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
                     </div>
                 </div>
                 <!-- My Account Tab List End -->

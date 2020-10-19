@@ -32,7 +32,7 @@
                                     @if ($errors->has('name') || $errors->has('email') || $errors->has('address') || $errors->has('city') || $errors->has('state') || $errors->has('pin') || $errors->has('mobile') || $errors->has('address'))
                                         @php
                                             $address_error_status=true;
-                                        @endphp                                            
+                                        @endphp
                                     @endif
                                     @if($address_error_status == true)
                                     <div class="myaccount-content address" id="selt-add" style="display:none" >
@@ -48,7 +48,7 @@
                                             @foreach($address as $data)
                                                 @if(!empty($data) && isset($data))
                                                     <div class="col-md-4 col-12 ashia-mb-30">
-                                                        <address>                                                        
+                                                        <address>
                                                             <p><strong>{{$data->name}}</strong></p>
                                                             <p>{{$data->address}}</p>
                                                             <p class="mb-0">Mobile: {{$data->mobile}}</p>
@@ -56,15 +56,17 @@
                                                             <p class="mb-0">city: {{$data->city}}</p>
                                                             <p class="mb-0">State: {{$data->state}}</p>
                                                             <p class="mb-0">Pin: {{$data->pin}}</p>
-                                                            <a href="{{route('web.edit_address',['id'=>$data->id,'status'=>2])}}" class="edit-link">edit this address</a>
-                                                            <a href="{{route('web.delete_address',['address_id'=>$data->id])}}" class="edit-link">Delete this address</a>
+                                                            <p>
+                                                            <a href="{{route('web.edit_address',['id'=>$data->id,'status'=>2])}}" class="edit-link" style="color: #00c4ff;">Edit</a>
+                                                            <a href="{{route('web.delete_address',['address_id'=>$data->id])}}" class="edit-link" style="float: right">Delete</a>
+                                                            </p>
                                                         </address>
                                                     </div>
                                                 @endif
                                             @endforeach
-                                            
+
                                             <div class="col-12 mb-4">
-                                                <p class="add-address" style="display: inline;cursor:pointer"><span style="color: #ff6c62;">Add New Address<span></p>   
+                                                <p class="add-address" style="display: inline;cursor:pointer"><span style="color: #ff6c62;">Add New Address<span></p>
                                             </div>
                                         </div>
                                     </div>
@@ -131,7 +133,7 @@
                                             </div>
                                             <div class="form-group mb-0">
                                                 <a class="btn btn-sm btn-outline-dark mr-3 bck-selt">Cancel</a>
-                                                <button class="btn btn-sm btn-primary text-white">Save</button>  
+                                                <button class="btn btn-sm btn-primary text-white">Save</button>
                                             </div>
                                         </form>
                                     </div>

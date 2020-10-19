@@ -12,7 +12,7 @@
 */
 Route::group(['namespace'=>'Web'],function(){
     Route::get('/','HomePageController@index')->name('web.index');
-    
+
     Route::group(['prefix'=>'product'],function(){
         Route::get('list/{cat_slug}/{category_id}/{type}','ProductController@productlist')->name('web.product_list');
         Route::post('filter/list','ProductController@productListWithFilter')->name('web.product_list_filter');
@@ -41,9 +41,9 @@ Route::group(['namespace'=>'Web'],function(){
              Route::get('order/history','UserController@myOrderHistory')->name('web.order_history');
              Route::get('order/details/{id}','UserController@orderDetails')->name('web.order_details');
              Route::get('order/cancel/{id}','UserController@orderCancel')->name('web.order_cancel');
-             Route::get('order/cancel/refund/form/{order_id}','UserController@orderCancelRefundForm')->name('web.order_refund_form');
+             Route::get('order/cancel/refund/form/{order_id}/{form_type?}','UserController@orderCancelRefundForm')->name('web.order_refund_form');
              Route::post('order/cancel/refund/{order_id}','UserController@orderCancelRefund')->name('web.order_refund');
-            
+
              //-- Checkout Section --//
             Route::get('show/checkout/form','CheckoutController@showCheckoutForm')->name('web.show_checkout_form');
             Route::post('add/checkout/address','CheckoutController@addCheckoutAddress')->name('web.add_checkout_address');
@@ -51,7 +51,7 @@ Route::group(['namespace'=>'Web'],function(){
             Route::post('coupon/apply','CheckoutController@couponApply')->name('web.coupon_apply');
             Route::post('rpay/success','CheckoutController@paySuccess')->name('web.pay_success');
 
-            
+
         });
 
         Route::get('view/cart','CartController@viewCart')->name('web.view_cart');

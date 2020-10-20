@@ -33,27 +33,16 @@ class Product extends Model
         return $this->belongsTo('App\Models\Brands','brand_id',$this->primaryKey);
     }
 
-    public function thirdCategory()
-    {
-        return $this->belongsTo('App\Models\ThirdCategory','last_category_id',$this->primaryKey);
-    }
-
-    public function brand()
-    {
-        return $this->hasMany('App\Models\ProductSize','product_id',$this->primaryKey)
-        ->where('product_sizes.price',$this->sizes->min('price'));
-    }
-
     public function sizes()
     {
         return $this->hasMany('App\Models\ProductSize','product_id',$this->primaryKey);
     }
 
-    // public function minSize()
-    // {
-    //     return $this->hasMany('App\Models\ProductSize','product_id',$this->primaryKey)
-    //     ->where('product_sizes.customer_price',$this->sizes->min('customer_price'));
-    // }
+    public function minSize()
+    {
+        return $this->hasMany('App\Models\ProductSize','product_id',$this->primaryKey)
+            ->where('product_sizes.price',$this->sizes->min('price'));
+    }
 
 
     public function productColors()

@@ -11,6 +11,7 @@ use Auth;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderDetalis;
+use App\Models\ProductSize;
 use Validator;
 use DB;
 use Exception;

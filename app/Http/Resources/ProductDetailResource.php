@@ -32,6 +32,7 @@ class ProductDetailResource extends JsonResource
             'status' => $this->status,
             'sizes' => !empty($this->sizes) ? ProductSizeResource::collection($this->sizes) : [],
             'productColors' => !empty($this->productColors) ? ProductColorResource::collection($this->productColors) : [],
+            'productImages' => !empty($this->images) ? $this->images : [],
 
         ];
     }

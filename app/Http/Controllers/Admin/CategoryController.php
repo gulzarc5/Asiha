@@ -149,9 +149,9 @@ class CategoryController extends Controller
     }
 
     public function addNewImages(Request $request){
-        $path = base_path() . '/public/images/category/category/';
+        $path = public_path(). '/images/category/category/';
         File::exists($path) or File::makeDirectory($path, 0777, true, true);
-        $path_thumb = base_path() . '/public/images/category/category/thumb/';
+        $path_thumb = public_path() . '/images/category/category/thumb/';
         File::exists($path_thumb) or File::makeDirectory($path_thumb, 0777, true, true);
 
         $category_id = $request->input('category_id');
@@ -162,12 +162,12 @@ class CategoryController extends Controller
                 $image_name = $i . time() . date('Y-M-d') . '.' . $image->getClientOriginalExtension();
 
                 //Product Original Image
-                $destinationPath = base_path() . '/public/images/category/category';
+                $destinationPath = public_path() . '/images/category/category';
                 $img = Image::make($image->getRealPath());
                 $img->save($destinationPath . '/' . $image_name);
 
                 //Product Thumbnail
-                $destination = base_path() . '/public/images/category/category/thumb';
+                $destination = public_path() . '/images/category/category/thumb';
                 $img = Image::make($image->getRealPath());
                 $img->resize(600, 600, function ($constraint) {
                     $constraint->aspectRatio();

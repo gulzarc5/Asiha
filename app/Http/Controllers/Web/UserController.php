@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\OrderDetalis;
-use App\Models\Wishlist;
+use App\Models\WishList;
 use App\Models\RefundInfo;
 use App\Models\Product;
 use App\Models\Size;
@@ -223,7 +223,7 @@ class UserController extends Controller
     }
 
     public function addWishList($product_id){
-        $wishlist_cnt = Wishlist::where('user_id', Auth::user()->id)->where('product_id', $product_id)->count();
+        $wishlist_cnt = WishList::where('user_id', Auth::user()->id)->where('product_id', $product_id)->count();
         if($wishlist_cnt < 1){
             $wishlist = new wishList();
             if($wishlist){
@@ -236,12 +236,12 @@ class UserController extends Controller
     }
 
     public function wishList(){
-       $wishlist = Wishlist::where('user_id',Auth::user()->id)->get();
+       $wishlist = WishList::where('user_id',Auth::user()->id)->get();
        return view('web.wishlist.wishlist',compact('wishlist'));
     }
 
     public function removeWishList($id){
-        Wishlist::destroy($id);
+        WishList::destroy($id);
         return redirect()->back();
     }
 

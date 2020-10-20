@@ -125,18 +125,18 @@ class ProductController extends Controller
             $product->brand_id = $brand;
         }
         if ($request->hasFile('size_chart')) {
-            $path = base_path() . '/public/images/products/';
+            $path = public_path() . '/images/products/';
             File::exists($path) or File::makeDirectory($path, 0777, true, true);
-            $path_thumb = base_path() . '/public/images/products/thumb/';
+            $path_thumb = public_path() . '/images/products/thumb/';
             File::exists($path_thumb) or File::makeDirectory($path_thumb, 0777, true, true);
             $image = $request->file('size_chart');
             $image_name = time() . date('Y-M-d') . '.' . $image->getClientOriginalExtension();
 
-            $destinationPath = base_path() . '/public/images/products';
+            $destinationPath = public_path() . '/images/products';
             $img = Image::make($image->getRealPath());
             $img->save($destinationPath . '/' . $image_name);
             //Product Thumbnail
-            $destination = base_path() . '/public/images/products/thumb';
+            $destination = public_path() . '/images/products/thumb';
             $img = Image::make($image->getRealPath());
             $img->resize(600, 600, function ($constraint) {
                 $constraint->aspectRatio();
@@ -146,9 +146,9 @@ class ProductController extends Controller
         if ($product->save()) {
 
             /** Images Upload **/
-            $path = base_path() . '/public/images/products/';
+            $path = public_path() . '/images/products/';
             File::exists($path) or File::makeDirectory($path, 0777, true, true);
-            $path_thumb = base_path() . '/public/images/products/thumb/';
+            $path_thumb = public_path() . '/images/products/thumb/';
             File::exists($path_thumb) or File::makeDirectory($path_thumb, 0777, true, true);
             $banner = null;
 
@@ -160,11 +160,11 @@ class ProductController extends Controller
                         $banner = $image_name;
                     }
                     //Product Original Image
-                    $destinationPath = base_path() . '/public/images/products';
+                    $destinationPath = public_path() . '/images/products';
                     $img = Image::make($image->getRealPath());
                     $img->save($destinationPath . '/' . $image_name);
                     //Product Thumbnail
-                    $destination = base_path() . '/public/images/products/thumb';
+                    $destination = public_path() . '/images/products/thumb';
                     $img = Image::make($image->getRealPath());
                     $img->resize(600, 600, function ($constraint) {
                         $constraint->aspectRatio();
@@ -275,22 +275,22 @@ class ProductController extends Controller
 
         $size_chart_id = Product::where('id', $id)->first();
         if ($request->hasFile('size_chart')) {
-            $path = base_path() . '/public/images/products/';
+            $path = public_path() . '/images/products/';
             File::exists($path) or File::makeDirectory($path, 0777, true, true);
-            $path_thumb = base_path() . '/public/images/products/thumb/';
+            $path_thumb = public_path() . '/images/products/thumb/';
             File::exists($path_thumb) or File::makeDirectory($path_thumb, 0777, true, true);
             $image = $request->file('size_chart');
             $image_name = time() . date('Y-M-d') . '.' . $image->getClientOriginalExtension();
 
-            $destinationPath = base_path() . '/public/images/products';
+            $destinationPath = public_path() . '/images/products';
             $img = Image::make($image->getRealPath());
             $img->save($destinationPath . '/' . $image_name);
-            $prev_img_delete_path = base_path() . '/public/images/products/' . $size_chart_id->size_chart;
+            $prev_img_delete_path = public_path() . '/images/products/' . $size_chart_id->size_chart;
             if (File::exists($prev_img_delete_path)) {
                 File::delete($prev_img_delete_path);
             }
-            $prev_img_delete_path_thumb = base_path() . '/public/images/products/thumb/' . $size_chart_id->size_chart;
-            $destination = base_path() . '/public/images/products/thumb';
+            $prev_img_delete_path_thumb = public_path() . '/images/products/thumb/' . $size_chart_id->size_chart;
+            $destination = public_path() . '/images/products/thumb';
             $img = Image::make($image->getRealPath());
             $img->resize(600, 600, function ($constraint) {
                 $constraint->aspectRatio();
@@ -398,11 +398,11 @@ class ProductController extends Controller
     {
         $image = ProductImage::where('id', $image_id)->first();
         if ($image) {
-            $path = base_path() . '/public/images/products/' . $image->image;
+            $path = public_path() . '/images/products/' . $image->image;
             if (File::exists($path)) {
                 File::delete($path);
             }
-            $path_thumb = base_path() . '/public/images/products/thumb/' . $image->image;
+            $path_thumb = public_path() . '/images/products/thumb/' . $image->image;
             if (File::exists($path_thumb)) {
                 File::delete($path_thumb);
             }
@@ -413,9 +413,9 @@ class ProductController extends Controller
 
     public function addNewImages(Request $request)
     {
-        $path = base_path() . '/public/images/products/';
+        $path = public_path() . '/images/products/';
         File::exists($path) or File::makeDirectory($path, 0777, true, true);
-        $path_thumb = base_path() . '/public/images/products/thumb/';
+        $path_thumb = public_path() . '/images/products/thumb/';
         File::exists($path_thumb) or File::makeDirectory($path_thumb, 0777, true, true);
 
         $product_id = $request->input('product_id');
@@ -426,12 +426,12 @@ class ProductController extends Controller
                 $image_name = $i . time() . date('Y-M-d') . '.' . $image->getClientOriginalExtension();
 
                 //Product Original Image
-                $destinationPath = base_path() . '/public/images/products';
+                $destinationPath = public_path() . '/images/products';
                 $img = Image::make($image->getRealPath());
                 $img->save($destinationPath . '/' . $image_name);
 
                 //Product Thumbnail
-                $destination = base_path() . '/public/images/products/thumb';
+                $destination = public_path() . '/images/products/thumb';
                 $img = Image::make($image->getRealPath());
                 $img->resize(600, 600, function ($constraint) {
                     $constraint->aspectRatio();

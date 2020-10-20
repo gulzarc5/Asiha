@@ -34,12 +34,12 @@ class SliderController extends Controller
             'third_category'=>'required',
             'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-       
+
         $image_name = null;
         if($request->hasfile('images')){
-            $path = base_path().'/public/images/slider/web/thumb/';
+            $path = public_path().'/images/slider/web/thumb/';
             File::exists($path) or File::makeDirectory($path, 0777, true, true);
-            $path_thumb = base_path().'/public/images/slider/web/thumb/';
+            $path_thumb = public_path().'/images/slider/web/thumb/';
             File::exists($path_thumb) or File::makeDirectory($path_thumb, 0777, true, true);
 
             for ($i=0; $i < count($request->file('images')); $i++) {
@@ -47,12 +47,12 @@ class SliderController extends Controller
                 $image_name = $i.time().date('Y-M-d').'.'.$image->getClientOriginalExtension();
 
                 //Product Original Image
-                $destination = base_path().'/public/images/slider/web/';
+                $destination = public_path().'/images/slider/web/';
                 $img = Image::make($image->getRealPath());
                 $img->save($destination.'/'.$image_name);
 
                 //Product Thumbnail
-                $destination = base_path().'/public/images/slider/web/thumb';
+                $destination = public_path().'/images/slider/web/thumb';
                 $img = Image::make($image->getRealPath());
                 $img->resize(600, 600, function ($constraint) {
                     $constraint->aspectRatio();
@@ -64,7 +64,7 @@ class SliderController extends Controller
                 $sliders->slider_type=2;
                 $sliders->image=$image_name;
                 $sliders->save();
-                
+
             }
         }
         return redirect()->back()->with('message','Slider Added Successfull');
@@ -78,9 +78,9 @@ class SliderController extends Controller
         $image_name = null;
 
         if($request->hasfile('images')){
-            $path = base_path().'/public/images/slider/app/thumb/';
+            $path = public_path().'/images/slider/app/thumb/';
             File::exists($path) or File::makeDirectory($path, 0777, true, true);
-            $path_thumb = base_path().'/public/images/slider/app/thumb/';
+            $path_thumb = public_path().'/images/slider/app/thumb/';
             File::exists($path_thumb) or File::makeDirectory($path_thumb, 0777, true, true);
 
             for ($i=0; $i < count($request->file('images')); $i++) {
@@ -88,12 +88,12 @@ class SliderController extends Controller
                 $image_name = $i.time().date('Y-M-d').'.'.$image->getClientOriginalExtension();
 
                 //Product Original Image
-                $destination = base_path().'/public/images/slider/app/';
+                $destination = public_path().'/images/slider/app/';
                 $img = Image::make($image->getRealPath());
                 $img->save($destination.'/'.$image_name);
 
                 //Product Thumbnail
-                $destination = base_path().'/public/images/slider/app/thumb';
+                $destination = public_path().'/images/slider/app/thumb';
                 $img = Image::make($image->getRealPath());
                 $img->resize(600, 600, function ($constraint) {
                     $constraint->aspectRatio();
@@ -104,7 +104,7 @@ class SliderController extends Controller
                 $sliders->slider_type=2;
                 $sliders->image=$image_name;
                 $sliders->save();
-            
+
             }
         }
 
@@ -119,7 +119,7 @@ class SliderController extends Controller
         }catch(DecryptException $e) {
             return redirect()->back();
         }
-        
+
         $category = Slider::where('id',$id)
         ->update([
             'status'=>$status,
@@ -134,11 +134,11 @@ class SliderController extends Controller
         }catch(DecryptException $e) {
             return redirect()->back();
         }
-        
+
             $prev_image = Slider::where('id',$id)->first();
             if($prev_image->variant_type==1){
-            $prev_img_delete_path = base_path().'/public/images/slider/app/'.$prev_image->image;
-            $prev_img_delete_path_thumb = base_path().'/public/images/slider/app/thumb/'.$prev_image->image;
+            $prev_img_delete_path = public_path().'/images/slider/app/'.$prev_image->image;
+            $prev_img_delete_path_thumb = public_path().'/images/slider/app/thumb/'.$prev_image->image;
             if ( File::exists($prev_img_delete_path)) {
                 File::delete($prev_img_delete_path);
             }
@@ -148,8 +148,8 @@ class SliderController extends Controller
             }
         }
         else{
-            $prev_img_delete_path = base_path().'/public/images/slider/web/'.$prev_image->image;
-            $prev_img_delete_path_thumb = base_path().'/public/images/slider/web/thumb/'.$prev_image->image;
+            $prev_img_delete_path = public_path().'/images/slider/web/'.$prev_image->image;
+            $prev_img_delete_path_thumb = public_path().'/images/slider/web/thumb/'.$prev_image->image;
             if ( File::exists($prev_img_delete_path)) {
                 File::delete($prev_img_delete_path);
             }
@@ -188,27 +188,27 @@ class SliderController extends Controller
         {
             $prev_image = Slider::where('id',$id)->first();
 
-            $path = base_path().'/public/images/slider/banner/';
+            $path = public_path().'/images/slider/banner/';
             File::exists($path) or File::makeDirectory($path, 0777, true, true);
-            $path_thumb = base_path().'/public/images/slider/banner/thumb/';
+            $path_thumb = public_path().'/images/slider/banner/thumb/';
             File::exists($path_thumb) or File::makeDirectory($path_thumb, 0777, true, true);
 
         	$image = $request->file('images');
-            $destination = base_path().'/public/images/slider/banner/';
+            $destination = public_path().'/images/slider/banner/';
             $image_extension = $image->getClientOriginalExtension();
             $image_name = md5(date('now').time())."-".uniqid()."."."$image_extension";
             $original_path = $destination.$image_name;
             Image::make($image)->save($original_path);
 
 
-            $thumb_path = base_path().'/public/images/slider/banner/thumb/'.$image_name;
+            $thumb_path = public_path().'/images/slider/banner/thumb/'.$image_name;
             $img = Image::make($image->getRealPath());
             $img->resize(null,400, function ($constraint) {
                 $constraint->aspectRatio();
             })->save($thumb_path);
 
-            $prev_img_delete_path = base_path().'/public/images/brands/'.$prev_image->image;
-            $prev_img_delete_path_thumb = base_path().'/public/images/brands/thumb/'.$prev_image->image;
+            $prev_img_delete_path = public_path().'/images/brands/'.$prev_image->image;
+            $prev_img_delete_path_thumb = public_path().'/images/brands/thumb/'.$prev_image->image;
             if ( File::exists($prev_img_delete_path)) {
                 File::delete($prev_img_delete_path);
             }

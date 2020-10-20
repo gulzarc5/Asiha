@@ -128,13 +128,13 @@ class ConfigurationController extends Controller
         {
 
         	$image = $request->file('image');
-            $destination = base_path().'/public/images/';
+            $destination = public_path().'/images/';
             $image_extension = $image->getClientOriginalExtension();
             $image_name = md5(date('now').time())."-".uniqid()."."."$image_extension";
             $original_path = $destination.$image_name;
             Image::make($image)->save($original_path);
 
-            $prev_img_delete_path = base_path().'/public/images/'.$invoice->image;
+            $prev_img_delete_path = public_path().'/images/'.$invoice->image;
             if ( File::exists($prev_img_delete_path)) {
                 File::delete($prev_img_delete_path);
             }

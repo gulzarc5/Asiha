@@ -44,11 +44,11 @@ class CategoryController extends Controller
                     $banner = $image_name;
                 }
                 //Category Original Image
-                $destinationPath = base_path() . '/public/images/category/category/';
+                $destinationPath = public_path() . '/images/category/category/';
                 $img = Image::make($image->getRealPath());
                 $img->save($destinationPath . '/' . $image_name);
                 //Category Image Thumbnail
-                $destination = base_path() . '/public/images/category/category/thumb/';
+                $destination = public_path() . '/images/category/category/thumb/';
                 $img = Image::make($image->getRealPath());
                 $img->resize(600, 600, function ($constraint) {
                     $constraint->aspectRatio();
@@ -135,11 +135,11 @@ class CategoryController extends Controller
     public function deleteImage($image_id){
         $image = CategoryImages::where('id', $image_id)->first();
         if ($image) {
-            $path = base_path() . '/public/images/category/category/' . $image->image;
+            $path = public_path() . '/images/category/category/' . $image->image;
             if (File::exists($path)) {
                 File::delete($path);
             }
-            $path_thumb = base_path() . '/public/images/category/category/thumb/' . $image->image;
+            $path_thumb = public_path() . '/images/category/category/thumb/' . $image->image;
             if (File::exists($path_thumb)) {
                 File::delete($path_thumb);
             }
@@ -214,11 +214,11 @@ class CategoryController extends Controller
     public function deleteSubCatImage($image_id){
         $image = SubCategoryImages::where('id', $image_id)->first();
         if ($image) {
-            $path = base_path() . '/public/images/category/sub_category/' . $image->image;
+            $path = public_path() . '/images/category/sub_category/' . $image->image;
             if (File::exists($path)) {
                 File::delete($path);
             }
-            $path_thumb = base_path() . '/public/images/category/sub_category/thumb/' . $image->image;
+            $path_thumb = public_path() . '/images/category/sub_category/thumb/' . $image->image;
             if (File::exists($path_thumb)) {
                 File::delete($path_thumb);
             }
@@ -252,11 +252,11 @@ class CategoryController extends Controller
                     $banner = $image_name;
                 }
                 //Category Original Image
-                $destinationPath = base_path() . '/public/images/category/sub_category/';
+                $destinationPath = public_path() . '/images/category/sub_category/';
                 $img = Image::make($image->getRealPath());
                 $img->save($destinationPath . '/' . $image_name);
                 //Category Image Thumbnail
-                $destination = base_path() . '/public/images/category/sub_category/thumb/';
+                $destination = public_path() . '/images/category/sub_category/thumb/';
                 $img = Image::make($image->getRealPath());
                 $img->resize(600, 600, function ($constraint) {
                     $constraint->aspectRatio();
@@ -305,27 +305,27 @@ class CategoryController extends Controller
         {
             $cat_prev_image = SubCategory::where('id',$id)->first();
 
-            $path = base_path().'/public/images/category/sub_category/thumb';
+            $path = public_path().'/pmages/category/sub_category/thumb';
             File::exists($path) or File::makeDirectory($path, 0777, true, true);
-            $path_thumb = base_path().'/public/images/category/sub_category/thumb';
+            $path_thumb = public_path().'/pmages/category/sub_category/thumb';
             File::exists($path_thumb) or File::makeDirectory($path_thumb, 0777, true, true);
 
         	$image = $request->file('image');
-            $destination = base_path().'/public/images/category/sub_category/';
+            $destination = public_path().'/pmages/category/sub_category/';
             $image_extension = $image->getClientOriginalExtension();
             $image_name = md5(date('now').time())."-".uniqid()."."."$image_extension";
             $original_path = $destination.$image_name;
             Image::make($image)->save($original_path);
 
 
-            $thumb_path = base_path().'/public/images/category/sub_category/thumb/'.$image_name;
+            $thumb_path = public_path().'/pmages/category/sub_category/thumb/'.$image_name;
             $img = Image::make($image->getRealPath());
             $img->resize(null,400, function ($constraint) {
                 $constraint->aspectRatio();
             })->save($thumb_path);
 
-            $prev_img_delete_path = base_path().'/public/images/category/sub_category/'.$cat_prev_image->image;
-            $prev_img_delete_path_thumb = base_path().'/public/images/category/sub_category/thumb/'.$cat_prev_image->image;
+            $prev_img_delete_path = public_path().'/pmages/category/sub_category/'.$cat_prev_image->image;
+            $prev_img_delete_path_thumb = public_path().'/pmages/category/sub_category/thumb/'.$cat_prev_image->image;
             if ( File::exists($prev_img_delete_path)) {
                 File::delete($prev_img_delete_path);
             }
@@ -373,9 +373,9 @@ class CategoryController extends Controller
     }
 
     public function subCatNewImages(Request $request){
-        $path = base_path() . '/public/images/category/sub_category/';
+        $path = public_path() . '/images/category/sub_category/';
         File::exists($path) or File::makeDirectory($path, 0777, true, true);
-        $path_thumb = base_path() . '/public/images/category/sub_category/thumb/';
+        $path_thumb = public_path() . '/images/category/sub_category/thumb/';
         File::exists($path_thumb) or File::makeDirectory($path_thumb, 0777, true, true);
 
         $sub_category_id = $request->input('sub_category_id');
@@ -386,12 +386,12 @@ class CategoryController extends Controller
                 $image_name = $i . time() . date('Y-M-d') . '.' . $image->getClientOriginalExtension();
 
                 //Product Original Image
-                $destinationPath = base_path() . '/public/images/category/sub_category';
+                $destinationPath = public_path() . '/images/category/sub_category';
                 $img = Image::make($image->getRealPath());
                 $img->save($destinationPath . '/' . $image_name);
 
                 //Product Thumbnail
-                $destination = base_path() . '/public/images/category/sub_category/thumb';
+                $destination = public_path() . '/images/category/sub_category/thumb';
                 $img = Image::make($image->getRealPath());
                 $img->resize(600, 600, function ($constraint) {
                     $constraint->aspectRatio();
@@ -441,11 +441,11 @@ class CategoryController extends Controller
                     $banner = $image_name;
                 }
                 //Category Original Image
-                $destinationPath = base_path() . '/public/images/category/third_category/';
+                $destinationPath = public_path() . '/images/category/third_category/';
                 $img = Image::make($image->getRealPath());
                 $img->save($destinationPath . '/' . $image_name);
                 //Category Image Thumbnail
-                $destination = base_path() . '/public/images/category/third_category/thumb/';
+                $destination = public_path() . '/images/category/third_category/thumb/';
                 $img = Image::make($image->getRealPath());
                 $img->resize(600, 600, function ($constraint) {
                     $constraint->aspectRatio();
@@ -499,11 +499,11 @@ class CategoryController extends Controller
     public function deletethirdCatImage($image_id){
         $image = ThirdLevelCategoryImages::where('id', $image_id)->first();
         if ($image) {
-            $path = base_path() . '/public/images/category/third_category/' . $image->image;
+            $path = public_path() . '/images/category/third_category/' . $image->image;
             if (File::exists($path)) {
                 File::delete($path);
             }
-            $path_thumb = base_path() . '/public/images/category/third_category/thumb/' . $image->image;
+            $path_thumb = public_path() . '/images/category/third_category/thumb/' . $image->image;
             if (File::exists($path_thumb)) {
                 File::delete($path_thumb);
             }
@@ -513,9 +513,9 @@ class CategoryController extends Controller
     }
 
     public function thirdCatNewImages(Request $request){
-        $path = base_path() . '/public/images/category/third_category/';
+        $path = public_path() . '/images/category/third_category/';
         File::exists($path) or File::makeDirectory($path, 0777, true, true);
-        $path_thumb = base_path() . '/public/images/category/third_category/thumb/';
+        $path_thumb = public_path() . '/images/category/third_category/thumb/';
         File::exists($path_thumb) or File::makeDirectory($path_thumb, 0777, true, true);
 
         $third_category_id = $request->input('sub_category_id');
@@ -526,12 +526,12 @@ class CategoryController extends Controller
                 $image_name = $i . time() . date('Y-M-d') . '.' . $image->getClientOriginalExtension();
 
                 //Product Original Image
-                $destinationPath = base_path() . '/public/images/category/third_category';
+                $destinationPath = public_path() . '/images/category/third_category';
                 $img = Image::make($image->getRealPath());
                 $img->save($destinationPath . '/' . $image_name);
 
                 //Product Thumbnail
-                $destination = base_path() . '/public/images/category/third_category/thumb';
+                $destination = public_path() . '/images/category/third_category/thumb';
                 $img = Image::make($image->getRealPath());
                 $img->resize(600, 600, function ($constraint) {
                     $constraint->aspectRatio();

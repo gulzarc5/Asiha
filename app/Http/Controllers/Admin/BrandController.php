@@ -17,7 +17,7 @@ class BrandController extends Controller
     public function brandList()
     {
         $brands = Brands::orderBy('id','desc')->get();
-        return view('admin.brand.brand_list',compact('brands')); 
+        return view('admin.brand.brand_list',compact('brands'));
     }
 
     public function brandAddForm()
@@ -34,24 +34,24 @@ class BrandController extends Controller
             'sub_category'   => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-        
+
         $image_name = null;
         if($request->hasfile('image'))
-        {           
-            $path = base_path().'/public/images/brands/thumb';
+        {
+            $path = public_path().'/images/brands/thumb';
             File::exists($path) or File::makeDirectory($path, 0777, true, true);
-            $path_thumb = base_path().'/public/images/brands/thumb';
+            $path_thumb = public_path().'/images/brands/thumb';
             File::exists($path_thumb) or File::makeDirectory($path_thumb, 0777, true, true);
 
         	$image = $request->file('image');
-            $destination = base_path().'/public/images/brands/';
+            $destination = public_path().'/images/brands/';
             $image_extension = $image->getClientOriginalExtension();
             $image_name = md5(date('now').time())."-".uniqid()."."."$image_extension";
             $original_path = $destination.$image_name;
             Image::make($image)->save($original_path);
 
-           
-            $thumb_path = base_path().'/public/images/brands/thumb/'.$image_name;
+
+            $thumb_path = public_path().'/images/brands/thumb/'.$image_name;
             $img = Image::make($image->getRealPath());
             $img->resize(null,400, function ($constraint) {
                 $constraint->aspectRatio();
@@ -86,7 +86,7 @@ class BrandController extends Controller
     }
 
     public function brandUpdate(Request $request,$id)
-    {   
+    {
         $this->validate($request, [
             'name'   => 'required',
             'category'   => 'required',
@@ -98,27 +98,27 @@ class BrandController extends Controller
         {
             $cat_prev_image = Brands::where('id',$id)->first();
 
-            $path = base_path().'/public/images/brands/thumb';
+            $path = public_path().'/images/brands/thumb';
             File::exists($path) or File::makeDirectory($path, 0777, true, true);
-            $path_thumb = base_path().'/public/images/brands/thumb';
+            $path_thumb = public_path().'/images/brands/thumb';
             File::exists($path_thumb) or File::makeDirectory($path_thumb, 0777, true, true);
 
         	$image = $request->file('image');
-            $destination = base_path().'/public/images/brands/';
+            $destination = public_path().'/images/brands/';
             $image_extension = $image->getClientOriginalExtension();
             $image_name = md5(date('now').time())."-".uniqid()."."."$image_extension";
             $original_path = $destination.$image_name;
             Image::make($image)->save($original_path);
 
-           
-            $thumb_path = base_path().'/public/images/brands/thumb/'.$image_name;
+
+            $thumb_path = public_path().'/images/brands/thumb/'.$image_name;
             $img = Image::make($image->getRealPath());
             $img->resize(null,400, function ($constraint) {
                 $constraint->aspectRatio();
             })->save($thumb_path);
 
-            $prev_img_delete_path = base_path().'/public/images/brands/'.$cat_prev_image->image;
-            $prev_img_delete_path_thumb = base_path().'/public/images/brands/thumb/'.$cat_prev_image->image;
+            $prev_img_delete_path = public_path().'/images/brands/'.$cat_prev_image->image;
+            $prev_img_delete_path_thumb = public_path().'/images/brands/thumb/'.$cat_prev_image->image;
             if ( File::exists($prev_img_delete_path)) {
                 File::delete($prev_img_delete_path);
             }

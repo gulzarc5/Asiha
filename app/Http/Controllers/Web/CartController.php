@@ -100,7 +100,7 @@ class CartController extends Controller
             foreach($cart as $cart_item){
 
                 $size = $cart_item->sizes;
-               
+
                 $cart_total += $cart_item->quantity*($size->price);
 
                 $color = !empty($cart_item->colors) ? $cart_item->colors->color : null ;
@@ -131,7 +131,7 @@ class CartController extends Controller
                         $product =Product::find($product_id);
                         $color = !empty($cart_item['color']) ? Color::where('id',$cart_item['color'])->first() : null;
                         $color = !empty($color) ? $color->color : null;
-                        $product_size = ProductSize::where('size_id',$cart_item['size_id'])->first();
+                        $product_size = ProductSize::where('id',$cart_item['size_id'])->first();
                         $cart_total += $cart_item['quantity']*$product_size->price;
 
                         $cart_data[] = [

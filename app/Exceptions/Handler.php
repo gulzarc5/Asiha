@@ -65,15 +65,18 @@ class Handler extends ExceptionHandler
             case 'admin':
                 $login = 'admin.login_form';
                 break;
+            case 'user':
+                $login = 'web.login_form';
+                break;
             case 'api':
                 $response = [
                     'status'=>false,
                     'login_error' => 1,
                     'message'=>'unauthorize'
                 ];
-                return response()->json($response, 200);              
+                return response()->json($response, 200);
             default:
-                $login = 'admin.login_form';
+                $login = 'web.login_form';
                 break;
         }
         return redirect()->guest(route($login));

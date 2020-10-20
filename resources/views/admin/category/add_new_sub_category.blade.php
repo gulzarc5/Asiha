@@ -35,17 +35,17 @@
                         @endif
 
                         <div class="form-group">
-                            {{ Form::label('name', 'Category Name')}} 
+                            {{ Form::label('name', 'Category Name')}}
                             {{ Form::text('name',null,array('class' => 'form-control','placeholder'=>'Enter Category name')) }}
                             @if($errors->has('name'))
                                 <span class="invalid-feedback" role="alert" style="color:red">
                                     <strong>{{ $errors->first('name') }}</strong>
-                                </span> 
+                                </span>
                             @enderror
                         </div>
 
                         <div class="form-group">
-                            {{ Form::label('category', 'Select Category')}} 
+                            {{ Form::label('category', 'Select Category')}}
                             @if (isset($sub_category))
                                 {!! Form::select('category', $category, $sub_category->category_id,['class' => 'form-control','placeholder'=>'Please Select Category']); !!}
                             @else
@@ -55,19 +55,20 @@
                             @if($errors->has('category'))
                                 <span class="invalid-feedback" role="alert" style="color:red">
                                     <strong>{{ $errors->first('category') }}</strong>
-                                </span> 
+                                </span>
                             @enderror
                         </div>
-
+                        @if(!isset($sub_category))
                         <div class="form-group">
-                            {{ Form::label('image', 'Image')}} 
-                            {{ Form::file('image',null,array('class' => 'form-control')) }}
+                            {{ Form::label('image', 'Image')}} <span style="color:red;"> ( Dimension Should Be (800X1000) )</span>
+                            <input type="file" class="form-control" name="images[]" multiple>
                             @if($errors->has('image'))
                                 <span class="invalid-feedback" role="alert" style="color:red">
                                     <strong>{{ $errors->first('image') }}</strong>
-                                </span> 
+                                </span>
                             @enderror
                         </div>
+                        @endif
 
                         <div class="form-group">
                             @if(isset($sub_category) && !empty($sub_category))
@@ -76,10 +77,10 @@
                                 {{ Form::submit('Submit', array('class'=>'btn btn-success')) }}
                             @endif
                             <a href="{{route('admin.sub_category_list')}}" class="btn btn-warning">Back</a>
-                            
+
                         </div>
                         {{ Form::close() }}
-                       
+
                     </div>
                 </div>
             </div>

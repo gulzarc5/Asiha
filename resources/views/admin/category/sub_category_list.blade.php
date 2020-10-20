@@ -54,7 +54,7 @@
                                         @else
                                           <a href="{{route('admin.sub_category_status',['id'=>encrypt($item->id),'status'=>1])}}" class="btn btn-sm btn-primary">Enable</a>
                                         @endif
-                                        
+                                        <a href="{{route('admin.sub_cat_images_edit',['id'=>encrypt($item->id)])}}" class="btn btn-sm btn-warning">Edit images</a>
                                       </td>
                                     </tr>
                                 @endforeach

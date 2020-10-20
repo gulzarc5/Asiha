@@ -26,78 +26,71 @@
                             </div>
                             <div id="faq-accordion-1" class="collapse show" data-parent="#faq-accordion">
                                 <div class="card-body pattern-bg">
-                                    <div class="myaccount-content address" id="selt-add">
-                                        <div class="row ashia-mb-n30">
-                                            <div class="col-md-4 col-12 ashia-mb-30">
-                                                <address>                                                        
-                                                    <p><strong>Alex Tuntuni</strong></p>
-                                                    <p>1355 Market St, Suite 900 <br>
-                                                        San Francisco, CA 94103</p>
-                                                    <p class="mb-0">Mobile: (123) 456-7890</p>
-                                                    <a href="edit-address.php" class="edit-link">edit this address</a>
-                                                </address>
-                                            </div>
-                                            <div class="col-md-4 col-12 ashia-mb-30">
-                                                <address>                                                        
-                                                    <p><strong>Alex Tuntuni</strong></p>
-                                                    <p>1355 Market St, Suite 900 <br>
-                                                        San Francisco, CA 94103</p>
-                                                    <p class="mb-0">Mobile: (123) 456-7890</p>
-                                                    <a href="edit-address.php" class="edit-link">edit this address</a>
-                                                </address>
-                                            </div>
-                                            <div class="col-md-4 col-12 ashia-mb-30">
-                                                <address>
-                                                    <p><strong>Alex Tuntuni</strong></p>
-                                                    <p>1355 Market St, Suite 900 <br>
-                                                        San Francisco, CA 94103</p>
-                                                    <p class="mb-0">Mobile: (123) 456-7890</p>
-                                                    <a href="edit-address.php" class="edit-link">edit this address</a>
-                                                </address>
-                                            </div>
-                                            <div class="col-12 mb-4">
-                                                <p class="add-address" style="display: inline;cursor:pointer"><span style="color: #ff6c62;">Add New Address<span></p>   
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="myaccount-content address" id="add-addr" style="display:none">
-                                        <h3>Add New Address</h3>
-                                        <form>
+                                    <div class="myaccount-content address" id="add-addr">
+                                        @if (Session::has('message'))
+                                            <div class="alert alert-success">{{ Session::get('message') }}</div>
+                                        @endif @if (Session::has('error'))
+                                            <div class="alert alert-danger">{{ Session::get('error') }}</div>
+                                        @endif
+                                        <h3>Update Address</h3>
+                                        <form method="POST" action="{{route('web.update_address',['id'=>$address->id])}}">
+                                            @csrf
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
-                                                    <label for="inputName4">Nane</label>
-                                                    <input type="text" class="form-control" id="inputName4" placeholder="Name">
+                                                    <label for="inputName4">Name</label>
+                                                    <input type="text" name="name" class="form-control" value="{{$address->name}}" id="inputName4" >
+                                                    @if($errors->has('name'))
+                                                        <strong style="color:red" >{{ $errors->first('name') }}</strong>
+                                                    @enderror
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <label for="inputEmail4">Email</label>
-                                                    <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+                                                    <input type="email" value="{{$address->email}}" name="email" class="form-control" id="inputEmail4" >
+                                                    @if($errors->has('email'))
+                                                        <strong style="color:red" >{{ $errors->first('email') }}</strong>
+                                                    @enderror
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <label for="inputPhone4">Phone</label>
-                                                    <input type="text" class="form-control" id="inputPhone4" placeholder="Phone">
+                                                    <input type="text" class="form-control" value="{{$address->mobile}}"id="inputPhone4" name="mobile" >
+                                                    @if($errors->has('mobile'))
+                                                        <strong style="color:red" >{{ $errors->first('mobile') }}</strong>
+                                                    @enderror
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label for="inputAddress">Address</label>
-                                                <textarea id="inputAddress" placeholder="1234 Main St"></textarea>
+                                                <textarea name="address" id="inputAddress" >{{$address->address}}</textarea>
+                                                @if($errors->has('address'))
+                                                        <strong style="color:red" >{{ $errors->first('address') }}</strong>
+                                                @enderror
                                             </div>
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                     <label for="inputCity">City</label>
-                                                    <input type="text" class="form-control" id="inputCity">
+                                                    <input name="city" value="{{$address->city}}" type="text" class="form-control" id="inputCity">
+                                                    @if($errors->has('city'))
+                                                        <strong style="color:red" >{{ $errors->first('city') }}</strong>
+                                                    @enderror
                                                 </div>
                                                 <div class="form-group col-md-4">
                                                     <label for="inputState">State</label>
-                                                    <input type="text" class="form-control" id="inputState">
+                                                    <input name="state" value="{{$address->state}}" type="text" class="form-control" id="inputState">
+                                                    @if($errors->has('state'))
+                                                        <strong style="color:red" >{{ $errors->first('state') }}</strong>
+                                                    @enderror
                                                 </div>
                                                 <div class="form-group col-md-2">
                                                     <label for="inputPincode">Pincode</label>
-                                                    <input type="text" class="form-control" id="inputPincode">
+                                                    <input value="{{$address->pin}}" name="pin" type="text" class="form-control" id="inputPincode">
+                                                    @if($errors->has('pin'))
+                                                        <strong style="color:red" >{{ $errors->first('pin') }}</strong>
+                                                    @enderror
                                                 </div>
                                             </div>
                                             <div class="form-group mb-0">
-                                                <a class="btn btn-sm btn-outline-dark mr-3 bck-selt">Cancel</a>
-                                                <a class="btn btn-sm btn-primary text-white">Save</a>  
+                                                <a class="btn btn-sm btn-outline-dark mr-3" href="{{route('web.address')}}">Cancel</a>
+                                                <button class="btn btn-sm btn-primary text-white">Save</button>
                                             </div>
                                         </form>
                                     </div>

@@ -9,6 +9,7 @@ use Validator;
 use App\Models\User;
 use App\Models\Address;
 use Illuminate\Support\Str;
+use App\SmsHelper\Sms;
 
 class UsersController extends Controller
 {
@@ -27,8 +28,8 @@ class UsersController extends Controller
                 'message' => 'Required Field Can not be Empty',
                 'error_code' => true,
                 'error_message' => $validator->errors(),
-    
-            ];    	
+
+            ];
             return response()->json($response, 200);
         }
 
@@ -43,70 +44,70 @@ class UsersController extends Controller
         $user->city = $request->input('city');
         $user->address = $request->input('address');
         $user->pin = $request->input('pin');
-        
+
 
         if ($user->save()) {
             $response = [
                 'status' => true,
                 'message' => 'User Registered Successfully',
                 'error_code' => false,
-                'error_message' => null,    
-            ];    	
+                'error_message' => null,
+            ];
             return response()->json($response, 200);
         }else{
         	$response = [
                 'status' => false,
                 'message' => 'Something Went Wrong Please Try Again',
                 'error_code' => false,
-                'error_message' => null,    
-            ];    	
+                'error_message' => null,
+            ];
             return response()->json($response, 200);
-        }                 
+        }
     }
 
     public function userLogin(Request $request)
     {
         $user_id = $request->input('user_id');
         $user_pass = $request->input('password');
-        
+
         if (!empty($user_id) && !empty($user_pass)) {
             $user = User::where('mobile',$user_id)->orWhere('email',$user_id)->first();
             if ($user) {
-                if(Hash::check($user_pass, $user->password)){ 
+                if(Hash::check($user_pass, $user->password)){
                     $user_update = User::where('id',$user->id)
                         ->update([
                         'api_token' => Str::random(60),
                     ]);
                     $response = [
                         'status' => true,
-                        'message' => 'User Logged In Successfully',    
+                        'message' => 'User Logged In Successfully',
                         'data' => User::find($user->id),
-                    ];    	
+                    ];
                     return response()->json($response, 200);
                 }else{
                     $response = [
                         'status' => false,
-                        'message' => 'User Id  or password Wrong',   
+                        'message' => 'User Id  or password Wrong',
                         'data' => null,
-                    ];    	
+                    ];
                     return response()->json($response, 200);
                 }
             }else{
                 $response = [
                     'status' => false,
-                    'message' => 'User Id or password Wrong',  
-                    'data' => null,  
-                ];    	
+                    'message' => 'User Id or password Wrong',
+                    'data' => null,
+                ];
                 return response()->json($response, 200);
             }
         }else{
             $response = [
                 'status' => false,
-                'message' => 'Required Field Can Not be Empty',  
-                'data' => null,  
-            ];    	
+                'message' => 'Required Field Can Not be Empty',
+                'data' => null,
+            ];
             return response()->json($response, 200);
-        }       
+        }
     }
 
     public function userProfile($user_id)
@@ -118,14 +119,14 @@ class UsersController extends Controller
                 'status' => true,
                 'message' => 'User Profile',
                 'data' => $user,
-            ];    	
+            ];
             return response()->json($response, 200);
         }else{
             $response = [
                 'status' => false,
                 'message' => 'User Not Found',
                 'data' => null,
-            ];    	
+            ];
             return response()->json($response, 200);
         }
     }
@@ -147,8 +148,8 @@ class UsersController extends Controller
                 'status' => false,
                 'message' => 'Required Field Can not be Empty',
                 'error_code' => true,
-                'error_message' => $validator->errors(),    
-            ];    	
+                'error_message' => $validator->errors(),
+            ];
             return response()->json($response, 200);
         }
         $user_id = $request->input('user_id');
@@ -164,16 +165,16 @@ class UsersController extends Controller
                 'status' => true,
                 'message' => 'Profile Updated Successfully',
                 'error_code' => false,
-                'error_message' => null,    
-            ];    	
+                'error_message' => null,
+            ];
             return response()->json($response, 200);
         } else {
              $response = [
                 'status' => false,
                 'message' => 'Something Went Wrong Please Try Again',
                 'error_code' => false,
-                'error_message' => null,    
-            ];    	
+                'error_message' => null,
+            ];
             return response()->json($response, 200);
         }
     }
@@ -196,8 +197,8 @@ class UsersController extends Controller
                 'status' => false,
                 'message' => 'Required Field Can not be Empty',
                 'error_code' => true,
-                'error_message' => $validator->errors(),    
-            ];    	
+                'error_message' => $validator->errors(),
+            ];
             return response()->json($response, 200);
         }
         $user_id = $request->input('user_id');
@@ -216,19 +217,19 @@ class UsersController extends Controller
                 'status' => true,
                 'message' => 'Shipping Address Added SuccessFully',
                 'error_code' => false,
-                'error_message' => null,    
-            ];    	
+                'error_message' => null,
+            ];
             return response()->json($response, 200);
         } else {
             $response = [
                 'status' => false,
                 'message' => 'Something Went Wrong Please Try Again',
                 'error_code' => false,
-                'error_message' => null,    
+                'error_message' => null,
             ];
             return response()->json($response, 200);
         }
-        
+
     }
 
     public function userShippingDelete($address_id)
@@ -263,7 +264,7 @@ class UsersController extends Controller
             $response = [
                 'status' => false,
                 'message' => 'No Address Found',
-                'data' => [],   
+                'data' => [],
             ];
             return response()->json($response, 200);
         }
@@ -283,7 +284,7 @@ class UsersController extends Controller
             $response = [
                 'status' => false,
                 'message' => 'No Address Found',
-                'data' => null,   
+                'data' => null,
             ];
             return response()->json($response, 200);
         }
@@ -308,8 +309,8 @@ class UsersController extends Controller
                 'status' => false,
                 'message' => 'Required Field Can not be Empty',
                 'error_code' => true,
-                'error_message' => $validator->errors(),    
-            ];    	
+                'error_message' => $validator->errors(),
+            ];
             return response()->json($response, 200);
         }
 
@@ -327,7 +328,7 @@ class UsersController extends Controller
                 'status' => true,
                 'message' => 'Address Updated SuccessFully',
                 'error_code' => false,
-                'error_message' => null,    
+                'error_message' => null,
             ];
             return response()->json($response, 200);
         }else{
@@ -335,7 +336,7 @@ class UsersController extends Controller
                 'status' => false,
                 'message' => 'Something Went Wrong Please Try Again',
                 'error_code' => false,
-                'error_message' => null,    
+                'error_message' => null,
             ];
             return response()->json($response, 200);
         }
@@ -354,40 +355,40 @@ class UsersController extends Controller
                 'status' => false,
                 'message' => 'Required Field Can not be Empty',
                 'error_code' => true,
-                'error_message' => $validator->errors(),    
-            ];    	
+                'error_message' => $validator->errors(),
+            ];
             return response()->json($response, 200);
         }
 
         $user =User::find($request->input('user_id'));
         if ($user) {
-            if(Hash::check($request->input('current_pass'), $user->password)){  
+            if(Hash::check($request->input('current_pass'), $user->password)){
                 $user->password = Hash::make($request->input('confirm_password'));
-                
+
                 if ($user->save()) {
                     $response = [
                         'status' => true,
                         'message' => 'Password Changed Successfully',
                         'error_code' => false,
-                        'error_message' => null,    
-                    ];    	
+                        'error_message' => null,
+                    ];
                     return response()->json($response, 200);
                 }else{
                     $response = [
                         'status' => false,
                         'message' => 'Something Went Wrong Please Try Again',
                         'error_code' => false,
-                        'error_message' => null,    
-                    ];    	
+                        'error_message' => null,
+                    ];
                     return response()->json($response, 200);
                 }
-            }else{           
+            }else{
                 $response = [
                     'status' => false,
                     'message' => 'Please Enter Correct Corrent Password',
                     'error_code' => false,
-                    'error_message' => null,    
-                ];    	
+                    'error_message' => null,
+                ];
                 return response()->json($response, 200);
            }
         } else {
@@ -395,8 +396,8 @@ class UsersController extends Controller
                 'status' => false,
                 'message' => 'User Not Found Please Try Again',
                 'error_code' => false,
-                'error_message' => null,    
-            ];    	
+                'error_message' => null,
+            ];
             return response()->json($response, 200);
         }
     }
@@ -413,63 +414,29 @@ class UsersController extends Controller
         if ($password_change) {
             $response = [
                 'status' => true,
-                'message' => 'User Logout Successfully',  
-            ];    	
+                'message' => 'User Logout Successfully',
+            ];
             return response()->json($response, 200);
         }else{
             $response = [
                 'status' => false,
                 'message' => 'Something Went Wrong Please Try Again',
-            ];    	
+            ];
             return response()->json($response, 200);
         }
     }
 
-    public function states()
-    {
-        $states = DB::table('state')
-        ->whereNull('deleted_at')
-        ->orderBy('name','desc')
-        ->get();
-
-        $response = [
-                'status' => true,
-                'message' => 'State List',
-                'data' => $states,
-            ];      
-        return response()->json($response, 200);
-    }
-
-    public function city($state_id)
-    {
-        $city = DB::table('city')
-            ->where('state_id',$state_id)
-            ->whereNull('deleted_at')
-            ->orderBy('name','desc')
-            ->get();
-        
-        $response = [
-                'status' => true,
-                'message' => 'City List',
-                'data' => $city,
-            ];      
-        return response()->json($response, 200);
-    }
 
     public function sendOtp($mobile)
     {
-        $user = DB::table('user')->where('mobile',$mobile)->count();
+        $user = User::where('mobile',$mobile)->count();
         if ($user > 0) {
             $otp = rand(111111,999999);
-            DB::table('user')
-                ->where('mobile',$mobile)
-                ->update([
-                    'otp' => $otp,
-                ]);                
             $request_info = urldecode("Your OTP is $otp . Please Do Not Share This Otp To Any One. Thank you");
-            SmsHelpers::smsSend($mobile,$request_info);
+            Sms::smsSend($mobile,$request_info);
             $data = [
                 'mobile' => $mobile,
+                'otp'=>$otp,
             ];
             $response = [
                 'status' => true,
@@ -480,6 +447,7 @@ class UsersController extends Controller
         } else {
             $data = [
                 'mobile' => $mobile,
+                'otp'=>null,
             ];
             $response = [
                 'status' => false,
@@ -488,41 +456,12 @@ class UsersController extends Controller
             ];
             return response()->json($response, 200);
         }
-        
-    }
 
-    public function varifyOtp($mobile,$otp)
-    {
-        $user = DB::table('user')->where('mobile',$mobile)->where('otp',$otp)->count();
-        if ($user > 0) {
-            $data = [
-                'mobile' => $mobile,
-                'otp' => $otp,
-            ];
-            $response = [
-                'status' => true,
-                'message' => 'OTP Send Successfully Please Verify',
-                'data' => $data,
-            ];
-            return response()->json($response, 200);
-        } else {
-            $data = [
-                'mobile' => $mobile,
-            ];
-            $response = [
-                'status' => false,
-                'message' => 'Please Enter Correct OTP',
-                'data' => $data,
-            ];
-            return response()->json($response, 200);
-        }
-        
     }
 
     public function forgotChangePass(Request $request)
     {
         $validator =  Validator::make($request->all(),[
-            'otp' => 'required',
             'mobile' => ['required', 'numeric', 'digits:10'],
             'new_password' => ['required', 'string', 'min:8', 'same:confirm_password'],
         ]);
@@ -532,47 +471,73 @@ class UsersController extends Controller
                 'status' => false,
                 'message' => 'Input Error',
                 'error_code' => true,
-                'error_message' => $validator->errors(),    
-            ];    	
+                'error_message' => $validator->errors(),
+            ];
             return response()->json($response, 200);
         }
 
-        $user = DB::table('user')->where('mobile',$request->input('mobile'))->where('otp',$request->input('otp'))->count();  
+        $user = User::where('mobile',$request->input('mobile'))->count();
 
         if ($user > 0) {
-            $password_change = DB::table('user')
-                ->where('mobile',$request->input('mobile'))
+            $password_change = User::where('mobile',$request->input('mobile'))
                 ->update([
                     'password' => Hash::make($request->input('confirm_pass')),
-                    'updated_at' => Carbon::now()->setTimezone('Asia/Kolkata')->toDateTimeString(),
                 ]);
             if ($password_change) {
                 $response = [
                     'status' => true,
                     'message' => 'Password Changed Successfully',
                     'error_code' => false,
-                    'error_message' => null,    
-                ];    	
+                    'error_message' => null,
+                ];
                 return response()->json($response, 200);
             } else {
                 $response = [
                     'status' => false,
                     'message' => 'Something Went Wrong',
                     'error_code' => false,
-                    'error_message' => null,    
-                ];    	
+                    'error_message' => null,
+                ];
                 return response()->json($response, 200);
-            }    
+            }
 
         }else {
             $response = [
                 'status' => false,
                 'message' => 'Something Went Wrong',
                 'error_code' => false,
-                'error_message' => null,    
-            ];    	
+                'error_message' => null,
+            ];
             return response()->json($response, 200);
         }
     }
+
+    // public function varifyOtp($mobile,$otp)
+    // {
+    //     $user = DB::table('user')->where('mobile',$mobile)->where('otp',$otp)->count();
+    //     if ($user > 0) {
+    //         $data = [
+    //             'mobile' => $mobile,
+    //             'otp' => $otp,
+    //         ];
+    //         $response = [
+    //             'status' => true,
+    //             'message' => 'OTP Send Successfully Please Verify',
+    //             'data' => $data,
+    //         ];
+    //         return response()->json($response, 200);
+    //     } else {
+    //         $data = [
+    //             'mobile' => $mobile,
+    //         ];
+    //         $response = [
+    //             'status' => false,
+    //             'message' => 'Please Enter Correct OTP',
+    //             'data' => $data,
+    //         ];
+    //         return response()->json($response, 200);
+    //     }
+
+    // }
 
 }

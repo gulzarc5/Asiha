@@ -5,7 +5,6 @@
 <div class="right_col" role="main">
 
     <div class="">
-      
       <div class="clearfix"></div>
 
       <div class="row">
@@ -21,32 +20,32 @@
                         <h3 class="prod_title">{{$product->name}} <a href="#" class="btn btn-warning" style="float:right;margin-top: -8px;">Edit Product</a></h3>
                         <p>{{$product->p_short_desc}}</p>
                         <div class="row product-view-tag">
-                            <h5 class="col-md-12 col-sm-12 col-xs-12"><strong>Name:</strong> 
+                            <h5 class="col-md-12 col-sm-12 col-xs-12"><strong>Name:</strong>
                                     {{$product->name}}
                             </h5>
-                            <h5 class="col-md-12 col-sm-12 col-xs-12"><strong>Catagory:</strong> 
+                            <h5 class="col-md-12 col-sm-12 col-xs-12"><strong>Catagory:</strong>
                                 @if (isset($product->category->name))
                                     {{$product->category->name}}
                                 @endif
                             </h5>
-                            <h5 class="col-md-12 col-sm-12 col-xs-12"><strong>Sub Category:</strong> 
+                            <h5 class="col-md-12 col-sm-12 col-xs-12"><strong>Sub Category:</strong>
                                 @if (isset($product->subCategory->name))
                                     {{$product->subCategory->name}}
                                 @endif
                             </h5>
-                            <h5 class="col-md-12 col-sm-12 col-xs-12"><strong>Third Category:</strong> 
+                            <h5 class="col-md-12 col-sm-12 col-xs-12"><strong>Third Category:</strong>
                                 @if (isset($product->thirdCategory->name))
                                     {{$product->thirdCategory->name}}
                                 @endif
                             </h5>
 
-                            <h5 class="col-md-12 col-sm-12 col-xs-12"><strong>Brand:</strong> 
+                            <h5 class="col-md-12 col-sm-12 col-xs-12"><strong>Brand:</strong>
                                 @if (isset($product->brand->name))
                                     {{$product->brand->name}}
                                 @endif
                             </h5>
-                           
-                            <h5 class="col-md-4 col-sm-4 col-xs-12"><strong>Status :</strong> 
+
+                            <h5 class="col-md-4 col-sm-4 col-xs-12"><strong>Status :</strong>
                                 @if ($product->status == '1')
                                     <button class="btn btn-sm btn-primary">Enabled</button>
                                 @else
@@ -70,9 +69,9 @@
                                         <img src="{{asset('images/products/thumb/'.$item->image.'')}}" alt="..." />
                                     </a>
                                     @endif
-                                @endforeach                  
+                                @endforeach
                             </div>
-                        </div>                    
+                        </div>
                     @endif
 
                     @if (isset($product->sizes))
@@ -96,10 +95,10 @@
                                         <td>{{$item->price}}</td>
                                         <td>{{$item->stock}}</td>
                                     </tr>
-                                @endforeach                            
+                                @endforeach
                             </tbody>
                             </table>
-                        </div>                    
+                        </div>
                     @endif
 
                     @if (isset($product->productColors))
@@ -119,10 +118,10 @@
                                         <td>{{$item->color->name}}</td>
                                         <td><div style="background-color:{{$item->color->color}}; height:10px;"></div></td>
                                     </tr>
-                                @endforeach                            
+                                @endforeach
                             </tbody>
                             </table>
-                        </div>                    
+                        </div>
                     @endif
                     @if (!empty($product->size_chart))
                     <div class="col-md-12">
@@ -131,7 +130,6 @@
                             <img src="{{asset('images/products/'.$product->size_chart.'')}}" alt="..." style="height: 400px;"/>
                         </div>
                     </div>
-                        
                     @endif
                     <div class="col-md-12">
                         <div class="product_price">
@@ -145,7 +143,6 @@
                                 <p>{!!$product->description!!}</p>
                         </div>
                     </div>
-                
                 @endif
                 <div class="col-md-12">
                     <button class="btn btn-danger" onclick="window.close();">Close Window</button>

@@ -25,7 +25,7 @@
     <link href="{{asset('admin/vendors/nprogress/nprogress.css')}}" rel="stylesheet">
     <!-- iCheck -->
     <link href="{{asset('admin/vendors/iCheck/skins/flat/green.css')}}" rel="stylesheet">
-  
+
     <!-- bootstrap-progressbar -->
     <link href="{{asset('admin/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css')}}" rel="stylesheet">
     <!-- JQVMap -->
@@ -41,7 +41,7 @@
     <link href="{{asset('admin/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css')}}" rel="stylesheet">
 
     {{-- pnotify --}}
-    
+
    {{--  <link href="{{asset('admin/src_files/vendors/pnotify/dist/pnotify.css')}}" rel="stylesheet">
     <link href="{{asset('admin/src_files/vendors/pnotify/dist/pnotify.buttons.css')}}" rel="stylesheet">
     <link href="{{asset('admin/src_files/vendors/pnotify/dist/pnotify.nonblock.css')}}" rel="stylesheet"> --}}
@@ -71,7 +71,7 @@
               </div> --}}
               <div class="profile_info">
                 <span>Welcome,<b>Admin</b></span>
-                
+
               </div>
             </div>
             <!-- /menu profile quick info -->
@@ -91,11 +91,19 @@
                       {{-- <li class="sub_menu"><a href="{{route('admin.retailer_list')}}">Retailer List</a></li> --}}
                     </ul>
                   </li>
-				  
+
                   <li><a><i class="fa fa-product-hunt" aria-hidden="true"></i> Products <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li class="sub_menu"><a href="{{route('admin.product_add_form')}}">Add New Product</a></li>
                       <li class="sub_menu"><a href="{{route('admin.list_product')}}">Product List</a></li>
+                      <li class="sub_menu"><a href="{{route('admin.popular_product_list')}}">Popular Product List</a></li>
+                    </ul>
+                  </li>
+
+                  <li><a><i class="fa fa-first-order" aria-hidden="true"></i> Orders <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li class="sub_menu"><a href="{{route('admin.order_list')}}">Orders</a></li>
+                      <li class="sub_menu"><a href="{{route('admin.refund_order_list')}}">Refund List</a></li>
                     </ul>
                   </li>
 
@@ -114,21 +122,14 @@
                       <li class="sub_menu"><a href="{{route('admin.size_list')}}">Size List</a></li>
                       <li class="sub_menu"><a href="{{route('admin.coupon_list')}}">Coupon List</a></li>
                       <li class="sub_menu"><a href="{{route('admin.charges_list')}}">Charges List</a></li>
+                      <li class="sub_menu"><a href="{{route('admin.invoice_form')}}">Invoice Setting</a></li>
                     </ul>
                   </li>
                   <li><a><i class="fa fa-image" aria-hidden="true"></i> Slider <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li class="sub_menu"><a href="{{route('admin.app_slider_list')}}">App Slider</a></li>
                       <li class="sub_menu"><a href="{{route('admin.web_slider_list')}}">Web Slider</a></li>
-                      
-                    </ul>
-                  </li>
 
-                  <li><a><i class="fa fa-first-order" aria-hidden="true"></i> Orders <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      {{-- <li class="sub_menu"><a href="{{route('admin.order_list')}}">New Orders</a></li> --}}
-                      <li class="sub_menu"><a href="#">Accepted Orders</a></li>
-                      <li class="sub_menu"><a href="#">Delivered Orders</a></li>
                     </ul>
                   </li>
 

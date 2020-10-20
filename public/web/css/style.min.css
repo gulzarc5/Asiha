@@ -12375,7 +12375,7 @@ only screen and (max-width:767px) {
 }
 
 .product-variations table tbody tr td.label {
-    width: 160px;
+    width: 100px;
     padding-right: 40px
 }
 

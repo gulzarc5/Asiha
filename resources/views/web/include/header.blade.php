@@ -55,7 +55,13 @@
                         <ul>
                             <li><a href="#"><i class="fa fa-phone" style="transform: rotate(90deg);"></i>(+91) 77045 10101</a></li>
                             <li><a target="_blank" href="https://goo.gl/maps/gW65xccpcVNx51N69"><i class="fa fa-map-marker-alt"></i>Google Map Location</a></li>
-                            <li><a href="#">Logout</a></li>
+                            @auth('user')
+                            <li><a href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();"><span class="menu-text"><i class="fal fa-user"></i> Logout</span></a>
+                            </li>
+                            <form id="logout-form" action="{{ route('web.logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                            @endauth
                         </ul>
                     </div>
                 </div>
@@ -76,76 +82,110 @@
                     </div>
                 </div>
                 <!-- Header Logo End -->
-
-                <!-- Search Start -->
+                @php
+                    $user_data= null;
+                    $category = $header_data['category'];
+                    $wishlist_cnt = 0;
+                    $cart_cnt = 0;
+                @endphp
+                @auth('user')
+                    @php
+                        $user_data = $header_data['user_data'];
+                        $wishlist_cnt = $header_data['wishlist_cnt'];
+                        $cart_cnt = $header_data['cart_cnt'];
+                    @endphp
+                @endauth
+                <!-- ====================================Main Header Menu Start  ========================== -->
                 <div class="col-auto mr-auto">
                     <nav class="site-main-menu site-main-menu-left menu-height-100 justify-content-center">
                         <ul>
+
                             <li><a href="{{route('web.index')}}"><span class="menu-text">Home</span></a></li>
                             @foreach($category as $items)
                                 @if($items->status==1)
-                                <li class="has-children"><a href="#"><span class="menu-text">{{$items->name}}</span></a>
-                                    @if($items->is_sub_category==2)
-                                    @php
-                                        $sub_category = $items->subCategory;
-                                    @endphp
-                                    <ul class="sub-menu mega-menu">
-                                        @if(!empty($sub_category))
+                                    <li class="has-children"><a href="#"><span class="menu-text">{{$items->name}}</span></a>
+                                        @if($items->is_sub_category==2)
+                                            @php
+                                                $sub_category = $items->subCategory;
+                                            @endphp
+                                            <ul class="sub-menu mega-menu">
+                                                @if(!empty($sub_category))
 
-                                        @foreach($sub_category as $sub_cat)
-                                            @if($sub_cat->status == 1)
-                                            <li>
-                                                <a href="#" class="mega-menu-title"><span class="menu-text">{{$sub_cat->name}}</span></a>
-                                                @if($items->is_sub_category==2)
-                                                @php
-                                                    $third_cat = $sub_cat->thirdCategory;
-                                                @endphp
-                                                <ul>
-                                                    @if(!empty($third_cat))
-                                                        @foreach($third_cat as $thirdlevel)
-                                                            @if($thirdlevel->status==1)
-                                                                <li><a href="elements-products.html"><span class="menu-text">{{$thirdlevel->name}}</span></a></li>
+                                                @foreach($sub_category as $sub_cat)
+                                                    @if($sub_cat->status == 1)
+                                                        <li>
+                                                            @if($sub_cat->is_sub_category==2)
+                                                                <a href="#" class="mega-menu-title"><span class="menu-text">{{$sub_cat->name}}</span></a>
+                                                                @php
+                                                                    $third_cat = $sub_cat->thirdCategory;
+                                                                @endphp
+                                                                <ul>
+                                                                    @if(!empty($third_cat))
+                                                                        @foreach($third_cat as $thirdlevel)
+                                                                            @if($thirdlevel->status==1)
+                                                                                <li><a href="{{route('web.product_list',['cat_slug'=>"$thirdlevel->slug",'category_id'=>$thirdlevel->id,'type' => 3])}}"><span class="menu-text">{{$thirdlevel->name}}</span></a></li>
+                                                                            @endif
+                                                                        @endforeach
+                                                                    @endif
+                                                                </ul>
+                                                            @else
+                                                                <a href="{{route('web.product_list',['cat_slug'=>"$sub_cat->slug",'category_id'=>$sub_cat->id,'type' => 2])}}" class="mega-menu-title"><span class="menu-text">{{$sub_cat->name}}</span></a>
                                                             @endif
-                                                        @endforeach
+                                                        </li>
                                                     @endif
-                                                </ul>
+                                                @endforeach
                                                 @endif
-                                            </li>
-                                            @endif
-                                        @endforeach
+                                            </ul>
                                         @endif
-                                    </ul>
-
-                                    @endif
-                                </li>
+                                    </li>
                                 @endif
                             @endforeach
-                            <li class="has-children"><a href="#"><span class="menu-text"><i class="fal fa-user"></i> Login/Register</span></a>
-                                <ul class="sub-menu">
-                                    <li><a href="{{route('web.login')}}"><span class="ti-unlock" style="padding-right: 10px;"></span><span class="menu-text">Login</span></a></li>
-                                    <li><a href="{{route('web.register')}}"><span class="ti-user" style="padding-right: 10px;"></span><span class="menu-text">Register</span></a></li>
-                                </ul>
-                            </li>
-                            <li><a href="{{route('web.profile.dashboard')}}"><span class="menu-text"><i class="fa fa-user"></i> Hello, <b>Vishal</b></span></a> </li>
+
+
+                            @auth('user')
+                                @php
+                                    $first_name = explode(" ",$user_data->name);
+                                @endphp
+                                <li><a href="{{route('web.dashboard')}}"><span class="menu-text"><i class="fa fa-user"></i> Hello, <b>{{$first_name[0]}}</b></span></a> </li>
+                            @else
+                                <li class="has-children"><a href="#"><span class="menu-text"><i class="fal fa-user"></i> Login/Register</span></a>
+                                    <ul class="sub-menu">
+                                        <li><a href="{{route('web.login_form')}}"><span class="ti-unlock" style="padding-right: 10px;"></span><span class="menu-text">Login</span></a></li>
+                                        <li><a href="{{route('web.register_form')}}"><span class="ti-user" style="padding-right: 10px;"></span><span class="menu-text">Register</span></a></li>
+                                    </ul>
+                                </li>
+                            @endauth
                         </ul>
                     </nav>
                 </div>
-                <!-- Search End -->
-
+                <!-- ======================================- Main Header Menu End ================================== -->
                 <!-- Header Tools Start -->
+                @auth('user')
                 <div class="col-auto">
                     <div class="header-tools justify-content-end">
                         <div class="header-search d-none d-sm-block">
                             <a href="#offcanvas-search" class="offcanvas-toggle"><i class="fal fa-search"></i></a>
                         </div>
                         <div class="header-wishlist">
-                            <a href="{{route('web.wishlist.wishlist')}}"><span class="wishlist-count">3</span><i class="fal fa-heart"></i></a>
+                            <a href="{{route('web.wishlist')}}"><span class="wishlist-count">{{$wishlist_cnt}}</span><i class="fal fa-heart"></i></a>
                         </div>
                         <div class="header-cart">
-                            <a href="{{route('web.cart.cart')}}"><span class="cart-count">3</span><i class="fal fa-shopping-cart"></i></a>
+                            <a href="{{route('web.view_cart')}}"><span class="cart-count">{{$cart_cnt}}</span><i class="fal fa-shopping-cart"></i></a>
                         </div>
                     </div>
                 </div>
+                @else
+                    <div class="col-auto">
+                        <div class="header-tools justify-content-end">
+                            <div class="header-search d-none d-sm-block">
+                                <a href="#offcanvas-search" class="offcanvas-toggle"><i class="fal fa-search"></i></a>
+                            </div>
+                            <div class="header-cart">
+                                <a href="{{route('web.view_cart')}}"><span class="cart-count">{{$cart_cnt}}</span><i class="fal fa-shopping-cart"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                @endauth
                 <!-- Header Tools End -->
 
             </div>
@@ -167,7 +207,7 @@
                 </div>
                 <!-- Header Logo End -->
 
-                <!-- Search Start -->
+                <!-- =======================================Sticky top Menu Start============================================== -->
                 <div class="col-auto mr-auto d-none d-xl-block">
                     <nav class="site-main-menu site-main-menu-left justify-content-center">
                         <ul>
@@ -184,151 +224,62 @@
                                                     @foreach($sub_category as $sub_cat)
                                                         @if($sub_cat->status == 1)
                                                             <li>
+                                                                @if($sub_cat->is_sub_category==2)
                                                                 <a href="#" class="mega-menu-title"><span class="menu-text">{{$sub_cat->name}}</span></a>
-                                                                @if($items->is_sub_category==2)
-                                                                @php
-                                                                    $third_cat = $sub_cat->thirdCategory;
-                                                                @endphp
-                                                                <ul>
-                                                                @if(!empty($third_cat))
-                                                                    @foreach($third_cat as $thirdlevel)
-                                                                        @if($thirdlevel->status==1)
-                                                                            <li><a href="elements-products.html"><span class="menu-text">{{$thirdlevel->name}}</span></a></li>
-                                                                        @endif
-                                                                    @endforeach
-                                                                @endif
-                                                                </ul>
+                                                                    @php
+                                                                        $third_cat = $sub_cat->thirdCategory;
+                                                                    @endphp
+                                                                    <ul>
+                                                                    @if(!empty($third_cat))
+                                                                        @foreach($third_cat as $thirdlevel)
+                                                                            @if($thirdlevel->status==1)
+                                                                                <li><a href="{{route('web.product_list',['cat_slug'=>"$thirdlevel->slug",'category_id'=>$thirdlevel->id,'type' => 3])}}"><span class="menu-text">{{$thirdlevel->name}}</span></a></li>
+                                                                            @endif
+                                                                        @endforeach
+                                                                    @endif
+                                                                    </ul>
+                                                                @else
+                                                                    <a href="{{route('web.product_list',['cat_slug'=>"$sub_cat->slug",'category_id'=>$sub_cat->id,'type' => 2])}}" class="mega-menu-title"><span class="menu-text">{{$sub_cat->name}}</span></a>
                                                                 @endif
                                                             </li>
                                                         @endif
                                                     @endforeach
                                                 @endif
-                                                {{-- <li>
-                                                    <a href="#" class="mega-menu-title"><span class="menu-text">Bottomwear</span></a>
-                                                    <ul>
-                                                        <li><a href="elements-category-banner.html"><span class="menu-text">Category Banner</span></a></li>
-                                                        <li><a href="elements-team.html"><span class="menu-text">Team Member</span></a></li>
-                                                        <li><a href="elements-testimonials.html"><span class="menu-text">Testimonials</span></a></li>
-                                                    </ul>
-                                                </li>
-                                                <li>
-                                                    <a href="#" class="mega-menu-title"><span class="menu-text">Accessories</span></a>
-                                                    <ul>
-                                                        <li><a href="elements-instagram.html"><span class="menu-text">Instagram</span></a></li>
-                                                        <li><a href="elements-map.html"><span class="menu-text">Google Map</span></a></li>
-                                                        <li><a href="elements-icon-box.html"><span class="menu-text">Icon Box</span></a></li>
-                                                    </ul>
-                                                </li>
-                                                <li>
-                                                    <a href="#" class="mega-menu-title"><span class="menu-text">Others</span></a>
-                                                    <ul>
-                                                        <li><a href="elements-buttons.html"><span class="menu-text">Buttons</span></a></li>
-                                                        <li><a href="elements-faq.html"><span class="menu-text">FAQs / Toggles</span></a></li>
-                                                        <li><a href="elements-brands.html"><span class="menu-text">Brands</span></a></li>
-                                                    </ul>
-                                                </li> --}}
                                             </ul>
                                         @endif
                                     </li>
                                 @endif
                             @endforeach
 
-                            {{-- <li class="has-children"><a href="#"><span class="menu-text">Women</span></a>
-                                <ul class="sub-menu mega-menu">
-                                    <li>
-                                        <a href="#" class="mega-menu-title"><span class="menu-text">Topwear</span></a>
-                                        <ul>
-                                            <li><a href="elements-products.html"><span class="menu-text">Product Styles</span></a></li>
-                                            <li><a href="elements-products-tabs.html"><span class="menu-text">Product Tabs</span></a></li>
-                                            <li><a href="elements-product-sale-banner.html"><span class="menu-text">Product & Sale Banner</span></a></li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="mega-menu-title"><span class="menu-text">Bottomwear</span></a>
-                                        <ul>
-                                            <li><a href="elements-category-banner.html"><span class="menu-text">Category Banner</span></a></li>
-                                            <li><a href="elements-team.html"><span class="menu-text">Team Member</span></a></li>
-                                            <li><a href="elements-testimonials.html"><span class="menu-text">Testimonials</span></a></li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="mega-menu-title"><span class="menu-text">Accessories</span></a>
-                                        <ul>
-                                            <li><a href="elements-instagram.html"><span class="menu-text">Instagram</span></a></li>
-                                            <li><a href="elements-map.html"><span class="menu-text">Google Map</span></a></li>
-                                            <li><a href="elements-icon-box.html"><span class="menu-text">Icon Box</span></a></li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="mega-menu-title"><span class="menu-text">Others</span></a>
-                                        <ul>
-                                            <li><a href="elements-buttons.html"><span class="menu-text">Buttons</span></a></li>
-                                            <li><a href="elements-faq.html"><span class="menu-text">FAQs / Toggles</span></a></li>
-                                            <li><a href="elements-brands.html"><span class="menu-text">Brands</span></a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="has-children"><a href="#"><span class="menu-text">Kids</span></a>
-                                <ul class="sub-menu mega-menu">
-                                    <li>
-                                        <a href="#" class="mega-menu-title"><span class="menu-text">Topwear</span></a>
-                                        <ul>
-                                            <li><a href="elements-products.html"><span class="menu-text">Product Styles</span></a></li>
-                                            <li><a href="elements-products-tabs.html"><span class="menu-text">Product Tabs</span></a></li>
-                                            <li><a href="elements-product-sale-banner.html"><span class="menu-text">Product & Sale Banner</span></a></li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="mega-menu-title"><span class="menu-text">Bottomwear</span></a>
-                                        <ul>
-                                            <li><a href="elements-category-banner.html"><span class="menu-text">Category Banner</span></a></li>
-                                            <li><a href="elements-team.html"><span class="menu-text">Team Member</span></a></li>
-                                            <li><a href="elements-testimonials.html"><span class="menu-text">Testimonials</span></a></li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="mega-menu-title"><span class="menu-text">Accessories</span></a>
-                                        <ul>
-                                            <li><a href="elements-instagram.html"><span class="menu-text">Instagram</span></a></li>
-                                            <li><a href="elements-map.html"><span class="menu-text">Google Map</span></a></li>
-                                            <li><a href="elements-icon-box.html"><span class="menu-text">Icon Box</span></a></li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="mega-menu-title"><span class="menu-text">Others</span></a>
-                                        <ul>
-                                            <li><a href="elements-buttons.html"><span class="menu-text">Buttons</span></a></li>
-                                            <li><a href="elements-faq.html"><span class="menu-text">FAQs / Toggles</span></a></li>
-                                            <li><a href="elements-brands.html"><span class="menu-text">Brands</span></a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li> --}}
-
-                            <li class="has-children"><a href="#"><span class="menu-text"><i class="fal fa-user"></i> Login/Register</span></a>
-                                <ul class="sub-menu">
-                                    <li><a href="{{route('web.login')}}"><span class="menu-text">Login</span></a></li>
-                                    <li><a href="{{route('web.register')}}"><span class="menu-text">Register</span></a></li>
-                                </ul>
-                            </li>
-                            <li><a href="dashboard.php"><span class="menu-text"><i class="fa fa-user"></i> Hello, <b>Vishal</b></span></a> </li>
+                            @auth('user')
+                                <li><a href="{{route('web.dashboard')}}"><span class="menu-text"><i class="fa fa-user"></i> Hello, <b>{{$first_name[0]}}</b></span></a> </li>
+                            @else
+                                <li class="has-children"><a href="#"><span class="menu-text"><i class="fal fa-user"></i> Login/Register</span></a>
+                                    <ul class="sub-menu">
+                                        <li><a href="{{route('web.login_form')}}"><span class="ti-unlock" style="padding-right: 10px;"></span><span class="menu-text">Login</span></a></li>
+                                        <li><a href="{{route('web.register_form')}}"><span class="ti-user" style="padding-right: 10px;"></span><span class="menu-text">Register</span></a></li>
+                                    </ul>
+                                </li>
+                            @endauth
                         </ul>
                     </nav>
                 </div>
-                <!-- Search End -->
+                <!-- ======================================Sticky top Menu End=============================================== -->
 
                 <!-- Header Tools Start -->
+
                 <div class="col-auto">
                     <div class="header-tools justify-content-end">
                         <div class="header-search d-none d-sm-block">
                             <a href="#offcanvas-search" class="offcanvas-toggle"><i class="fal fa-search"></i></a>
                         </div>
+                        @auth('user')
                         <div class="header-wishlist d-none d-sm-block">
-                            <a href="{{route('web.wishlist.wishlist')}}" class="offcanvas-toggle"><span class="wishlist-count">3</span><i class="fal fa-heart"></i></a>
+                            <a href="{{route('web.wishlist')}}" class="offcanvas-toggle"><span class="wishlist-count">{{$wishlist_cnt}}</span><i class="fal fa-heart"></i></a>
                         </div>
+                        @endauth
                         <div class="header-cart">
-                            <a href="{{route('web.cart.cart')}}" class="offcanvas-toggle"><span class="cart-count">3</span><i class="fal fa-shopping-cart"></i></a>
+                            <a href="{{route('web.view_cart')}}" class="offcanvas-toggle"><span class="cart-count">{{$cart_cnt}}</span><i class="fal fa-shopping-cart"></i></a>
                         </div>
                         <div class="mobile-menu-toggle d-xl-none">
                             <a href="#" class="offcanvas-toggle">
@@ -366,16 +317,16 @@
                 <div class="col-auto">
                     <div class="header-tools justify-content-end">
                         <div class="header-login d-none d-sm-block">
-                            <a href="{{route('web.profile.dashboard')}}"><i class="fal fa-user"></i></a>
+                            <a href="{{route('web.dashboard')}}"><i class="fal fa-user"></i></a>
                         </div>
                         <div class="header-search d-none d-sm-block">
                             <a href="#offcanvas-search" class="offcanvas-toggle"><i class="fal fa-search"></i></a>
                         </div>
                         <div class="header-wishlist d-none d-sm-block">
-                            <a href="{{route('web.wishlist.wishlist')}}"><span class="wishlist-count">3</span><i class="fal fa-heart"></i></a>
+                            <a href="{{route('web.wishlist')}}"><span class="wishlist-count">3</span><i class="fal fa-heart"></i></a>
                         </div>
                         <div class="header-cart">
-                            <a href="{{route('web.cart.cart')}}"><span class="cart-count">3</span><i class="fal fa-shopping-cart"></i></a>
+                            <a href="{{route('web.view_cart')}}"><span class="cart-count">3</span><i class="fal fa-shopping-cart"></i></a>
                         </div>
                         <div class="mobile-menu-toggle">
                             <a href="#offcanvas-mobile-menu" class="offcanvas-toggle">
@@ -409,19 +360,22 @@
                 <!-- Header Logo End -->
 
                 <!-- Header Tools Start -->
+
                 <div class="col-auto">
                     <div class="header-tools justify-content-end">
                         <div class="header-login d-none d-sm-block">
-                            <a href="{{route('web.profile.dashboard')}}"><i class="fal fa-user"></i></a>
+                            <a href="{{route('web.dashboard')}}"><i class="fal fa-user"></i></a>
                         </div>
                         <div class="header-search d-none d-sm-block">
                             <a href="#offcanvas-search" class="offcanvas-toggle"><i class="fal fa-search"></i></a>
                         </div>
-                        <div class="header-wishlist d-none d-sm-block">
-                            <a href="{{route('web.wishlist.wishlist')}}"><span class="wishlist-count">3</span><i class="fal fa-heart"></i></a>
-                        </div>
+                        @auth('user')
+                            <div class="header-wishlist d-none d-sm-block">
+                                <a href="{{route('web.wishlist')}}"><span class="wishlist-count">{{$wishlist_cnt}}</span><i class="fal fa-heart"></i></a>
+                            </div>
+                        @endauth
                         <div class="header-cart">
-                            <a href="{{route('web.cart.cart')}}"><span class="cart-count">3</span><i class="fal fa-shopping-cart"></i></a>
+                            <a href="{{route('web.view_cart')}}"><span class="cart-count">{{$cart_cnt}}</span><i class="fal fa-shopping-cart"></i></a>
                         </div>
                         <div class="mobile-menu-toggle">
                             <a href="#offcanvas-mobile-menu" class="offcanvas-toggle">
@@ -470,7 +424,7 @@
     </div>
     <!-- OffCanvas Search End -->
 
-    <!-- OffCanvas Search Start -->
+    <!-- Mobile Search Start -->
     <div id="offcanvas-mobile-menu" class="offcanvas offcanvas-mobile-menu">
         <div class="inner customScroll">
             <div class="offcanvas-menu-search-form">
@@ -482,148 +436,80 @@
             <div class="offcanvas-menu">
                 <ul>
                     <li><a href="{{route('web.index')}}"><span class="menu-text">Home</span></a></li>
-                    <li><a href="#"><span class="menu-text">Men</span></a>
-                        <ul class="sub-menu">
-                            <li>
-                                <a href="#"><span class="menu-text">Home Group</span></a>
+                    @foreach($category as $items)
+                        @if($items->status==1)
+                            <li><a href="#"><span class="menu-text">{{$items->name}}</span></a>
+                                @if($items->is_sub_category==2)
+                                @php
+                                    $sub_category = $items->subCategory;
+                                @endphp
+
                                 <ul class="sub-menu">
-                                    <li><a href="index.html"><span class="menu-text">Arts Propelled</span></a></li>
-                                    <li><a href="index-2.html"><span class="menu-text">Decor Thriving</span></a></li>
-                                    <li><a href="index-3.html"><span class="menu-text">Savvy Delight</span></a></li>
-                                    <li><a href="index-4.html"><span class="menu-text">Perfect Escapes</span></a></li>
+                                    @if(!empty($sub_category))
+                                        @foreach($sub_category as $sub_cat)
+                                            @if($sub_cat->status == 1)
+                                            <li>
+                                                @if($sub_cat->is_sub_category==2)
+                                                <a href="#"><span class="menu-text">{{$sub_cat->name}}</span></a>
+                                                @php
+                                                    $third_cat = $sub_cat->thirdCategory;
+                                                @endphp
+                                                <ul class="sub-menu">
+                                                    @if(!empty($third_cat))
+                                                        @foreach($third_cat as $thirdlevel)
+                                                            @if($thirdlevel->status==1)
+                                                            <li><a href="{{route('web.product_list',['cat_slug'=>"$thirdlevel->slug",'category_id'=>$thirdlevel->id,'type' => 3])}}"><span class="menu-text">{{$thirdlevel->name}}</span></a></li>
+                                                            @endif
+                                                        @endforeach
+                                                    @endif
+                                                </ul>
+                                                @else
+                                                    <a href="{{route('web.product_list',['cat_slug'=>"$sub_cat->slug",'category_id'=>$sub_cat->id,'type' => 2])}}" class="mega-menu-title"><span class="menu-text">{{$sub_cat->name}}</span></a>
+                                                @endif
+                                            </li>
+                                            @endif
+                                        @endforeach
+                                    @endif
+
                                 </ul>
+                                @endif
                             </li>
-                            <li>
-                                <a href="#"><span class="menu-text">Home Group</span></a>
-                                <ul class="sub-menu">
-                                    <li><a href="index-5.html"><span class="menu-text">Kitchen Cozy</span></a></li>
-                                    <li><a href="index-6.html"><span class="menu-text">Dreamy Designs</span></a></li>
-                                    <li><a href="index-7.html"><span class="menu-text">Crispy Recipes</span></a></li>
-                                    <li><a href="index-8.html"><span class="menu-text">Decoholic Chic</span></a></li>
-                                </ul>
+                        @endif
+                    @endforeach
+                    @auth('user')
+                        <li><a href="{{route('web.dashboard')}}"><span class="menu-text"><i class="fa fa-user"></i> Hello, <b>{{$first_name[0]}}</b></span></a> </li>
+                        @auth('user')
+                            <li><a href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();"><span class="menu-text"><i class="fal fa-user"></i> Logout</span></a>
                             </li>
-                            <li>
-                                <a href="#"><span class="menu-text">Home Group</span></a>
-                                <ul class="sub-menu">
-                                    <li><a href="index-9.html"><span class="menu-text">Reblended Dish</span></a></li>
-                                    <li><a href="index-10.html"><span class="menu-text">Craftin House</span></a></li>
-                                    <li><a href="index-11.html"><span class="menu-text">Craftswork Biz</span></a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li><a href="#"><span class="menu-text">Women</span></a>
-                        <ul class="sub-menu">
-                            <li>
-                                <a href="#"><span class="menu-text">Home Group</span></a>
-                                <ul class="sub-menu">
-                                    <li><a href="index.html"><span class="menu-text">Arts Propelled</span></a></li>
-                                    <li><a href="index-2.html"><span class="menu-text">Decor Thriving</span></a></li>
-                                    <li><a href="index-3.html"><span class="menu-text">Savvy Delight</span></a></li>
-                                    <li><a href="index-4.html"><span class="menu-text">Perfect Escapes</span></a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#"><span class="menu-text">Home Group</span></a>
-                                <ul class="sub-menu">
-                                    <li><a href="index-5.html"><span class="menu-text">Kitchen Cozy</span></a></li>
-                                    <li><a href="index-6.html"><span class="menu-text">Dreamy Designs</span></a></li>
-                                    <li><a href="index-7.html"><span class="menu-text">Crispy Recipes</span></a></li>
-                                    <li><a href="index-8.html"><span class="menu-text">Decoholic Chic</span></a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#"><span class="menu-text">Home Group</span></a>
-                                <ul class="sub-menu">
-                                    <li><a href="index-9.html"><span class="menu-text">Reblended Dish</span></a></li>
-                                    <li><a href="index-10.html"><span class="menu-text">Craftin House</span></a></li>
-                                    <li><a href="index-11.html"><span class="menu-text">Craftswork Biz</span></a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li><a href="#"><span class="menu-text">Kids</span></a>
-                        <ul class="sub-menu">
-                            <li>
-                                <a href="#"><span class="menu-text">Home Group</span></a>
-                                <ul class="sub-menu">
-                                    <li><a href="index.html"><span class="menu-text">Arts Propelled</span></a></li>
-                                    <li><a href="index-2.html"><span class="menu-text">Decor Thriving</span></a></li>
-                                    <li><a href="index-3.html"><span class="menu-text">Savvy Delight</span></a></li>
-                                    <li><a href="index-4.html"><span class="menu-text">Perfect Escapes</span></a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#"><span class="menu-text">Home Group</span></a>
-                                <ul class="sub-menu">
-                                    <li><a href="index-5.html"><span class="menu-text">Kitchen Cozy</span></a></li>
-                                    <li><a href="index-6.html"><span class="menu-text">Dreamy Designs</span></a></li>
-                                    <li><a href="index-7.html"><span class="menu-text">Crispy Recipes</span></a></li>
-                                    <li><a href="index-8.html"><span class="menu-text">Decoholic Chic</span></a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#"><span class="menu-text">Home Group</span></a>
-                                <ul class="sub-menu">
-                                    <li><a href="index-9.html"><span class="menu-text">Reblended Dish</span></a></li>
-                                    <li><a href="index-10.html"><span class="menu-text">Craftin House</span></a></li>
-                                    <li><a href="index-11.html"><span class="menu-text">Craftswork Biz</span></a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li><a href="#"><span class="menu-text">Electronics</span></a>
-                        <ul class="sub-menu">
-                            <li>
-                                <a href="#"><span class="menu-text">Home Group</span></a>
-                                <ul class="sub-menu">
-                                    <li><a href="index.html"><span class="menu-text">Arts Propelled</span></a></li>
-                                    <li><a href="index-2.html"><span class="menu-text">Decor Thriving</span></a></li>
-                                    <li><a href="index-3.html"><span class="menu-text">Savvy Delight</span></a></li>
-                                    <li><a href="index-4.html"><span class="menu-text">Perfect Escapes</span></a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#"><span class="menu-text">Home Group</span></a>
-                                <ul class="sub-menu">
-                                    <li><a href="index-5.html"><span class="menu-text">Kitchen Cozy</span></a></li>
-                                    <li><a href="index-6.html"><span class="menu-text">Dreamy Designs</span></a></li>
-                                    <li><a href="index-7.html"><span class="menu-text">Crispy Recipes</span></a></li>
-                                    <li><a href="index-8.html"><span class="menu-text">Decoholic Chic</span></a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#"><span class="menu-text">Home Group</span></a>
-                                <ul class="sub-menu">
-                                    <li><a href="index-9.html"><span class="menu-text">Reblended Dish</span></a></li>
-                                    <li><a href="index-10.html"><span class="menu-text">Craftin House</span></a></li>
-                                    <li><a href="index-11.html"><span class="menu-text">Craftswork Biz</span></a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
+                            <form id="logout-form" action="{{ route('web.logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                            @endauth
+                    @else
                     <li><a href="#"><span class="menu-text"><i class="fal fa-user"></i> Login/Register</span></a>
                         <ul class="sub-menu">
-                            <li><a href="{{route('web.login')}}"><span class="ti-unlock" style="padding-right: 10px;"></span><span class="menu-text">Login</span></a></li>
-                            <li><a href="{{route('web.register')}}"><span class="ti-user" style="padding-right: 10px;"></span><span class="menu-text">Register</span></a></li>
+                            <li><a href="{{route('web.login_form')}}"><span class="ti-unlock" style="padding-right: 10px;"></span><span class="menu-text">Login</span></a></li>
+                            <li><a href="{{route('web.register_form')}}"><span class="ti-user" style="padding-right: 10px;"></span><span class="menu-text">Register</span></a></li>
                         </ul>
                     </li>
-                    <li><a href="{{route('web.profile.dashboard')}}"><span class="menu-text"><i class="fa fa-user"></i> Hello, <b>Vishal</b></span></a> </li>
+                    @endauth
                 </ul>
             </div>
-            <div class="offcanvas-buttons">
-                <div class="header-tools">
-                    <div class="header-login">
-                        <a href="{{route('web.profile.dashboard')}}"><i class="fal fa-user"></i></a>
-                    </div>
-                    <div class="header-wishlist">
-                        <a href="{{route('web.wishlist.wishlist')}}"><span>3</span><i class="fal fa-heart"></i></a>
-                    </div>
-                    <div class="header-cart">
-                        <a href="{{route('web.cart.cart')}}"><span class="cart-count">3</span><i class="fal fa-shopping-cart"></i></a>
+            @auth('user')
+                <div class="offcanvas-buttons">
+                    <div class="header-tools">
+                        <div class="header-login">
+                            <a href="{{route('web.dashboard')}}"><i class="fal fa-user"></i></a>
+                        </div>
+                        <div class="header-wishlist">
+                            <a href="{{route('web.wishlist')}}"><span>{{$wishlist_cnt}}</span><i class="fal fa-heart"></i></a>
+                        </div>
+                        <div class="header-cart">
+                            <a href="{{route('web.view_cart')}}"><span class="cart-count">{{$cart_cnt}}</span><i class="fal fa-shopping-cart"></i></a>
+                        </div>
                     </div>
                 </div>
-            </div>
+            @endauth
             <div class="offcanvas-social">
                 <a href="#"><i class="fab fa-facebook-f"></i></a>
                 <a href="#"><i class="fab fa-twitter"></i></a>

@@ -18,48 +18,23 @@
                         </tr>
                     </thead>
                     <tbody class="pattern-bg">
-                        <tr>
-                            <td class="thumbnail"><a href="{{route('web.product.product-detail')}}"><img src="{{asset('web/images/product/s328/product-1.jpg')}}"></a></td>
-                            <td class="name"> <a href="{{route('web.product.product-detail')}}">Walnut Cutting Board</a></td>
-                            <td class="product-info">
-                                <span class="price">
-                                    <span class="old">$45.00</span>
-                                    <span class="new">$39.00</span>
-                                </span>
-                            </td>
-                            <td class="remove text-center">
-                                <a href="#" class="btn-light btn-outline-dark btn-sm">Remove</a>
-                                <a href="{{route('web.cart.cart')}}" class="btn-primary btn-sm">Add to cart</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="thumbnail"><a href="{{route('web.product.product-detail')}}"><img src="{{asset('web/images/product/s328/product-2.jpg')}}"></a></td>
-                            <td class="name"> <a href="{{route('web.product.product-detail')}}">Lucky Wooden Elephant</a></td>
-                            <td class="product-info">
-                                <span class="price">
-                                    <span class="old">$45.00</span>
-                                    <span class="new">$39.00</span>
-                                </span>
-                            </td>
-                            <td class="remove text-center">
-                                <a href="#" class="btn-light btn-outline-dark btn-sm">Remove</a>
-                                <a href="{{route('web.cart.cart')}}" class="btn-primary btn-sm">Add to cart</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="thumbnail"><a href="{{route('web.product.product-detail')}}"><img src="{{asset('web/images/product/s328/product-3.jpg')}}"></a></td>
-                            <td class="name"> <a href="{{route('web.product.product-detail')}}">Fish Cut Out Set</a></td>
-                            <td class="product-info">
-                                <span class="price">
-                                    <span class="old">$45.00</span>
-                                    <span class="new">$39.00</span>
-                                </span>
-                            </td>
-                            <td class="remove text-center">
-                                <a href="#" class="btn-light btn-outline-dark btn-sm">Remove</a>
-                                <a href="{{route('web.cart.cart')}}" class="btn-primary btn-sm">Add to cart</a>
-                            </td>
-                        </tr>
+                        @foreach($wishlist as $item)
+                            <tr>
+
+                                <td class="thumbnail"><a href="{{route('web.product_detail',['slug'=>$item->product->slug,'product_id'=>$item->product_id])}}"><img src="{{asset('images/products/thumb/'.$item->product->main_image.'')}}"></a></td>
+                                <td class="name"> <a href="{{route('web.product_detail',['slug'=>$item->product->slug,'product_id'=>$item->product_id])}}">{{$item->product->name}}</a></td>
+                                <td class="product-info">
+                                    <span class="price">
+                                        <span class="old">{{$item->product->mrp}}</span>
+                                        <span class="new">{{$item->product->min_price}}</span>
+                                    </span>
+                                </td>
+                                <td class="remove text-center">
+                                    <a href="{{route('web.remove_wishlist',['product_id'=>$item->id])}}" class="btn-light btn-outline-dark btn-sm">Remove</a>
+                                    <a href="{{route('web.add_direct_cart',['product_id'=>$item->product->id])}}" class="btn-primary btn-sm">Add to cart</a>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </form>

@@ -9,7 +9,7 @@
 
     	        <div class="x_title">
                     <h2>Third Category List</h2>
-                    <a class="btn btn-sm btn-info" style="float: right" href="{{route('admin.third_category_add_form')}}">Add New Sub Category</a>
+                    <a class="btn btn-sm btn-info" style="float: right" href="{{route('admin.third_category_add_form')}}">Add New Third Category</a>
     	            <div class="clearfix"></div>
     	        </div>
     	        <div>
@@ -18,7 +18,7 @@
                           <thead>
                             <tr>
                               <th>Sl</th>
-                              <th>Name</th>                              
+                              <th>Name</th>
                               <th>Main Category</th>
                               <th>Sub Category</th>
                               <th>Image</th>
@@ -26,7 +26,7 @@
                               <th>Action</th>
                             </tr>
                           </thead>
-                          <tbody>  
+                          <tbody>
                             @if (isset($third_category) && !empty($third_category))
                             @php
                               $count=1;
@@ -60,15 +60,15 @@
                                         @else
                                           <a href="{{route('admin.third_category_status',['id'=>encrypt($item->id),'status'=>1])}}" class="btn btn-sm btn-primary">Enable</a>
                                         @endif
-                                        
+                                        <a href="{{route('admin.third_cat_images_edit',['id'=>encrypt($item->id)])}}" class="btn btn-sm btn-warning">Edit Images</a>
                                       </td>
                                     </tr>
                                 @endforeach
                             @else
                               <tr>
                                 <td colspan="6" style="text-align: center">No Sub Category Found</td>
-                              </tr>  
-                            @endif                   
+                              </tr>
+                            @endif
                           </tbody>
                         </table>
     	            </div>
@@ -82,11 +82,11 @@
  @endsection
 
 @section('script')
-     
+
      <script type="text/javascript">
          $(function () {
             var table = $('#category').DataTable();
         });
      </script>
-    
+
  @endsection

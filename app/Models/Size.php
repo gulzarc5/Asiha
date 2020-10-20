@@ -22,4 +22,9 @@ class Size extends Model
     {
         return $this->belongsTo('App\Models\SubCategory','sub_category_id',$this->primaryKey);
     }
+
+    public function productCount()
+    {
+        return $this->hasMany('App\Models\ProductSize','size_id',$this->primaryKey);
+    }
 }

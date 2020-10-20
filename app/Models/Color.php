@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
- 
 class Color extends Model
 {
 
@@ -12,8 +11,8 @@ class Color extends Model
     protected $fillable = [
         'name','color','status','category_id','sub_category_id'
     ];
-    
-    
+
+
     public function subCategory(){
         return $this->belongsTo('App\Models\Subcategory','sub_category_id',$this->primaryKey);
     }
@@ -21,6 +20,11 @@ class Color extends Model
     public function category()
     {
         return $this->belongsTo('App\Models\Category','category_id',$this->primaryKey);
+    }
+
+    public function productCount($category_id = null,$type = null)
+    {
+        return $this->hasMany('App\Models\ProductColor','color_id',$this->primaryKey);
     }
     // public function subCategory()
     // {

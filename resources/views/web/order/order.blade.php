@@ -43,46 +43,45 @@
                                     </tr>
                                 </thead>
                                 <tbody class="pattern-bg">
+                                    @foreach($orders as $order)
                                     <tr>
                                         <td class="name">
-                                            <a href="product-details.html"> Walnut Cutting Board,</a>
-                                            <a href="product-details.html"> Lucky Wooden Elephant,</a>
-                                            <a href="product-details.html"> Fish Cut Out Set</a>
+                                            @foreach($order->orderDetails as $items)
+                                                <a href="product-details.html"> {{$items->product->name}}</a>
+                                            @endforeach
                                         </td>
-                                        <td class="price"><span>Pending</span></td>
-                                        <td class="subtotal"><span>02/10/20</span></td>
-                                        <td class="subtotal"><span>₹1000</span></td>
+                                        <td class="price">
+                                            @if ($order->payment_status=='3')
+                                                <span>Payment Failed</span>
+                                            @elseif($order->order_status==1)
+                                                <span>New Order</span>
+                                            @elseif($order->order_status==2)
+                                                <span>Packed</span>
+                                            @elseif($order->order_status==3)
+                                                <span>Shipped</span>
+                                            @elseif($order->order_status==4)
+                                                <span>Delivered</span>
+                                            @elseif($order->order_status==5)
+                                                <span>Cancel</span>
+                                            @elseif($order->order_status==6)
+                                                <span>Return Request</span>
+                                            @else
+                                                <span>Returned</span>
+                                            @endif
+                                        </td>
+                                        <td class="subtotal"><span>{{ $order->created_at->format('d M Y')}}</span></td>
+                                        <td class="subtotal"><span>{{$order->total_amount}}</span></td>
                                         <td class="remove">
-                                            <a href="{{route('web.order.order-detail')}}" class="btn"><i class="fal fa-eye"></i></a>
+                                            <a href="{{route('web.order_details',['id'=>$order->id])}}" class="btn"><i class="fal fa-eye"></i></a>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td class="name">
-                                            <a href="product-details.html"> Walnut Cutting Board,</a>
-                                            <a href="product-details.html"> Fish Cut Out Set</a>
-                                        </td>
-                                        <td class="price"><span>Recevied</span></td>
-                                        <td class="subtotal"><span>02/10/20</span></td>
-                                        <td class="subtotal"><span>₹900</span></td>
-                                        <td class="remove">
-                                            <a href="{{route('web.order.order-detail')}}" class="btn"><i class="fal fa-eye"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="name">
-                                            <a href="product-details.html"> Lucky Wooden Elephant</a>
-                                        </td>
-                                        <td class="price"><span>Canceled</span></td>
-                                        <td class="subtotal"><span>02/10/20</span></td>
-                                        <td class="subtotal"><span>₹400</span></td>
-                                        <td class="remove">
-                                            <a href="{{route('web.order.order-detail')}}" class="btn"><i class="fal fa-eye"></i></a>
-                                        </td>
-                                    </tr>
+                                    @endforeach
+
+
                                 </tbody>
                             </table>
                         </div>
-                        <style>.cart-wishlist-table tbody tr td.name{display:grid; color:#ff6c62}.cart-wishlist-table tbody tr td.name a:hover {color: #ff6c62;}.price,.subtotal{text-align:center}</style>                        
+                        <style>.cart-wishlist-table tbody tr td.name{display:grid; color:#ff6c62}.cart-wishlist-table tbody tr td.name a:hover {color: #ff6c62;}.price,.subtotal{text-align:center}</style>
                         <!-- Single Tab Content End -->
 
                     </div>

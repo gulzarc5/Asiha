@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use File;
 use Image;
 use App\Models\Slider;
+use App\Models\Category;
 class SliderController extends Controller
 {
     public function appSliderList(){
@@ -19,28 +20,30 @@ class SliderController extends Controller
     }
 
     public function appSliderAddForm(){
-        return view('admin.slider.app.new_app_slider_form');
+        $category = Category::get();
+        return view('admin.slider.app.new_app_slider_form',compact('category'));
     }
 
     public function webSliderAddForm(){
-
-        return view('admin.slider.web.new_web_slider_form');
+        $category = Category::get();
+        return view('admin.slider.web.new_web_slider_form',compact('category'));
     }
 
     public function insertWebSlider(Request $request){
         $this->validate($request, [
+            'third_category'=>'required',
             'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-       
+
         $image_name = null;
-        if($request->hasfile('images')){       
+        if($request->hasfile('images')){
             $path = base_path().'/public/images/slider/web/thumb/';
             File::exists($path) or File::makeDirectory($path, 0777, true, true);
             $path_thumb = base_path().'/public/images/slider/web/thumb/';
             File::exists($path_thumb) or File::makeDirectory($path_thumb, 0777, true, true);
 
-            for ($i=0; $i < count($request->file('images')); $i++) {                     
-                $image = $request->file('images')[$i];  
+            for ($i=0; $i < count($request->file('images')); $i++) {
+                $image = $request->file('images')[$i];
                 $image_name = $i.time().date('Y-M-d').'.'.$image->getClientOriginalExtension();
 
                 //Product Original Image
@@ -53,32 +56,35 @@ class SliderController extends Controller
                 $img = Image::make($image->getRealPath());
                 $img->resize(600, 600, function ($constraint) {
                     $constraint->aspectRatio();
-                })->save($destination.'/'.$image_name); 
+                })->save($destination.'/'.$image_name);
 
-                $sliders = Slider::create([
-                    'variant_type'=>2,
-                    'slider_type'=>2,
-                    'image'=>$image_name,
-                ]);
+                $sliders = new Slider;
+                $sliders->third_category_id = $request->input('third_category');
+                $sliders->variant_type=2;
+                $sliders->slider_type=2;
+                $sliders->image=$image_name;
+                $sliders->save();
+
             }
         }
         return redirect()->back()->with('message','Slider Added Successfull');
     }
     public function insertAppSlider(Request $request){
         $this->validate($request, [
+            'third_category'=>'required',
             'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         $image_name = null;
 
-        if($request->hasfile('images')){       
+        if($request->hasfile('images')){
             $path = base_path().'/public/images/slider/app/thumb/';
             File::exists($path) or File::makeDirectory($path, 0777, true, true);
             $path_thumb = base_path().'/public/images/slider/app/thumb/';
             File::exists($path_thumb) or File::makeDirectory($path_thumb, 0777, true, true);
 
-            for ($i=0; $i < count($request->file('images')); $i++) {                     
-                $image = $request->file('images')[$i];  
+            for ($i=0; $i < count($request->file('images')); $i++) {
+                $image = $request->file('images')[$i];
                 $image_name = $i.time().date('Y-M-d').'.'.$image->getClientOriginalExtension();
 
                 //Product Original Image
@@ -91,20 +97,21 @@ class SliderController extends Controller
                 $img = Image::make($image->getRealPath());
                 $img->resize(600, 600, function ($constraint) {
                     $constraint->aspectRatio();
-                })->save($destination.'/'.$image_name); 
+                })->save($destination.'/'.$image_name);
 
-                $sliders = Slider::create([
-                    'variant_type'=>1,
-                    'slider_type'=>2,
-                    'image'=>$image_name,
-                ]);
+                $sliders = new Slider;
+                $sliders->variant_type=1;
+                $sliders->slider_type=2;
+                $sliders->image=$image_name;
+                $sliders->save();
+
             }
         }
 
         return redirect()->back()->with('message','Slider Added Successfull');
     }
-   
-    
+
+
     public function SliderStatus($id,$status)
     {
         try {
@@ -112,6 +119,7 @@ class SliderController extends Controller
         }catch(DecryptException $e) {
             return redirect()->back();
         }
+
         $category = Slider::where('id',$id)
         ->update([
             'status'=>$status,
@@ -120,12 +128,13 @@ class SliderController extends Controller
     }
 
     public function SliderDelete(Request $request,$id)
-    {   
+    {
         try {
             $id = decrypt($id);
         }catch(DecryptException $e) {
             return redirect()->back();
         }
+
             $prev_image = Slider::where('id',$id)->first();
             if($prev_image->variant_type==1){
             $prev_img_delete_path = base_path().'/public/images/slider/app/'.$prev_image->image;
@@ -156,7 +165,6 @@ class SliderController extends Controller
 
     }
 
-   
 
     public function bannerEdit($banner_id){
         try {
@@ -165,14 +173,12 @@ class SliderController extends Controller
             return redirect()->back();
         }
         $banner = Slider::where('id',$id)->first();
-        
         return view('admin.slider.app.banner_edit_form',compact('banner'));
     }
 
     public function bannerUpdate(Request $request,$id)
-    {   
+    {
         $this->validate($request, [
-            
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
         $image_name = null;
@@ -192,7 +198,6 @@ class SliderController extends Controller
             $original_path = $destination.$image_name;
             Image::make($image)->save($original_path);
 
-           
             $thumb_path = base_path().'/public/images/slider/banner/thumb/'.$image_name;
             $img = Image::make($image->getRealPath());
             $img->resize(null,400, function ($constraint) {
@@ -210,13 +215,10 @@ class SliderController extends Controller
             }
             Slider::where('id',$id)
             ->update([
-                
                 'image'=>$image_name,
-               
             ]);
-
             return redirect()->back()->with('message','Banner Updated Successfully');
-            }
+        }
     }
 
 

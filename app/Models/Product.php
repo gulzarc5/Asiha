@@ -9,7 +9,7 @@ class Product extends Model
     protected $table = 'products';
     protected $primaryKey = 'id';
     protected $fillable = [
-        'name','category_id','sub_category_id','last_category_id','brand_id','main_image','min_price','mrp','short_description','description','size_chart','status'
+        'name','slug','category_id','sub_category_id','last_category_id','brand_id','main_image','min_price','mrp','short_description','description','size_chart','is_popular','status'
     ];
 
 
@@ -31,6 +31,17 @@ class Product extends Model
     public function brand()
     {
         return $this->belongsTo('App\Models\Brands','brand_id',$this->primaryKey);
+    }
+
+    public function thirdCategory()
+    {
+        return $this->belongsTo('App\Models\ThirdCategory','last_category_id',$this->primaryKey);
+    }
+
+    public function brand()
+    {
+        return $this->hasMany('App\Models\ProductSize','product_id',$this->primaryKey)
+        ->where('product_sizes.price',$this->sizes->min('price'));
     }
 
     public function sizes()

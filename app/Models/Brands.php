@@ -21,4 +21,9 @@ class Brands  extends Model
     {
         return $this->belongsTo('App\Models\Category','category_id',$this->primaryKey);
     }
+
+    public function productCount()
+    {
+        return $this->hasMany('App\Models\Product','brand_id',$this->primaryKey);
+    }
 }

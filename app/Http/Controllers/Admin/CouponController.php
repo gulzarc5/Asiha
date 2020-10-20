@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Coupon; 
+use App\Models\Coupon;
 
 class CouponController extends Controller
 {
@@ -18,11 +18,11 @@ class CouponController extends Controller
     }
 
     public function couponInsertForm(Request $request){
-           
+
             $this->validate($request, [
                 'code'   => 'required',
                 'user_type'=>'required'
-                
+
             ]);
 
             $coupons = Coupon::create([
@@ -48,20 +48,20 @@ class CouponController extends Controller
     }
 
     public function couponUpdate(Request $request,$id)
-    {   
+    {
         $this->validate($request, [
             'code'   => 'required',
-            'user_type'   => 'required',
-            
+            'discount'   => 'required',
+            'description'   => 'required',
         ]);
         Coupon::where('id',$id)
             ->update([
                 'code'=>$request->input('code'),
-                'usertype' => $request->input('user_type'),
-                
+                'discount' => $request->input('discount'),
+                'description' => $request->input('description')
             ]);
             return redirect()->back()->with('message','Coupon Updated Successfully');
-        }
+    }
 
     public function couponStatus($id,$status){
         try {
@@ -75,6 +75,5 @@ class CouponController extends Controller
         ]);
         return redirect()->back();
     }
-    
 
 }

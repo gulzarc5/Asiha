@@ -66,3 +66,139 @@
 .gnd td.order-grand {border-top: 1px dashed #ff6c62!important}
 .order-cal{padding-bottom: 0!important;}
 .order-grand{padding-bottom: 0!important;padding-top: 0!important;text-align: center;}
+
+/*product details color and size*/
+
+.product-colors  .clr-container  {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.product-colors  .clr-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+
+.product-colors .clr-checkmark {
+  position: absolute;
+  top: -3px;
+  left: 0;
+  height: 25px;
+  width: 25px;
+}
+
+.product-colors .red{
+  background-color: red;
+}
+
+.product-colors .green{
+  background-color: #21BA45;
+}
+
+.product-colors .yellow{
+  background-color: #FBBD08;
+}
+
+.product-colors .pink{
+  background-color: #e46387;
+}
+
+.product-colors .clr-container input:checked ~ .clr-checkmark {
+  border:2px solid;
+}
+
+.product-colors .clr-checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.product-colors .clr-container input:checked ~ .clr-checkmark:after {
+  display: block;
+}
+
+.product-colors .clr-container .clr-checkmark:after {
+ 	top: 9px;
+	left: 9px;
+	width: 8px;
+	height: 8px;
+}
+
+
+.product-sizes .size-container {
+  display: block;
+  position: relative;
+  padding-left: 20px;
+  margin-top: 12px;
+  cursor: pointer;
+  font-size: 18px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.product-sizes .size-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.product-sizes .size-checkmark {
+  position: relative;
+  top: -3px;
+  left: 0;
+  height: 25px;
+  width: 30px;
+  border: 0;
+  padding: 3px 0px 0px 6px;
+  color: #a9a8a8;
+}
+
+.product-sizes .size-container input:checked ~ .size-checkmark {
+  border-bottom: 1px solid;
+  padding: 3px 0px 0px 6px;
+  color: #000;
+}
+
+.product-sizes .size-checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.product-sizes .size-container input:checked ~ .size-checkmark:after {
+  display: block;
+}
+
+
+.product-sizes .size-container .size-checkmark:after {
+ 	top: 9px;
+	left: 9px;
+	width: 8px;
+	height: 8px;
+}
+.coupan input[type="text"]{
+    width: 80%!important;
+    float: left;
+}
+.coupan button {
+    width: 20%;
+    float: left;
+}
+.order-payment input[type="radio"] {
+    position: absolute;
+    top: 35.4px;
+    left: 21.6px;
+    z-index: 99;
+}

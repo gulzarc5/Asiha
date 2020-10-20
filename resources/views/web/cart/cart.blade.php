@@ -31,72 +31,66 @@
                         </tr>
                     </thead>
                     <tbody class="pattern-bg">
-                        <tr>
-                            <td class="thumbnail"><a href="{{route('web.product.product-detail')}}"><img src="{{asset('web/images/product/s328/product-1.jpg')}}"></a></td>
-                            <td class="name"> <a href="{{route('web.product.product-detail')}}">Walnut Cutting Board</a></td>
-                            <td class="price"><span>£100.00</span></td>
-                            <td class="quantity">
-                                <div class="product-quantity">
-                                    <span class="qty-btn minus"><i class="ti-minus"></i></span>
-                                    <input type="text" class="input-qty" value="1">
-                                    <span class="qty-btn plus"><i class="ti-plus"></i></span>
-                                </div>
-                            </td>
-                            <td class="subtotal"><span>£100.00</span></td>
-                            <td class="remove"><a href="#" class="btn">×</a></td>
-                        </tr>
-                        <tr>
-                            <td class="thumbnail"><a href="{{route('web.product.product-detail')}}"><img src="{{asset('web/images/product/s328/product-2.jpg')}}"></a></td>
-                            <td class="name"> <a href="{{route('web.product.product-detail')}}">Lucky Wooden Elephant</a></td>
-                            <td class="price"><span>£35.00</span></td>
-                            <td class="quantity">
-                                <div class="product-quantity">
-                                    <span class="qty-btn minus"><i class="ti-minus"></i></span>
-                                    <input type="text" class="input-qty" value="1">
-                                    <span class="qty-btn plus"><i class="ti-plus"></i></span>
-                                </div>
-                            </td>
-                            <td class="subtotal"><span>£35.00</span></td>
-                            <td class="remove"><a href="#" class="btn">×</a></td>
-                        </tr>
-                        <tr>
-                            <td class="thumbnail"><a href="{{route('web.product.product-detail')}}"><img src="{{asset('web/images/product/s328/product-3.jpg')}}"></a></td>
-                            <td class="name"> <a href="{{route('web.product.product-detail')}}">Fish Cut Out Set</a></td>
-                            <td class="price"><span>£9.00</span></td>
-                            <td class="quantity">
-                                <div class="product-quantity">
-                                    <span class="qty-btn minus"><i class="ti-minus"></i></span>
-                                    <input type="text" class="input-qty" value="1">
-                                    <span class="qty-btn plus"><i class="ti-plus"></i></span>
-                                </div>
-                            </td>
-                            <td class="subtotal"><span>£9.00</span></td>
-                            <td class="remove"><a href="#" class="btn">×</a></td>
-                        </tr>
-                        <tr>
-                            <td><a href="index.php" class="btn btn-sm btn-outline-dark"> countinue Shopping</a></td>
-                            <td><a href="checkout.php" class="btn btn-sm btn-primary"> proceed to checkout</a></td>
-                            <td colspan="2"></td>
-                            <td class="order-cal" style="border-left: 1px dashed #ff6c62!important;">
-                                <span>Subtotal</span>
-                                <span>Shipping</span>
-                            </td>
-                            <td class="order-cal">
-                                <span>₹1000</span>
-                                <span>₹100</span>
-                            </td>
-                        </tr>
-                        <tr class="gnd">
-                            <td></td>
-                            <td></td>
-                            <td colspan="2"></td>
-                            <td class="order-grand" style="border-left: 1px dashed #ff6c62!important;">
-                                <span class="grand">Grand Total</span>
-                            </td>
-                            <td class="order-grand">
-                                <span class="grand">₹1100</span>
-                            </td>
-                        </tr>
+                        @if(!empty($cart_data) && count($cart_data)>0)
+                            @foreach($cart_data as $values)
+                                <tr>
+                                    <td class="thumbnail"><a href="{{route('web.product_detail',['slug'=>$values['slug'],'product_id'=>$values['product_id']])}}"><img src="{{asset('images/products/'.$values['image'])}}"></a></td>
+                                    <td class="name"> <a href="{{route('web.product_detail',['slug'=>$values['slug'],'product_id'=>$values['product_id']])}}">
+                                        {{$values['name']}}
+                                        @if(!empty(($values['color'])))
+                                            <br>
+                                            <div style="background-color:{{$values['color']}};height: 15px;width: 27px;"></div>
+                                        @endif
+                                        <br><span style="color:red;">Size: </span>{{$values['size']}}
+                                    </a></td>
+                                    <td class="price"><span>{{$values['price']}}</span></td>
+                                    <td class="quantity">
+                                       <div class="product-quantity">
+                                           @if(!empty($values['cart_id']))
+
+                                                <span class="qty-btn minus" onclick="loadCart({{$values['product_id']}},{{$values['cart_id']}},1)"><i class="ti-minus"></i></span>
+                                                <input type="text"  class="input-qty" value="{{$values['quantity']}}" id="qtty{{$values['product_id']}}"/>
+                                                <span class="qty-btn plus" onclick="loadCart({{$values['product_id']}},{{$values['cart_id']}},2)"><i class="ti-plus"></i></span>
+                                            @else
+                                                <span class="qty-btn minus" onclick="loadSessionCart({{$values['product_id']}},1)"><i class="ti-minus"></i></span>
+                                                <input type="text"  class="input-qty" value="{{$values['quantity']}}" id="qtty{{$values['product_id']}}"/>
+                                                <span class="qty-btn plus" onclick="loadSessionCart({{$values['product_id']}},2)"><i class="ti-plus"></i></span>
+                                            @endif
+                                        </div>
+
+                                    </td>
+                                    <td class="subtotal"><span>{{$values['product_total']}}</span></td>
+                                    <td class="remove" id="rel"><a href="{{route('web.remove_cart',['id'=>$values['product_id']])}}" class="btn">×</a></td>
+                                </tr>
+                            @endforeach
+
+                            <tr>
+                                <td><a href="{{route('web.index')}}" class="btn btn-sm btn-outline-dark"> countinue Shopping</a></td>
+                                <td><a href="{{route('web.show_checkout_form')}}" class="btn btn-sm btn-primary"> proceed to checkout</a></td>
+                                <td colspan="2"></td>
+                                <td class="order-cal" style="border-left: 1px dashed #ff6c62!important;">
+                                    <span>Subtotal</span>
+                                    <span>Shipping</span>
+                                </td>
+                                <td class="order-cal">
+
+                                    <span>{{$cart_total}}</span>
+                                    <span>{{$shipping_charge}}</span>
+                                </td>
+                            </tr>
+
+                            <tr class="gnd">
+                                <td></td>
+                                <td></td>
+                                <td colspan="2"></td>
+                                <td class="order-grand" style="border-left: 1px dashed #ff6c62!important;">
+                                    <span class="grand">Grand Total</span>
+                                </td>
+                                <td class="order-grand">
+                                    <span class="grand">{{$cart_total + $shipping_charge}}</span>
+                                </td>
+                            </tr>
+                        @endif
                     </tbody>
                 </table>
             </form>
@@ -107,5 +101,28 @@
 @endsection
 
 @section('script')
+    <script>
+        function loadCart(id,cart_id,status) {
+            var qtty = parseInt($("#qtty"+id).val());
+            if (status == 1) {
+                qtty= qtty - 1;
+            }else{
+                qtty = qtty+1;
+            }
+            var url = "{{ url('user/update/cart')}}"+"/"+id+"/"+cart_id+"/"+qtty;
+            document.location.href=url;
 
+        }
+        function loadSessionCart(id,status) {
+            var qtty = parseInt($("#qtty"+id).val());
+            if (status == 1) {
+                qtty= qtty - 1;
+            }else{
+                qtty = qtty+1;
+            }
+            var url = "{{ url('user/update/session/cart')}}"+"/"+id+"/"+qtty;
+            document.location.href=url;
+
+        }
+    </script>
 @endsection

@@ -43,7 +43,7 @@
                 <h2 class="title">Order Placed</h2>
                 <h4 style="margin-bottom: 40px;">Your order is successful placed</h4>
                 <div class="coming-soon-subscribe">
-                    <a href="{{route('web.order.order')}}" class="btn btn-sm btn-outline-dark">My orders</a>
+                    <a href="{{route('web.order_history')}}" class="btn btn-sm btn-outline-dark">My orders</a>
                     <a href="{{route('web.index')}}" class="btn btn-sm btn-primary">Go To Homepage</a>
                 </div>
             </div>

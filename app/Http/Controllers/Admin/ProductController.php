@@ -121,6 +121,7 @@ class ProductController extends Controller
         $product->last_category_id = $third_category;
         $product->short_description = $short_description;
         $product->description = $description;
+        $product->slug = Str::slug($request->input('name'), '-');
         if (isset($brand)) {
             $product->brand_id = $brand;
         }
@@ -264,6 +265,7 @@ class ProductController extends Controller
 
         Product::where('id', $id)->update([
             'name' => $request->input('name'),
+            'slug' => Str::slug($request->input('name'), '-'),
             'category_id' => $request->input('category'),
             'sub_category_id' => $request->input('sub_category'),
             'last_category_id' => $request->input('third_category'),

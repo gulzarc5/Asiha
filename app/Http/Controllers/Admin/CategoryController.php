@@ -99,8 +99,8 @@ class CategoryController extends Controller
 
     public function categoryUpdate(Request $request,$id){
         $this->validate($request, [
-            'name'   => 'required'
-
+            'name'   => 'required',
+            'slug' => Str::slug($request->input('name'), '-'),
         ]);
         Category::where('id',$id)
             ->update([
@@ -566,6 +566,7 @@ class CategoryController extends Controller
         ThirdCategory::where('id',$id)
         ->update([
             'name'=>$request->input('name'),
+            'slug' => Str::slug($request->input('name'), '-'),
             'sub_category_id' => $request->input('sub_category'),
         ]);
         return redirect()->back()->with('message','third Category Updated Successfully');

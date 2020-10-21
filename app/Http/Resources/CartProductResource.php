@@ -3,7 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-
+use App\Http\Resources\ProductSizeResource;
 class CartProductResource extends JsonResource
 {
     /**
@@ -20,6 +20,7 @@ class CartProductResource extends JsonResource
             'main_image' => $this->main_image,
             'status' => $this->status,
             'brand_name' => isset($this->brand->name) ? $this->brand->name : null,
+            'sizes' => !empty($this->sizes) ? ProductSizeResource::collection($this->sizes) : [],
         ];
     }
 }

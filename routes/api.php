@@ -63,6 +63,7 @@ Route::group(['namespace'=>'Api'], function(){
         });
 
         Route::get('checkout/coupons/{user_id}','OrderController@couponFetch');
+        Route::get('checkout/coupons/apply','OrderController@couponApply');
         // Route::get('user/update/payment/request/id/{order_id}/{payment_rqst_id}','OrderController@updatePaymentRequestId');
         // Route::get('user/order/history/{user_id}','OrderController@orderHistory');
 

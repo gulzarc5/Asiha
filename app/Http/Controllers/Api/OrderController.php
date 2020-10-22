@@ -34,6 +34,67 @@ class OrderController extends Controller
 
     }
 
+    public function couponApply(Request $request)
+    {
+        $validator =  Validator::make($request->all(),[
+            'user_id' => 'required',
+            'coupon_code' => 'required', // 1 = cod, 2 = online
+        ]);
+        if ($validator->fails()) {
+            $response = [
+                'status' => false,
+                'message' => 'Required Field Can not be Empty',
+                'error_code' => true,
+                'error_message' => $validator->errors(),
+            ];
+            return response()->json($response, 200);
+        }
+
+        $coupon = $request->input('coupon_code');
+        $user_id = $request->input('user_id');
+        $coupons = Coupon::where('code',$coupon)->where('status',1)->first();
+        if ($coupons) {
+            $check_user = Order::where('user_id',$user_id)->where('order_status',1)->orWhere('order_status',2)->orWhere('order_status',3)->orWhere('order_status',4)->count();
+            if(($coupons->usertype == 1) && ($check_user == 0) ){
+                $response = [
+                    'status' => true,
+                    'message' => 'coupon',
+                    'error_code' => false,
+                    'error_message' => null,
+                    'data' => $coupons,
+                ];
+                return response()->json($response, 200);
+            }elseif (($coupons->usertype == 2)) {
+                $response = [
+                    'status' => true,
+                    'message' => 'coupon',
+                    'error_code' => false,
+                    'error_message' => null,
+                    'data' => $coupons,
+                ];
+                return response()->json($response, 200);
+            }else{
+                $response = [
+                    'status' => false,
+                    'message' => 'coupon Invalid',
+                    'error_code' => false,
+                    'error_message' => null,
+                ];
+                return response()->json($response, 200);
+            }
+
+        } else {
+            $response = [
+                'status' => false,
+                'message' => 'coupon Invalid',
+                'error_code' => false,
+                'error_message' => null,
+            ];
+            return response()->json($response, 200);
+        }
+
+    }
+
     public function placeOrder(Request $request){
         $validator =  Validator::make($request->all(),[
             'user_id' => 'required',

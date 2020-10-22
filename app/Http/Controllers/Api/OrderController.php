@@ -54,7 +54,11 @@ class OrderController extends Controller
         $user_id = $request->input('user_id');
         $coupons = Coupon::where('code',$coupon)->where('status',1)->first();
         if ($coupons) {
-            $check_user = Order::where('user_id',$user_id)->where('order_status',1)->orWhere('order_status',2)->orWhere('order_status',3)->orWhere('order_status',4)->count();
+            $check_user = Order::where('user_id',$user_id)
+                ->where(function($q){
+                    $q->where('order_status',1)->orWhere('order_status',2)->orWhere('order_status',3)->orWhere('order_status',4);
+                })
+                ->count();
             if(($coupons->usertype == 1) && ($check_user == 0) ){
                 $response = [
                     'status' => true,

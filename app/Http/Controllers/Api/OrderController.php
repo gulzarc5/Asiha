@@ -18,6 +18,8 @@ use App\Models\ProductSize;
 use Validator;
 use DB;
 
+use Razorpay\Api\Api;
+
 class OrderController extends Controller
 {
     public function couponFetch($user_id){
@@ -182,18 +184,55 @@ class OrderController extends Controller
 
             });
 
-            $response = [
-                'status' => true,
-                'message' => 'Order Place',
-                'error_code' => false,
-                'error_message' => null,
-                'data' => [
-                    'order_id' => $order_id,
-                    'payment_status' => $payment_status,
-                    'amount' => $total_amount,
-                ],
-            ];
-            return response()->json($response, 200);
+            if ($payment_type == '2') {
+                $api = new Api(config('services.razorpay.id'), config('services.razorpay.key'));
+                $orders = $api->order->create(array(
+                    'receipt' => $order_id,
+                    'amount' => $total_amount*100,
+                    'currency' => 'INR',
+                    )
+                );
+                $order_update = Order::find($order_id);
+                $order_update->payment_request_id = $orders['id'];
+                $order_update->save();
+
+                $payment_data = [
+                    'key_id' => config('services.razorpay.id'),
+                    'amount' => $total_amount*100,
+                    'order_id' => $orders['id'],
+                    'name' => $order_update->user->name,
+                    'email' => $order_update->user->email,
+                    'mobile' => $order_update->user->mobile,
+                ];
+
+                $response = [
+                    'status' => true,
+                    'message' => 'Order Place',
+                    'error_code' => false,
+                    'error_message' => null,
+                    'data' => [
+                        'order_id' => $order_id,
+                        'payment_status' => $payment_status,
+                        'amount' => $total_amount,
+                        'payment_data' => $payment_data,
+                    ],
+                ];
+
+               return response()->json($response, 200);
+            } else {
+                $response = [
+                    'status' => true,
+                    'message' => 'Order Place',
+                    'error_code' => false,
+                    'error_message' => null,
+                    'data' => [
+                        'order_id' => $order_id,
+                        'payment_status' => $payment_status,
+                        'amount' => $total_amount,
+                    ],
+                ];
+                return response()->json($response, 200);
+            }
         }catch (\Exception $e) {
             // dd($e);
             $response = [

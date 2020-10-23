@@ -405,18 +405,50 @@ class OrderController extends Controller
         return response()->json($response, 200);
     }
 
-    public function updatePaymentId($order_id,$payment_id,$status)
-    {
-        $order = Order::find($order_id);
-        $order->payment_id = $payment_id;
-        $order->payment_status = $status; // 2 =paid,3 = failed
-        $order->save();
-        $response = [
-            'status' => true,
-            'message' => 'Payment Status Updated Successfully',
-        ];
-        return response()->json($response, 200);
+    public function paymentVerify(Request $request){
+        $validator =  Validator::make($request->all(),[
+            'user_id' => 'required',
+            'razorpay_order_id' => 'required', // 1 = normal, 2 = Express
+            'razorpay_payment_id' => 'required', // 1 = cod, 2 = online
+            'razorpay_signature' => 'required',
+            'order_id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $response = [
+                'status' => false,
+                'message' => 'Required Field Can not be Empty',
+                'error_code' => true,
+                'error_message' => $validator->errors(),
+                'data' => [],
+            ];
+            return response()->json($response, 200);
+        }
+
+        $verify = $this->signatureVerify(
+            $request->input('razorpay_order_id'),
+            $request->input('razorpay_payment_id'),
+            $request->input('razorpay_signature')
+        );
+        if ($verify) {
+            $order = Order::find($request->input('order_id'));
+            $order->payment_id =  $request->input('razorpay_payment_id');
+            $order->payment_status = 2;
+            $order->save();
+            $response = [
+                'status' => true,
+                'message' => 'Payment Success',
+            ];
+            return response()->json($response, 200);
+        }else{
+            $response = [
+                'status' => false,
+                'message' => 'Payment Failed',
+            ];
+            return response()->json($response, 200);
+        }
     }
+
 
     public function orderHistory($user_id)
     {

@@ -27,16 +27,16 @@ Route::group(['namespace'=>'Api'], function(){
     Route::group(['middleware'=>'auth:api'],function(){
 
         Route::group(['prefix' => 'user'], function () {
-            Route::get('user/profile/{user_id}','UsersController@userProfile');
-            Route::post('user/profile/update','UsersController@userProfileUpdate');
-            Route::post('user/change/password','UsersController@userChangePassword');
+            Route::get('profile/{user_id}','UsersController@userProfile');
+            Route::post('profile/update','UsersController@userProfileUpdate');
+            Route::post('change/password','UsersController@userChangePassword');
             // Route::get('user/logout/{user_id}','UsersController@userLogout');
 
-            Route::post('user/shipping/add','UsersController@userShippingAdd');
-            Route::get('user/shipping/list/{user_id}','UsersController@userShippingList');
-            Route::get('user/shipping/single/{user_id}/{address_id}','UsersController@userShippingSingleView');
-            Route::post('user/shipping/update','UsersController@userShippingUpdate');
-            Route::get('user/shipping/delete/{address_id}','UsersController@userShippingDelete');
+            Route::post('shipping/add','UsersController@userShippingAdd');
+            Route::get('shipping/list/{user_id}','UsersController@userShippingList');
+            Route::get('shipping/single/{user_id}/{address_id}','UsersController@userShippingSingleView');
+            Route::post('shipping/update','UsersController@userShippingUpdate');
+            Route::get('shipping/delete/{address_id}','UsersController@userShippingDelete');
         });
 
         Route::group(['prefix' => 'cart'], function () {

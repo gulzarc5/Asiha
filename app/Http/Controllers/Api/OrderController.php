@@ -14,6 +14,7 @@ use App\Models\Cart;
 use App\Models\Charges;
 use App\Models\OrderDetalis;
 use App\Models\RefundInfo;
+use App\Models\ProductSize;
 use Validator;
 use DB;
 

@@ -58,8 +58,8 @@ Route::group(['namespace'=>'Api'], function(){
             Route::get('cancel/{order_item_id}','OrderController@orderCancel');
             Route::post('cancel/refund','OrderController@orderCancelRefund');
             Route::post('returd/refund','OrderController@orderReturnRefund');
-            
-            Route::post('order/payment/verify','OrderController@paymentVerify');
+
+            Route::post('payment/verify','OrderController@paymentVerify');
             Route::get('history/{user_id}','OrderController@orderHistory');
         });
 

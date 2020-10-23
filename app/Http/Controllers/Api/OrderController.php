@@ -489,7 +489,7 @@ class OrderController extends Controller
         }
     }
 
-    private function signatureVerify($signature,$payment_id,$order_id)
+    private function signatureVerify($order_id,$payment_id,$signature)
     {
         try {
             $api = new Api(config('services.razorpay.id'), config('services.razorpay.key'));

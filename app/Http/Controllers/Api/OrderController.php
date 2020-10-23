@@ -489,6 +489,24 @@ class OrderController extends Controller
         }
     }
 
+    private function signatureVerify($signature,$payment_id,$order_id)
+    {
+        try {
+            $api = new Api(config('services.razorpay.id'), config('services.razorpay.key'));
+            $attributes = array(
+                'razorpay_order_id' => $order_id,
+                'razorpay_payment_id' => $payment_id,
+                'razorpay_signature' => $signature
+            );
+
+            $api->utility->verifyPaymentSignature($attributes);
+            $success = true;
+        } catch (\Exception $e) {
+            $success = false;
+        }
+        return $success;
+    }
+
 
     public function orderHistory($user_id)
     {

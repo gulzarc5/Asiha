@@ -9,6 +9,7 @@ use App\Models\OrderDetalis;
 use DataTables;
 use App\Models\RefundInfo;
 use App\Models\InvoiceSetting;
+use Carbon\Carbon;
 
 class OrderController extends Controller
 {
@@ -36,6 +37,9 @@ class OrderController extends Controller
     {
         $order_item = OrderDetalis::find($order_list_id);
         $order_item->order_status = $status;
+        if ($status == '4') {
+            $order_item->delivery_date = Carbon::now()->timezone('Europe/Stockholm')->toDateString();
+        }
         $order_item->save();
         if ($status == 5) {
             $this->stockUpdate($order_item->product_id,$order_item->quantity,$order_item->size);

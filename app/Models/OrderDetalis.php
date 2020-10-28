@@ -9,7 +9,7 @@ class OrderDetalis extends Model
     protected $table = 'order_details';
     protected $primaryKey = 'id';
     protected $fillable = [
-        'user_id', 'order_id', 'product_id', 'size','color','quantity','price','mrp','discount','order_status','refund_request','refund_amount'
+        'user_id', 'order_id', 'product_id', 'size','color','quantity','price','mrp','discount','order_status','refund_request','refund_amount','delivery_date'
     ];
 
     public function order()

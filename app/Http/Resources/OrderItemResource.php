@@ -25,6 +25,7 @@ class OrderItemResource extends JsonResource
             'mrp' => $this->mrp,
             'discount_percent' => $this->discount,
             'order_status' => $this->order_status,
+            'delivery_date' => $this->delivery_date,
             'refund_request' => $this->refund_request,
             'refund_amount' => $this->refund_amount,
         ];

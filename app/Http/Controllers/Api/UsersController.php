@@ -481,7 +481,7 @@ class UsersController extends Controller
         if ($user > 0) {
             $password_change = User::where('mobile',$request->input('mobile'))
                 ->update([
-                    'password' => Hash::make($request->input('confirm_pass')),
+                    'password' => Hash::make($request->input('confirm_password')),
                 ]);
             if ($password_change) {
                 $response = [

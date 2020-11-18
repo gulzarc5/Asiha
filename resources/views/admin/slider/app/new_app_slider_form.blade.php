@@ -26,7 +26,7 @@
                 <div>
                     <div class="x_content">
                         
-                            {{ Form::open(['method' => 'post','route'=>'admin.insert_web_slider','enctype'=>'multipart/form-data']) }}
+                            {{ Form::open(['method' => 'post','route'=>'admin.insert_app_slider','enctype'=>'multipart/form-data']) }}
                         <div class="well" style="overflow:auto">
                             <label for="category">Select Category <span><b style="color: red"> * </b></span></label>
                             <select class="form-control" name="category" id="category" required>

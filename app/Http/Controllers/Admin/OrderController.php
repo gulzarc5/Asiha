@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderDetalis;
+use App\Models\ProductSize;
 use DataTables;
 use App\Models\RefundInfo;
 use App\Models\InvoiceSetting;

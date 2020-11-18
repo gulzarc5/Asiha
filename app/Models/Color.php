@@ -15,7 +15,7 @@ class Color extends Model
 
 
     public function subCategory(){
-        return $this->belongsTo('App\Models\Subcategory','sub_category_id',$this->primaryKey);
+        return $this->belongsTo('App\Models\SubCategory','sub_category_id',$this->primaryKey);
     }
 
     public function category()

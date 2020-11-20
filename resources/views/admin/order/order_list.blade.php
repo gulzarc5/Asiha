@@ -15,7 +15,6 @@
             <div class="x_panel">
                 <div class="x_title">
                     <div class="col-md-8">
-
                         <h2>New Orders</h2>
                     </div>
                     <div class="col-md-4">

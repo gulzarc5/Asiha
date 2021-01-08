@@ -28,7 +28,8 @@ use App\Http\Resources\BrandResource;
 
 use App\Models\Coupon;
 use App\Http\Resources\CouponResource;
-
+use App\Http\Resources\ProductResource;
+use App\Models\Product;
 
 class CategoryController extends Controller
 {
@@ -38,6 +39,7 @@ class CategoryController extends Controller
         $banner = Slider::find(1);
         $slider = Slider::where('variant_type',1)->where('slider_type',2)->get();
         $brands = Brands::where('status',1)->get()->random(6);
+        $new_arrival = Product::where('status',1)->orderBy('id','desc')->limit(10)->get();
         $response = [
             'status' => true,
             'message' => 'App Load Api',
@@ -47,6 +49,7 @@ class CategoryController extends Controller
                 'slider' => SliderResource::collection($slider),
                 'brands' => BrandResource::collection($brands),
                 'coupons' => CouponResource::collection(Coupon::where('status',1)->get()),
+                'new_arrival' => ProductResource::collection($new_arrival),
             ],
         ];
         return response()->json($response, 200);

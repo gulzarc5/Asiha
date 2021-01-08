@@ -65,6 +65,16 @@
                                 </span>
                             @enderror
                         </div>
+                        <div class="form-group">
+                            {{ Form::label('image', 'Select Coupon Image')}}
+                            {{ Form::file('image',null,array('class' => 'form-control')) }}
+
+                            @if($errors->has('image'))
+                                <span class="invalid-feedback" role="alert" style="color:red">
+                                    <strong>{{ $errors->first('image') }}</strong>
+                                </span>
+                            @enderror
+                        </div>
 
 
 

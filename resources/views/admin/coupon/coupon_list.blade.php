@@ -59,6 +59,9 @@
                                             @else
                                             <a href="{{route('admin.coupon_status',['id'=>encrypt($item->id),'status'=>1])}}" class="btn btn-sm btn-primary">Enable</a>
                                             @endif
+                                            @if ($item->image)
+                                              <a href="{{asset('images/coupon/'.$item->image.'')}}" class="btn btn-sm btn-primary" target="_blank">View Image</a>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

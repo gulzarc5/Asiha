@@ -9,7 +9,7 @@ class Coupon extends Model
     protected $table='coupons';
     protected $primarykey ='id';
     protected $fillable = [
-        'code','usertype','status','discount','description'
+        'code','usertype','status','discount','description','image'
     ];
 
 

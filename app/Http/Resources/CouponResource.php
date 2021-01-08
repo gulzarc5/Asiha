@@ -20,6 +20,7 @@ class CouponResource extends JsonResource
             'discount' => $this->discount,
             'user_type' => $this->usertype,
             'description' => $this->description,
+            'image' => $this->image,
         ];
     }
 }

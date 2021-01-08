@@ -54,7 +54,7 @@
                                 @enderror
                             </div>
                             <div class="form-row mb-3">                                
-                                <label for="third_category">Select Third Category</label>
+                                <label for="third_category">Select Third Category<span><b style="color: red"> * </b></span></label>
                                 <select class="form-control" name="third_category" id="third_category">
                                     <option value="">Select Third Category</option>
                                 </select>

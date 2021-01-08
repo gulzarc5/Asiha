@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Coupon;
+use File;
+use Intervention\Image\Facades\Image;
 
 class CouponController extends Controller
 {
@@ -60,7 +62,29 @@ class CouponController extends Controller
                 'discount' => $request->input('discount'),
                 'description' => $request->input('description')
             ]);
-            return redirect()->back()->with('message','Coupon Updated Successfully');
+        if ($request->hasFile('image')) {
+            $path = public_path() . '/images/coupon/';
+            File::exists($path) or File::makeDirectory($path, 0777, true, true);
+            $path_thumb = public_path() . '/images/coupon/thumb/';
+            File::exists($path_thumb) or File::makeDirectory($path_thumb, 0777, true, true);
+            $image = $request->file('image');
+            $image_name = time() . date('Y-M-d') . '.' . $image->getClientOriginalExtension();
+
+            $destinationPath = public_path() . '/images/coupon';
+            $img = Image::make($image->getRealPath());
+            $img->save($destinationPath . '/' . $image_name);
+            //Product Thumbnail
+            $destination = public_path() . '/images/coupon/thumb';
+            $img = Image::make($image->getRealPath());
+            $img->resize(600, 600, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($destination . '/' . $image_name);
+            Coupon::where('id',$id)
+            ->update([
+                'image'=>$image_name,
+            ]);
+        }
+        return redirect()->back()->with('message','Coupon Updated Successfully');
     }
 
     public function couponStatus($id,$status){

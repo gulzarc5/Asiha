@@ -174,8 +174,9 @@ class SliderController extends Controller
             return redirect()->back();
         }
         $banner = Slider::where('id',$id)->first();
+        $category = Category::get();
 
-        return view('admin.slider.app.banner_edit_form',compact('banner'));
+        return view('admin.slider.app.banner_edit_form',compact('banner','category'));
     }
 
     public function bannerUpdate(Request $request,$id)

@@ -40,6 +40,7 @@ class CategoryController extends Controller
         $slider = Slider::where('variant_type',1)->where('slider_type',2)->get();
         $brands = Brands::where('status',1)->get()->random(6);
         $new_arrival = Product::where('status',1)->orderBy('id','desc')->limit(10)->get();
+        $popular_products = Product::where('status',1)->where('is_popular',2)->orderBy('id','desc')->limit(20)->get();
         $response = [
             'status' => true,
             'message' => 'App Load Api',
@@ -50,6 +51,7 @@ class CategoryController extends Controller
                 'brands' => BrandResource::collection($brands),
                 'coupons' => CouponResource::collection(Coupon::where('status',1)->get()),
                 'new_arrival' => ProductResource::collection($new_arrival),
+                'popular_products' => ProductResource::collection($popular_products),
             ],
         ];
         return response()->json($response, 200);
